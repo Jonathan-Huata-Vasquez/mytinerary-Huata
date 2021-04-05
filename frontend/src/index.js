@@ -1,17 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import './index.css';
 
-//index.js quedara asi generalmente
 
-//aqui lo que se hace es agarrar el componente App y lo reenderiza en el div con id root
-//App va a ser el contenedor padre de todos , la caja mas grande, entro de app voy a tener componentes
-//
+
 ReactDOM.render(
-  //tranquilamente puede haber h1 con algun texto aqui
+  <React.StrictMode>
     <App />
-  ,
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
-
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
