@@ -5,12 +5,12 @@ import {
 } from '@material-ui/core'
 import Header from '../components/Header';
 import CajonListaMobile from '../components/CajonListaMobile';
+import MiCarousel from '../components/MiCarousel'
+import {respuestaFetch, obtenerGruposCiudades} from '../ciudades'
 
-/*asd */
 const useStyles = makeStyles((theme) => ({
-    contenedorHome: {
-        display: "flex",
-    },
+    
+    
     navBottonMargin: theme.mixins.toolbar,
     contenidoHome : {
         flexGrow : 1,
@@ -22,12 +22,14 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
     const misEstilos = useStyles();
     const [abierto ,setAbierto] = useState(false);
-    
     function abrirCerrarDrawer(){
         setAbierto(!abierto);
     }
+    let gruposCiudades = obtenerGruposCiudades(respuestaFetch);
+    
+
     return (
-        <div className={misEstilos.contenedorHome}>
+        <div >
             {/*le paso al boton de menu hamburguesa*/ }
             <Header abrirCerrarDrawer = {abrirCerrarDrawer} />
             
@@ -35,9 +37,9 @@ const Home = () => {
                 <CajonListaMobile variante = "temporary" abierto = {abierto} abrirCerrarDrawer = {abrirCerrarDrawer} /> 
             </Hidden>
            
-            <div className = {misEstilos.contenidoHome,misEstilos}>
-                <div className ={misEstilos.navBottonMargin}></div>
-                Contenido
+            <div className = "contenidoHome">
+            <div className ={misEstilos.navBottonMargin}></div>
+                <MiCarousel gruposCiudades={gruposCiudades}/> 
             </div>
             
             

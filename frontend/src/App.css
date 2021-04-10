@@ -1,0 +1,31 @@
+.contenidoHome{
+    display: flex;
+    justify-content: center; 
+}
+
+.MiCarrouselEstilo{
+    margin-top: 20vh;
+    display: flex;
+    justify-content: center;
+}
+
+/*para agrandar el tamaño del carrousel hay que agrandar el tamaño del slide*/
+.slideEstilo{
+    width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.imagenCarrousel{
+    width : 40%;
+    height: 30vh;
+    margin :5px; 
+    border-radius: 5%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display:  flex;
+    align-items: center;
+
+}
