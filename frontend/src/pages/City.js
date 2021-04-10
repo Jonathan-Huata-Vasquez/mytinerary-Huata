@@ -1,7 +1,12 @@
-
+import NavBar from '../components/NavBar'
 const City = () =>{
     return(
-        <h1>comming soon...</h1>
+        <div>
+            <NavBar />
+            <h1>comming soon...</h1>
+        </div>
+
+        
     )
 }
 export default City;

@@ -10,9 +10,9 @@ import { respuestaFetch, obtenerGruposCiudades } from '../ciudades.js'
 import MiCarousel from '../components/MiCarousel.js'
 
 import { Container, Row, Col,Button } from 'reactstrap';
+import NavBar from "../components/NavBar"
+
 const useStyles = makeStyles((theme) => ({
-
-
     navMargin: theme.mixins.toolbar,
     contenidoHome: {
         flexGrow: 1,
@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
     },
 }));
+
 
 const Home = () => {
     const misEstilos = useStyles();
@@ -32,15 +33,15 @@ const Home = () => {
 
     return (
         <div className ="bg-dark text-white">
-            {/*le paso al boton de menu hamburguesa*/}
+            {/*le paso al boton de menu hamburguesa
             <Header abrirCerrarDrawer={abrirCerrarDrawer} />
 
             <Hidden smUp>
                 <CajonListaMobile variante="temporary" abierto={abierto} abrirCerrarDrawer={abrirCerrarDrawer} />
             </Hidden>
-
+            */}
             <div className="contenidoHome">
-                <div className={misEstilos.navMargin}></div>
+               
                 <div className="hero" style={{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(./assets/opcHero5.gif)' }}>
                     <img src="assets/logoCompleto2.png" style={{ width: "25vw", minWidth: "210px" }}></img>
                     
@@ -69,7 +70,7 @@ const Home = () => {
                 <MiCarousel gruposCiudades={gruposCiudades} />
             </div>
 
-            
+
             <Footer />
         </div>
     )
