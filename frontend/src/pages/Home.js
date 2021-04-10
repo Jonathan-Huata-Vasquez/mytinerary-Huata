@@ -3,10 +3,12 @@ import React, { useState } from 'react'
 import {
     makeStyles, Hidden, Typography
 } from '@material-ui/core'
-import Header from '../components/Header';
-import CajonListaMobile from '../components/CajonListaMobile';
-import MiCarousel from '../components/MiCarousel'
-import { respuestaFetch, obtenerGruposCiudades } from '../ciudades'
+import Header from '../components/Header.js';
+import Footer from '../components/Footer.js';
+import CajonListaMobile from '../components/CajonListaMobile.js';
+import { respuestaFetch, obtenerGruposCiudades } from '../ciudades.js'
+import MiCarousel from '../components/MiCarousel.js'
+
 import { Container, Row, Col,Button } from 'reactstrap';
 const useStyles = makeStyles((theme) => ({
 
@@ -67,7 +69,8 @@ const Home = () => {
                 <MiCarousel gruposCiudades={gruposCiudades} />
             </div>
 
-
+            
+            <Footer />
         </div>
     )
 }
