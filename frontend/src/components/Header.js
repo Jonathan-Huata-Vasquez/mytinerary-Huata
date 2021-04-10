@@ -1,7 +1,7 @@
 import { AppBar, Toolbar, Typography, IconButton, makeStyles } from '@material-ui/core'
 import BotonLogin from './BotonLogin';
 import MenuIcon from '@material-ui/icons/Menu';
-
+import {NavLink} from 'react-router-dom'
 
 //podemos llamar al theme que tenemos  para cambiar algunas propiedades que tiene por defecto
 //(theme) =>{}) es una funcion de flecha que llama el tema y devuelva el objeto que debe ir dentro de makeStyle
@@ -42,7 +42,7 @@ const Header = ({ abrirCerrarDrawer }) => {
             {
                 contenidoTexto: "Home",
                 estiloClase: misEstilos.navBoton,
-                url: "/home",
+                url: "/",
             },
             {
                 contenidoTexto: "City",
@@ -63,13 +63,15 @@ const Header = ({ abrirCerrarDrawer }) => {
                 {/*los links de la barra de navegacion*/}
                 <div className={misEstilos.navegacionLinks}>
                     {links.map(link => (
-                        <Typography key={link.url}
+                        <NavLink to = {link.url}>
+                            <Typography key={link.url}
                             variant="h6"
                             color="initial"
                             className={link.estiloClase}
                         >
                             {link.contenidoTexto}
                         </Typography>
+                        </NavLink>
                     ))}
                 </div>
                 <div className={misEstilos.navBoton}> {/*le agrego div para que me deje ocultarlo*/}

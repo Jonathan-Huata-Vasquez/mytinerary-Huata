@@ -17,7 +17,7 @@ const Footer = () => {
                     </Col>
                     <Col xs="12" lg="4" className="d-flex flex-column align-items-center mt-3">
                         <hr style = {{borderColor : "white",width : "50%"}} className ="d-lg-none "></hr>
-                        <h4>WE ARE SOCIAL</h4>
+                        <h4>WE ARE SOCIAL!</h4>
                         <div className="d-flex justify-content-between mt-3 w-50">
                             <div className="social" style={{ backgroundImage: `url(./assets/footer/facebook.png` }}></div>
                             <div className="social" style={{ backgroundImage: `url(./assets/footer/twitter.png` }}></div>
