@@ -43,7 +43,7 @@ const MiCarousel = ({gruposCiudades}) => {
       </CarouselItem>
     );
   });
-  let arrayNuevo = gruposCiudades.map(unGrupoCiudades => unGrupoCiudades[0].id);
+  let arrayNuevo = gruposCiudades.map(unGrupoCiudades => JSON.stringify(unGrupoCiudades));
     
   console.log(arrayNuevo);
   return (
