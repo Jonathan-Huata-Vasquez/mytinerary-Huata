@@ -44,7 +44,7 @@ const NavBar = ({ abrirCerrarDrawer }) => {
     const BotonesNav = () => {
         const links = [
             { contenidoTexto: "Home", estiloClase: misEstilos.navBoton, url: "/", },
-            { contenidoTexto: "City", estiloClase: misEstilos.navBoton, url: "/City", }
+            { contenidoTexto: "Cities", estiloClase: misEstilos.navBoton, url: "/Cities", }
         ];
         return (
             <>

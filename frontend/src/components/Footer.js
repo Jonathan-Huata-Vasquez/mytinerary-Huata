@@ -16,8 +16,8 @@ const Footer = () => {
                         <Link to = "/">
                             <h5 className="mt-3">Home</h5>
                         </Link>
-                        <Link to = "/City"> 
-                            <h5 className="mt-3">City</h5>
+                        <Link to = "/Cities"> 
+                            <h5 className="mt-3">Cities</h5>
                         </Link>
                     </Col>
                     <Col xs="12" lg="4" className="d-flex flex-column align-items-center mt-3">

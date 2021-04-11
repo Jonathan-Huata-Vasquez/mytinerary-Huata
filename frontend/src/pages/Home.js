@@ -34,7 +34,7 @@ const Home = () => {
                                 </div>
                                 <div className = "mb-4 d-flex flex-column align-items-center">
                                     <h3>A selection of places to dream and realize</h3>
-                                    <Link to ="/City">
+                                    <Link to ="/Cities">
                                         <Button color="info">Show Me!</Button>
                                     </Link>
                                     
@@ -46,7 +46,7 @@ const Home = () => {
                 
                 </Container>
                 
-                <h3 className ="mt-5 mb-3">Popular Mytineraries</h3>
+                <h3 className ="mt-5 mb-3">Popular MYtineraries</h3>
                 <MiCarousel gruposCiudades={gruposCiudades} />
             </div>
 

@@ -18,12 +18,12 @@ const ListaSimple = () => {
                     </ListItem>
                 </NavLink>
 
-                <NavLink to="/City">
+                <NavLink to="/Cities">
                     <ListItem button>
                         <ListItemIcon >
                             <LocationCityIcon />
                         </ListItemIcon>
-                        <ListItemText > City</ListItemText>
+                        <ListItemText > Cities</ListItemText>
                     </ListItem>
                 </NavLink>
 

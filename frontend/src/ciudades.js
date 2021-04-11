@@ -25,6 +25,5 @@ export function obtenerGruposCiudades(ciudades){
             indiceActualGrupo ++;
         ciudadesDeGrupo[indiceActualGrupo].push(ciudad);
     });
-    
     return ciudadesDeGrupo;   
 }
