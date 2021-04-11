@@ -2,8 +2,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useState } from 'react'
-import {Typography} from '@material-ui/core'
-
+import Avatar from '@material-ui/core/Avatar';
 const BotonLogin = () => {
   /* const [menuAbierto, setMenuAbierto] = useState(null);
  
@@ -47,12 +46,7 @@ const BotonLogin = () => {
   return (
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} color="inherit">
-        <Typography
-          variant="h6"
-          color="initial"
-        >
-          Avatar
-        </Typography>
+          <Avatar src="./assets/header/usuarioGenerico.jpg" />
       </Button>
       <Menu
         id="simple-menu"

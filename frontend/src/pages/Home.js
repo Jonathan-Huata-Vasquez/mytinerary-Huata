@@ -1,49 +1,28 @@
-import React, { useState } from 'react'
-
-import {
-    makeStyles, Hidden, Typography
-} from '@material-ui/core'
-import Header from '../components/Header.js';
+import { Typography} from '@material-ui/core'
+import Header from '../components/Header'
 import Footer from '../components/Footer.js';
-import CajonListaMobile from '../components/CajonListaMobile.js';
 import { respuestaFetch, obtenerGruposCiudades } from '../ciudades.js'
 import MiCarousel from '../components/MiCarousel.js'
 
 import { Container, Row, Col,Button } from 'reactstrap';
-import NavBar from "../components/NavBar"
 
-const useStyles = makeStyles((theme) => ({
-    navMargin: theme.mixins.toolbar,
-    contenidoHome: {
-        flexGrow: 1,
-        backgroundColor: theme.palette.background.default,
-        padding: theme.spacing(3),
-    },
-}));
+
+
 
 
 const Home = () => {
-    const misEstilos = useStyles();
-    const [abierto, setAbierto] = useState(false);
-    function abrirCerrarDrawer() {
-        setAbierto(!abierto);
-    }
+    
+    
     let gruposCiudades = obtenerGruposCiudades(respuestaFetch);
 
 
     return (
         <div className ="bg-dark text-white">
-            {/*le paso al boton de menu hamburguesa
-            <Header abrirCerrarDrawer={abrirCerrarDrawer} />
-
-            <Hidden smUp>
-                <CajonListaMobile variante="temporary" abierto={abierto} abrirCerrarDrawer={abrirCerrarDrawer} />
-            </Hidden>
-            */}
+            <Header />
             <div className="contenidoHome">
                
                 <div className="hero" style={{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(./assets/opcHero5.gif)' }}>
-                    <img src="assets/logoCompleto2.png" style={{ width: "25vw", minWidth: "210px" }}></img>
+                    <img src="assets/logoCompleto2.png" alt="logoHome" style={{ width: "25vw", minWidth: "210px" }}></img>
                     
                     <h1>MyTinerary</h1> 
                     <h2 className="mt-5">Find your perfect trip, designed by insiders who know and love their cities!</h2>

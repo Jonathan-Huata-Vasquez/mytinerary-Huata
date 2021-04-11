@@ -1,8 +1,8 @@
-import NavBar from '../components/NavBar'
+import Header from '../components/Header'
 const City = () =>{
     return(
         <div>
-            <NavBar />
+            <Header />
             <h1>comming soon...</h1>
         </div>
 

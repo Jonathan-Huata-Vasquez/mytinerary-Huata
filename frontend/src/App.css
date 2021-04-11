@@ -75,4 +75,22 @@ footer div.social{
     background-position: center;
     border-radius: 100%;
 }
+.estilosLinkNav{
+    text-decoration: none;
+    color: white;
+
+}
+.estilosLinkNav :hover{
+    color:white;
+    text-decoration: underline;
+}
+.estilosLinkNavActive{
+    color : #00ffff;
+}
+
+div.estiloLogoNav{
+    display: flex;
+    align-items: center;
+    margin-right: 4vw;
+}
 /*           */

@@ -44,8 +44,7 @@ const MiCarousel = ({gruposCiudades}) => {
     );
   });
   let arrayNuevo = gruposCiudades.map(unGrupoCiudades => JSON.stringify(unGrupoCiudades));
-    
-  console.log(arrayNuevo);
+  
   return (
     <div className ="MiCarrouselEstilo">
       <Carousel

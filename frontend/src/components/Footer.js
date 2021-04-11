@@ -6,7 +6,7 @@ const Footer = () => {
             <Container fluid={true}>
                 <Row>
                     <Col xs="12" lg="4" className="d-flex flex-column align-items-center mt-3">
-                        <img src="./assets/logoCompleto2.png" style={{ width: "18vw", minWidth: "200px" }}></img>
+                        <img src="./assets/logoCompleto2.png" alt="logoFooter" style={{ width: "18vw", minWidth: "200px" }}></img>
                         <h1>MyTinerary</h1>
                     </Col>
                     <Col xs="12" lg="4" className="d-flex flex-column align-items-center mt-3">

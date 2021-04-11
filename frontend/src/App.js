@@ -11,8 +11,8 @@ class App extends React.Component{
         return(
             <BrowserRouter>
                 <Switch>
-                    <Route exact path ="/City" component = {Home}/>
-                    <Route path = "/" component = {City}/>
+                    <Route exact path ="/" component = {Home}/>
+                    <Route path = "/City" component = {City}/>
                     <Route path = "/error" component = {Error404}/>
                     <Redirect to ="/error" />
                 </Switch>

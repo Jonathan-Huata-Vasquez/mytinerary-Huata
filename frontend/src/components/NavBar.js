@@ -3,9 +3,7 @@ import BotonLogin from './BotonLogin';
 import MenuIcon from '@material-ui/icons/Menu';
 import { NavLink } from 'react-router-dom'
 
-import {Hidden} from '@material-ui/core'
-import CajonListaMobile from './CajonListaMobile'
-import {useState} from 'react'
+
 //podemos llamar al theme que tenemos  para cambiar algunas propiedades que tiene por defecto
 //(theme) =>{}) es una funcion de flecha que llama el tema y devuelva el objeto que debe ir dentro de makeStyle
 const useStyles = makeStyles(theme => ({
@@ -40,20 +38,17 @@ const useStyles = makeStyles(theme => ({
 
 const NavBar = ({ abrirCerrarDrawer }) => {
     const misEstilos = useStyles();
-    const [abierto, setAbierto] = useState(false);
-    function abrirCerrarDrawer() {
-        setAbierto(!abierto);
-    }
 
 
-    const BtnMenu = () => {
+    //Creo un componente que tendra los botones del navNar
+    const BotonesNav = () => {
         const links = [
             { contenidoTexto: "Home", estiloClase: misEstilos.navBoton, url: "/", },
             { contenidoTexto: "City", estiloClase: misEstilos.navBoton, url: "/City", }
         ];
-
         return (
             <>
+                {/*el boton del menu hamburguesa, le colocamos la funcion enviada por props*/}
                 <IconButton
                     color="inherit"
                     className={misEstilos.menuBoton}
@@ -61,11 +56,18 @@ const NavBar = ({ abrirCerrarDrawer }) => {
                 >
                     <MenuIcon />
                 </IconButton>
+
                 {/*los links de la barra de navegacion*/}
+                <div className = "estiloLogoNav">
+                    <img src="./assets/logoCompleto2.png" style={{ width: "70px"}} alt="logoNavBar"></img>
+                    <h4>MyTinerary</h4>
+                </div>
+                
+
                 <div className={misEstilos.navegacionLinks}>
                     {links.map(link => (
-                        <NavLink  to={link.url} key = {link.url}>
-                            <Typography 
+                        <NavLink exact to={link.url} key={link.url}  className ="estilosLinkNav" activeClassName ="estilosLinkNavActive">
+                            <Typography
                                 variant="h6"
                                 color="initial"
                                 className={link.estiloClase}
@@ -75,10 +77,8 @@ const NavBar = ({ abrirCerrarDrawer }) => {
                         </NavLink>
                     ))}
                 </div>
-                <div className={misEstilos.navBoton}> {/*le agrego div para que me deje ocultarlo*/}
-                    <BotonLogin />
-                </div>
-
+                
+            
             </>
         )
     }
@@ -86,12 +86,10 @@ const NavBar = ({ abrirCerrarDrawer }) => {
         <header>
             <AppBar position="fixed" >  {/*esta el la barra,  se le puede poner como atributo postion = "sticky para que no tape contenido" */}
                 <Toolbar>
-                    <BtnMenu />
+                    <BotonesNav />
+                    <BotonLogin />
                 </Toolbar>
             </AppBar>
-            <Hidden smUp>
-                <CajonListaMobile variante="temporary" abierto={abierto} abrirCerrarDrawer={abrirCerrarDrawer} />
-            </Hidden>
             <div className={misEstilos.navMargin}></div>
         </header>
 
@@ -100,3 +98,5 @@ const NavBar = ({ abrirCerrarDrawer }) => {
 export default NavBar;
 
 
+//notas
+//boton desplegable del Material UI: te deja ocultarlo si le pones un  div como padre  y ocultas al div
