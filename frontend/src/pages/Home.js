@@ -1,5 +1,5 @@
 import { Typography} from '@material-ui/core'
-import Header from '../components/Header'
+import Header from '../components/headerComponentes/Header'
 import Footer from '../components/Footer.js';
 import { respuestaFetch, obtenerGruposCiudades } from '../ciudades.js'
 import MiCarousel from '../components/MiCarousel.js'

@@ -32,7 +32,7 @@ const ListaSimple = () => {
                     <ListItemText primary="Sign In" />
                 </ListItem>
                 <ListItem button>
-                    <ListItemText primary="Sign Up" />
+                    <ListItemText primary="Log in" />
                 </ListItem>
             </List>
         </div >

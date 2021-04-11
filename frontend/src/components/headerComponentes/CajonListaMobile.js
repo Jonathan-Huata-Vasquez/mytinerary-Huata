@@ -1,5 +1,5 @@
 import {makeStyles,Drawer,Divider} from '@material-ui/core'
-import ListaMobile from '../components/ListaMobile'
+import ListaMobile from './ListaMobile'
 const anchoCajon = "240px";
 const useStyles = makeStyles(theme => ({
     cajon: {

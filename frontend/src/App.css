@@ -1,9 +1,11 @@
+
 .contenidoHome {
     display: flex;
     justify-content: center; 
     flex-direction: column;
     align-items: center;
     width: 100%;
+    overflow-x: hidden;
 }
 
 .contenedorCity{
@@ -109,5 +111,5 @@ div.estiloLogoNav{
     margin-right: 4vw;
 }
 
-/*      city    */
+
 
