@@ -1,4 +1,5 @@
 import { Container, Row, Col, } from 'reactstrap';
+import {Link} from 'react-router-dom'
 const Footer = () => {
 
     return (
@@ -12,8 +13,12 @@ const Footer = () => {
                     <Col xs="12" lg="4" className="d-flex flex-column align-items-center mt-3">
                         <hr style = {{borderColor : "white",width : "50%"}} className ="d-lg-none "></hr>
                         <h4>Navegation</h4>
-                        <h5 className="mt-3">Home</h5>
-                        <h5 className="mt-3">City</h5>
+                        <Link to = "/">
+                            <h5 className="mt-3">Home</h5>
+                        </Link>
+                        <Link to = "/City"> 
+                            <h5 className="mt-3">City</h5>
+                        </Link>
                     </Col>
                     <Col xs="12" lg="4" className="d-flex flex-column align-items-center mt-3">
                         <hr style = {{borderColor : "white",width : "50%"}} className ="d-lg-none "></hr>
@@ -27,7 +32,7 @@ const Footer = () => {
                     </Col>
                 </Row>
             </Container>
-            <div className="d-flex justify-content-center align-items-center bg-secondary mt-3">
+            <div className="d-flex justify-content-center align-items-center bg-secondary mt-3 text-center">
                 <h4>MYTINERARY ALL RIGHTS RESERVED ©</h4>
             </div>
         </footer>

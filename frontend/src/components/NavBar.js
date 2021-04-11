@@ -58,10 +58,13 @@ const NavBar = ({ abrirCerrarDrawer }) => {
                 </IconButton>
 
                 {/*los links de la barra de navegacion*/}
+                <NavLink exact to="/" style = {{color:"white" ,textDecoration:"none"}}>
                 <div className = "estiloLogoNav">
-                    <img src="./assets/logoCompleto2.png" style={{ width: "70px"}} alt="logoNavBar"></img>
-                    <h4>MyTinerary</h4>
-                </div>
+                        <img src="./assets/logoCompleto2.png" style={{ width: "70px"}} alt="logoNavBar"></img>
+                        <h5>MyTinerary</h5>
+                    </div>
+                </NavLink>
+                
                 
 
                 <div className={misEstilos.navegacionLinks}>

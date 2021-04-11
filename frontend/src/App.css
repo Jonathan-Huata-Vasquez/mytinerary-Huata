@@ -1,9 +1,19 @@
-.contenidoHome{
+.contenidoHome {
     display: flex;
     justify-content: center; 
     flex-direction: column;
     align-items: center;
     width: 100%;
+}
+
+.contenedorCity{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.contenidoCity{
+    flex-grow: 1;
 }
 
 .MiCarrouselEstilo{
@@ -87,10 +97,17 @@ footer div.social{
 .estilosLinkNavActive{
     color : #00ffff;
 }
-
+.estilosLinkFooter{
+    text-decoration: none;
+}
+.estilosLinkFooter:hover{
+    text-decoration: underline;
+}
 div.estiloLogoNav{
     display: flex;
     align-items: center;
     margin-right: 4vw;
 }
-/*           */
+
+/*      city    */
+

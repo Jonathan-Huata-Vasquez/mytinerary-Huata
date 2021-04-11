@@ -1,9 +1,14 @@
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 const City = () =>{
     return(
-        <div>
+        <div className ="contenedorCity">
             <Header />
-            <h1>comming soon...</h1>
+            <div className = "flex-grow-1">
+                <h1>comming soon...</h1>
+            </div>
+            
+            <Footer />
         </div>
 
         
