@@ -5,8 +5,7 @@ import { respuestaFetch, obtenerGruposCiudades } from '../ciudades.js'
 import MiCarousel from '../components/MiCarousel.js'
 
 import { Container, Row, Col,Button } from 'reactstrap';
-
-
+import { Link } from 'react-router-dom'
 
 
 
@@ -23,7 +22,6 @@ const Home = () => {
                
                 <div className="hero" style={{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(./assets/opcHero5.gif)' }}>
                     <img src="assets/logoCompleto2.png" alt="logoHome" style={{ width: "25vw", minWidth: "210px" }}></img>
-                    
                     <h1>MyTinerary</h1> 
                     <h2 className="mt-5">Find your perfect trip, designed by insiders who know and love their cities!</h2>
                 </div>
@@ -36,7 +34,10 @@ const Home = () => {
                                 </div>
                                 <div className = "mb-4 d-flex flex-column align-items-center">
                                     <h3>A selection of places to dream and realize</h3>
-                                    <Button color="secondary">Show Me!</Button>
+                                    <Link to ="/City">
+                                        <Button color="info">Show Me!</Button>
+                                    </Link>
+                                    
                                 </div>
                                 
                             </div> 

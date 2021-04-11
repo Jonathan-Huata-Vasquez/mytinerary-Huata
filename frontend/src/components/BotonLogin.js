@@ -3,6 +3,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useState } from 'react'
 import Avatar from '@material-ui/core/Avatar';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 const BotonLogin = () => {
   /* const [menuAbierto, setMenuAbierto] = useState(null);
  
@@ -47,6 +48,7 @@ const BotonLogin = () => {
     <div>
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} color="inherit">
           <Avatar src="./assets/header/usuarioGenerico.jpg" />
+          <ArrowDropDownIcon fontSize ="large"/>
       </Button>
       <Menu
         id="simple-menu"
