@@ -1,7 +1,7 @@
 import { Typography} from '@material-ui/core'
 import Header from '../components/headerComponentes/Header'
 import Footer from '../components/Footer.js';
-import { respuestaFetch, obtenerGruposCiudades } from '../ciudades.js'
+import { respuestaFetch, obtenerGruposCiudades } from '../helpers/ciudades.js'
 import MiCarousel from '../components/MiCarousel.js'
 
 import { Container, Row, Col,Button } from 'reactstrap';
@@ -14,14 +14,15 @@ const Home = () => {
     
     let gruposCiudades = obtenerGruposCiudades(respuestaFetch);
 
-
+    //esto es porque no logro poner el estilo del background-image del hero 
+    const estiloBackgroundImagen = "linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)) , url(./assets/opcHero5.gif)"
     return (
         <div className ="bg-dark text-white">
             <Header />
             <div className="contenidoHome">
-               
-                <div className="hero" style={{ backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url(./assets/opcHero5.gif)' }}>
-                    <img src="assets/logoCompleto2.png" alt="logoHome" style={{ width: "25vw", minWidth: "210px" }}></img>
+
+                <div className="hero" style={{ backgroundImage: estiloBackgroundImagen }}>
+                    <img src="assets/logoCompleto2.png" alt="logoHome" className ="logoHero" />
                     <h1>MyTinerary</h1> 
                     <h2 className="mt-5">Find your perfect trip, designed by insiders who know and love their cities!</h2>
                 </div>
@@ -33,7 +34,7 @@ const Home = () => {
                                     <Typography variant = "h3" >TIME TO TRAVEL</Typography>    
                                 </div>
                                 <div className = "mb-4 d-flex flex-column align-items-center">
-                                    <h3>A selection of places to dream and realize</h3>
+                                    <h3>Make your dreams come true</h3>
                                     <Link to ="/Cities">
                                         <Button color="info">Show Me!</Button>
                                     </Link>

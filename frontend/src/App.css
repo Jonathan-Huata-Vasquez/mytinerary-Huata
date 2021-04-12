@@ -1,4 +1,28 @@
+.letrasLogo , .letrasLogo:hover{
+    color: white;
+    text-decoration: none;
+}
+.logoNav{
+    width: 70px ;
+}
+.logoFooter{
+    width: 18vw; 
+    min-width: 200px;
+}
+.logoHero{
+    width: 25vw; 
+    min-width: 210px;
+}
+.divisorFooter{
+    border-color : white;
+    width : 50%;
+}
 
+.hero{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)) ;
+}
+
+/*{{borderColor : "white",width : "50%"}}*/
 .contenidoHome {
     display: flex;
     justify-content: center; 
@@ -62,7 +86,7 @@
     padding : 0 5vw;
     padding-top: 5%;
     height: 100vh;
-    
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)) ;
 }
 .callToAction{
     margin-top: 5vw;
@@ -111,5 +135,12 @@ div.estiloLogoNav{
     margin-right: 4vw;
 }
 
-
+/*Slide*/
+div.nombreCiudadSlide{
+    background-color: rgba(0,0,0,.562);
+     color: white; 
+     width :100%; 
+     text-align: center;
+     font-size: 1.75em;
+}
 

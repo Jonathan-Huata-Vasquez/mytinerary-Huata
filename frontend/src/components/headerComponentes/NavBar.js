@@ -1,7 +1,7 @@
 import { AppBar, Toolbar, IconButton, makeStyles } from '@material-ui/core'
 import BotonLogin from './BotonLogin';
 import MenuIcon from '@material-ui/icons/Menu';
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import LinkNav from './LinkNav'
 
 //podemos llamar al theme que tenemos  para cambiar algunas propiedades que tiene por defecto
@@ -41,7 +41,7 @@ const NavBar = ({ abrirCerrarDrawer }) => {
     const misEstilos = useStyles();
     const links = [
         { contenidoTexto: "Home", estiloClase: misEstilos.navBoton, url: "/", },
-        { contenidoTexto: "Cities", estiloClase: misEstilos.navBoton, url: "/Cities", }
+        { contenidoTexto: "Cities", estiloClase: misEstilos.navBoton, url: "/cities", }
     ];
 
     //Creo un componente que tendra los botones del navNar
@@ -57,14 +57,13 @@ const NavBar = ({ abrirCerrarDrawer }) => {
                     >
                         <MenuIcon />
                     </IconButton>
-
                     {/*los links de la barra de navegacion*/}
-                    <NavLink exact to="/" style={{ color: "white", textDecoration: "none" }}>
+                    <Link  to="/" className ="letrasLogo">
                         <div className="estiloLogoNav">
-                            <img src="./assets/logoCompleto2.png" style={{ width: "70px" }} alt="logoNavBar"></img>
+                            <img src="./assets/logoCompleto2.png" className ="logoNav" alt="logoNavBar"></img>
                             <h5>MyTinerary</h5>
                         </div>
-                    </NavLink>
+                    </Link>
                     <div className = {misEstilos.navegacionLinks}>
                         {links.map(link =>  <LinkNav key={link.url}  link = {link}/> )}
                     </div>

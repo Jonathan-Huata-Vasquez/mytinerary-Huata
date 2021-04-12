@@ -1,6 +1,6 @@
 import Header from '../components/headerComponentes/Header'
 import Footer from '../components/Footer'
-const City = () =>{
+const Cities = () =>{
     return(
         <div className ="contenedorCity">
             <Header />
@@ -14,4 +14,4 @@ const City = () =>{
         
     )
 }
-export default City;
+export default Cities;
