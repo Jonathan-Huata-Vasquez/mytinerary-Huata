@@ -1,5 +1,6 @@
 import {makeStyles,Drawer,Divider} from '@material-ui/core'
 import ListaMobile from './ListaMobile'
+
 const anchoCajon = "240px";
 const useStyles = makeStyles(theme => ({
     cajon: {
@@ -13,19 +14,22 @@ const useStyles = makeStyles(theme => ({
     navBarBottonMargin: theme.mixins.toolbar,
 }));
 
-const Cajon =({variante,abierto,abrirCerrarDrawer})=>{
+// recibo por props que tipo de cajon sera, si esta abierto, y la funcion para cambianr el estado de header del abierto
+const Cajon = ({variante,abierto,abrirCerrarDrawer})=>{
     const misEstilos = useStyles();
     return(
         <Drawer 
-            className ={misEstilos.cajon} 
+            className ={misEstilos.cajon}  //estilos 
             classes ={{
-                paper: misEstilos.cajonPaper,
+                paper: misEstilos.cajonPaper, //le agrego al fondo un ancho 
             }}
-            anchor = "left"
-            variant={variante}
-            open = {abierto}
-            //como en el primer drawer no vamos a enviar nada
-            onClose = {abrirCerrarDrawer? abrirCerrarDrawer: null}
+            anchor = "left"  //se abrita desde la izquierda
+            variant={variante} //el tipo de cajon que sera, en este caso que se puede abrir y cerrar
+            open = {abierto} //esto recibe un boolean para aparecer abierto o cerrado
+            
+            //le mando la funcion para cerrar el cajon para que cambie el estado, gracias a esto re renderizara
+            //el componente que tiene a este componente , lo que hara que este tambien se re renderize por cambiar sus props
+            onClose = {abrirCerrarDrawer}
         >
         {/*classes es un objeto donde podemos señalar estilos de Css para el drawer*/}
         

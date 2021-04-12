@@ -7,7 +7,7 @@ import {useState} from 'react'
 
 
 const Header = () => {
-    const [abierto, setAbierto] = useState(false);
+    const [abierto, setAbierto] = useState(false); //Estado abrir o cerrar el menu mobile
     function abrirCerrarDrawer() {
         setAbierto(!abierto);
     }                
@@ -15,6 +15,7 @@ const Header = () => {
         <header>
             <NavBar abrirCerrarDrawer = {abrirCerrarDrawer}/>
             <Hidden smUp>
+                {/*la variante es el tipo que sera , temporary es para que se puede abrir y cerrar */}
                 <CajonListaMobile variante="temporary" abierto={abierto} abrirCerrarDrawer={abrirCerrarDrawer} />
             </Hidden>
         </header>        
