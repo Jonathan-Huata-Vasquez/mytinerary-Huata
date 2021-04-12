@@ -1,17 +1,25 @@
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react'
 import Avatar from '@material-ui/core/Avatar';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-const BotonLogin = () => {
 
+const useStyle = makeStyles({
+  menuDesplegable : {
+    marginTop : "35px"
+  }
+
+});
+
+const BotonLogin = () => {
+  const misEstilos = useStyle();
   const [menuAbierto, setMenuAbierto] = useState(false);
   
   // que un Handler es un "manejador", algo que es capaz de "recibir" un evento, un mensaje, etc y actuar en función al mismo.
   const handleClick = (event) => {
     setMenuAbierto(event.currentTarget); //Al abrir el Menu , le pongo como valor el elemento
-    console.log(event.currentTarget)
   };
 
   const handleClose = () => {
@@ -24,7 +32,7 @@ const BotonLogin = () => {
           <Avatar src="./assets/header/usuarioGenerico.jpg" />
           <ArrowDropDownIcon fontSize ="large"/>
       </Button>
-      <Menu
+      <Menu className = {misEstilos.menuDesplegable}
         id="simple-menu"
         anchorEl={menuAbierto}  //esto es usado para ver la posicion del menu
         //keepMounte
