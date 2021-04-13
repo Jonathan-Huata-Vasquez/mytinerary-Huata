@@ -1,7 +1,7 @@
 export  const respuestaFetch = [
     {id : 1,nombreCiudad : "Antalya",foto : "antalya.jpg"},
     {id : 2,nombreCiudad : "Bangkok",foto : "bangkok.jpg"},
-    {id : 3,nombreCiudad : "Buenos Aires City",foto : "buenosAires.jpg"},
+    {id : 3,nombreCiudad : "Buenos Aires ",foto : "buenosAires.jpg"},
     {id : 4,nombreCiudad : "Dubai",foto : "dubai.jpg"},
     {id : 5,nombreCiudad : "Istanbul",foto : "istanbul.jpg"},
     {id : 6,nombreCiudad : "Kuala Lumpur",foto : "kualaLumpur.jpg"},
