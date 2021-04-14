@@ -1,6 +1,6 @@
 
 const CiudadesEncontradas = ({ ciudadesEncontradas }) => {
-    console.log(ciudadesEncontradas);
+    
     return (
         <div className="portaCiudadadesBuscador">
             {ciudadesEncontradas.length === 0 && 

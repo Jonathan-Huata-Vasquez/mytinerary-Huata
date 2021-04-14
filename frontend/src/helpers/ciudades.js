@@ -27,6 +27,7 @@ export  const ciudadesCities = [
     {id : 11,nombreCiudad : "Rome",foto : "rome.jpg"},
     {id : 12,nombreCiudad : "Tokyo",foto : "Tokyo.jpg"},
     {id : 13,nombreCiudad : "Barcelona",foto : "barcelona.jpg"},
+    {id : 14,nombreCiudad : "Barcelona",foto : "barcelona.jpg"},
 ]
 
 export function obtenerGruposCiudades(ciudades){

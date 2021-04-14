@@ -2,9 +2,9 @@
 import TextField from '@material-ui/core/TextField';
 import {makeStyles} from '@material-ui/core/styles'
 import grey from '@material-ui/core/colors/grey';
-import {ciudadesCities} from '../helpers/ciudades'
 import {useEffect, useState} from 'react'
 import CiudadesEncontradas from '../components/CiudadesEncontradas'
+import axios from 'axios'
 const useStyle = makeStyles({
     textField : {
         backgroundColor: grey[300],
@@ -19,16 +19,22 @@ const Cities = () =>{
     const misEstilos = useStyle();
     const [estado,setEstado] =  useState({
         ciudadesAMostrar:[],
+        todasLasCiudades : [],   
         loading:true
     });
 
+     
+
     /*Este solo se ejecutara al montar ,luego del "render"*/
     useEffect(()=>{
-        setEstado({
-            loading:false,
-            ciudadesAMostrar : ciudadesCities
-        })
-        
+        axios.get('http://localhost:4000/api/cities')
+        .then(response => {
+            setEstado({
+                loading:false,
+                todasLasCiudades : response.data.respuesta,
+                ciudadesAMostrar : response.data.respuesta,
+            })
+        })        
     },[]);
 
     function obtenerCadenaMinusculaSinEspacios(unaCadena){
@@ -43,12 +49,12 @@ const Cities = () =>{
         if(inputValor === ""){
             setEstado({
                 ...estado,
-                ciudadesAMostrar: ciudadesCities
+                ciudadesAMostrar: estado.todasLasCiudades
             })
             return ;
         }
             
-        let nuevasCiudades = ciudadesCities.filter(ciudad => {
+        let nuevasCiudades = estado.todasLasCiudades.filter(ciudad => {
             return obtenerCadenaMinusculaSinEspacios(ciudad.nombreCiudad).startsWith(inputValor) ;
         });
         setEstado({
@@ -69,7 +75,7 @@ const Cities = () =>{
                 </form>
                 </div>
             </div>
-            {console.log(`esto es el array: ${estado.ciudadesAMostrar}`)}
+            
             <CiudadesEncontradas  ciudadesEncontradas ={estado.ciudadesAMostrar} />
             
         </div>
