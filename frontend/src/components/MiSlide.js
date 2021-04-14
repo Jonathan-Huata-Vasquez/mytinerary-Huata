@@ -4,7 +4,7 @@ const MiSlide = ({grupoCiudades}) =>{
         <div className ="slideEstilo">
             {grupoCiudades.map( (unaCiudad) => 
                 <div key={unaCiudad.id} className ="imagenCarrousel" style ={{backgroundImage: `url(./assets/ciudades/${unaCiudad.foto})`}}>
-                    <div className ="nombreCiudadSlide">{unaCiudad.nombreCiudad}</div>
+                    <div className ="nombreCiudad">{unaCiudad.nombreCiudad}</div>
                 </div>
             )}
         </div> 
