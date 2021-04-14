@@ -130,7 +130,7 @@ div.estiloLogoNav{
 }
 
 /*Slide*/
-div.nombreCiudad{
+.nombreCiudad{
     background-color: rgba(0,0,0,.562);
      color: white; 
      width :100%; 
@@ -141,9 +141,11 @@ div.nombreCiudad{
 /*--------------------------Cities------------------------*/
 .contenedorCities{
     flex-grow: 1;
+    width: 100vw;
 }
 .portadaCities{
     width: 100vw;
+    min-width: 100vw;
     height: 45vh;
     color: white;
     background-position: center;
@@ -166,6 +168,9 @@ div.nombreCiudad{
     text-align: center;
     padding: 0 3em;
 }
+.portaTituloBuscadorCities h1{
+    font-size: 2rem;
+}
 .portaCiudadadesBuscador{
     margin: 0 3em;
     margin-top: 10vh;
@@ -185,5 +190,28 @@ div.nombreCiudad{
     margin: 2.5vh;
     display: flex;
     align-items: center;
+    justify-content: center;
+
+}
+.ciudadNoEncontrada{
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 60%;
+    min-width: 300px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 8px 8px 10px rgb(0 0 0 / 43%);
+}
+
+.ciudadNoEncontrada .nombreCiudad{
+    font-size: 2em;
+    box-shadow: 8px 8px 10px rgb(0 0 0 / 90%);
+    border-radius: 20%;
+    margin: 5% 10%;
+    padding: 10vw;
+    text-align: center;
 
 }

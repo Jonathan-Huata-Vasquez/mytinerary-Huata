@@ -17,11 +17,18 @@ const useStyle = makeStyles({
 
 const Cities = () =>{
     const misEstilos = useStyle();
-    const [ciudadesAMostrar,setCiudadesAMostrar] =  useState([]);
+    const [estado,setEstado] =  useState({
+        ciudadesAMostrar:[],
+        loading:true
+    });
 
     /*Este solo se ejecutara al montar ,luego del "render"*/
     useEffect(()=>{
-        setCiudadesAMostrar(ciudadesCities)
+        setEstado({
+            loading:false,
+            ciudadesAMostrar : ciudadesCities
+        })
+        
     },[]);
 
     function obtenerCadenaMinusculaSinEspacios(unaCadena){
@@ -34,21 +41,26 @@ const Cities = () =>{
         let inputValor = inputBuscador.value;        
         inputValor = obtenerCadenaMinusculaSinEspacios(inputValor);
         if(inputValor === ""){
-            setCiudadesAMostrar(ciudadesCities)
+            setEstado({
+                ...estado,
+                ciudadesAMostrar: ciudadesCities
+            })
             return ;
         }
             
         let nuevasCiudades = ciudadesCities.filter(ciudad => {
             return obtenerCadenaMinusculaSinEspacios(ciudad.nombreCiudad).startsWith(inputValor) ;
         });
-        console.log(nuevasCiudades)
-        setCiudadesAMostrar(nuevasCiudades)
+        setEstado({
+            ...estado,
+            ciudadesAMostrar : nuevasCiudades
+        })
     }
     
     return(
         <div className ="contenedorCities">
             
-            {ciudadesAMostrar.length === 0 && <h1>Loading</h1>}
+            {estado.loading && <h1>Loading</h1>}
             <div className ="portadaCities " style ={{backgroundImage : "url(./assets/portadaCities.jpg)"}}>
                 <div className="portaTituloBuscadorCities" >
                 <h1>The best experiences, activities and destinations</h1>
@@ -57,7 +69,8 @@ const Cities = () =>{
                 </form>
                 </div>
             </div>
-            <CiudadesEncontradas  ciudadesEncontradas ={ciudadesAMostrar} />
+            {console.log(`esto es el array: ${estado.ciudadesAMostrar}`)}
+            <CiudadesEncontradas  ciudadesEncontradas ={estado.ciudadesAMostrar} />
             
         </div>
     )
