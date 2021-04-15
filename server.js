@@ -2,7 +2,7 @@ const express = require(`express`);
 const cors = require(`cors`)
 const app = express();
 
-const ciudades = [
+let ciudades = [
     {id : 1,nombreCiudad : "Antalya",pais: "Turkey",foto : "antalya.jpg"},
     {id : 2,nombreCiudad : "Bangkok",pais: "Thailand",foto : "bangkok.jpg"},
     {id : 3,nombreCiudad : "Buenos Aires ",pais: "Argentina",foto : "buenosAires.jpg"},
@@ -23,10 +23,22 @@ const ciudades = [
 //frente a cualquier tipo de pedidos, aplica Cors
 app.use(cors())
 
+//Obtener todoas las ciudades
 app.get("/api/cities", (req,res)=>{
     //envia una respuesta, puede contener HTML dentro del string
     res.json( { respuesta:ciudades } )
 })
+
+//Borrar una ciudad por Id
+//con los ":" le estamos diciendo que despues de la barra le va a venir algo dinamico
+app.delete("/api/deleteCity/:idABorrar", (req,res)=>{
+    const idCapturado = parseInt(req.params.idABorrar);
+    ciudades = ciudades.filter(ciudad => ciudad.id !== idCapturado);
+    res.json({respuesta:ciudades});
+})
+
+
+
 
 
 

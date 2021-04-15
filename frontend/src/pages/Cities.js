@@ -34,7 +34,16 @@ const Cities = () =>{
                 todasLasCiudades : response.data.respuesta,
                 ciudadesAMostrar : response.data.respuesta,
             })
-        })        
+        }) 
+        /*
+        axios.delete('http://localhost:4000/api/deleteCity/3')
+        .then(response => {
+            console.log(response)
+            setEstado({
+                ...estado,
+                todasLasCiudades : response.data.respuesta
+            })
+        })*/
     },[]);
 
     function obtenerCadenaMinusculaSinEspacios(unaCadena){
