@@ -35,17 +35,6 @@ const Cities = () =>{
                 ciudadesAMostrar : response.data.respuesta,
             })
         }) 
-        /*
-        axios.put('http://localhost:4000/api/updateCity/3',{
-            nombreCiudad: "el nombre de esta ciudad fue modificado"
-        })
-        .then(response => {
-            console.log(response.data.respuesta);
-            setEstado({
-                ...estado,
-                todasLasCiudades : response.data.respuesta
-            })
-        })*/
     },[]);
 
     function obtenerCadenaMinusculaSinEspacios(unaCadena){

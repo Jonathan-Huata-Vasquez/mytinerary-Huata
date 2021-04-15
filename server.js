@@ -31,7 +31,7 @@ app.use(express.json())
 //Obtener todoas las ciudades
 app.get("/api/cities", (req,res)=>{
     //envia una respuesta, puede contener HTML dentro del string
-    res.json( { respuesta:ciudades } )
+    res.json( { respuesta:ciudades } );
 })
 
 //Borrar una ciudad por Id
@@ -47,16 +47,27 @@ app.put("/api/updateCity/:idABorrar",(req,res)=>{
     const idCapturado = parseInt(req.params.idABorrar)
     ciudades = ciudades.map(ciudad => {
         if(ciudad.id === idCapturado){
-            ciudad = {...ciudad,...req.body}
+            ciudad = {...ciudad,...req.body};
         }
-        return ciudad
+        return ciudad;
     })
     res.json({respuesta: ciudades});
 });
 
 
-
-
+//Agregar una ciudad 
+app.post("/api/addCity",(req,res)=>{
+    //destructuramos lo que viene en el body
+    const {nombreCiudad,pais,foto} = req.body;
+    let ciudadNueva = {
+        id: ciudades[ciudades.length-1].id +1,
+        nombreCiudad:nombreCiudad, 
+        pais:pais,
+        foto:foto 
+    }
+    ciudades.push(ciudadNueva)
+    res.json({respuesta:ciudades})
+});
 
 
 
