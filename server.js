@@ -23,6 +23,11 @@ let ciudades = [
 //frente a cualquier tipo de pedidos, aplica Cors
 app.use(cors())
 
+//Esto es para poder parsear el body de los objetos req
+//frente a cualquier pedido de cualquier indole, usa la libreria express y aplica un metodo que se llama json()
+app.use(express.json())
+
+
 //Obtener todoas las ciudades
 app.get("/api/cities", (req,res)=>{
     //envia una respuesta, puede contener HTML dentro del string
@@ -36,6 +41,18 @@ app.delete("/api/deleteCity/:idABorrar", (req,res)=>{
     ciudades = ciudades.filter(ciudad => ciudad.id !== idCapturado);
     res.json({respuesta:ciudades});
 })
+
+//Actualizar valores de una ciudad por Id
+app.put("/api/updateCity/:idABorrar",(req,res)=>{
+    const idCapturado = parseInt(req.params.idABorrar)
+    ciudades = ciudades.map(ciudad => {
+        if(ciudad.id === idCapturado){
+            ciudad = {...ciudad,...req.body}
+        }
+        return ciudad
+    })
+    res.json({respuesta: ciudades});
+});
 
 
 

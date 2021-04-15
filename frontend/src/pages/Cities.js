@@ -36,9 +36,11 @@ const Cities = () =>{
             })
         }) 
         /*
-        axios.delete('http://localhost:4000/api/deleteCity/3')
+        axios.put('http://localhost:4000/api/updateCity/3',{
+            nombreCiudad: "el nombre de esta ciudad fue modificado"
+        })
         .then(response => {
-            console.log(response)
+            console.log(response.data.respuesta);
             setEstado({
                 ...estado,
                 todasLasCiudades : response.data.respuesta
@@ -52,6 +54,7 @@ const Cities = () =>{
     }
 
     const inputBuscador = document.getElementById("buscador");
+
     function actualizarCiudades(){
         let inputValor = inputBuscador.value;        
         inputValor = obtenerCadenaMinusculaSinEspacios(inputValor);
@@ -85,8 +88,7 @@ const Cities = () =>{
                 </div>
             </div>
             
-            <CiudadesEncontradas  ciudadesEncontradas ={estado.ciudadesAMostrar} />
-            
+            <CiudadesEncontradas  ciudadesEncontradas ={estado.ciudadesAMostrar} />        
         </div>
     )
 }
