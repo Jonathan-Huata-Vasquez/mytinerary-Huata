@@ -33,6 +33,14 @@ app.get("/api/cities", (req,res)=>{
     //envia una respuesta, puede contener HTML dentro del string
     res.json( { respuesta:ciudades } );
 })
+app.get("/api/cities/:idAEncontrar", (req,res)=>{
+    const idAEncontrar = parseInt(req.params.idAEncontrar);
+    ciudadBuscada =  ciudades.find(ciudad => ciudad.id === idAEncontrar )
+
+    res.json( { respuesta: ciudadBuscada } );
+})
+
+
 
 //Borrar una ciudad por Id
 //con los ":" le estamos diciendo que despues de la barra le va a venir algo dinamico
