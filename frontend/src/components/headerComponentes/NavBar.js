@@ -60,7 +60,7 @@ const NavBar = ({ abrirCerrarDrawer }) => {
                     {/*los links de la barra de navegacion*/}
                     <Link  to="/" className ="letrasLogo">
                         <div className="estiloLogoNav">
-                            <img src="./assets/logoCompleto2.png" className ="logoNav" alt="logoNavBar"></img>
+                            <img src="/assets/logoCompleto2.png" className ="logoNav" alt="logoNavBar"></img>
                             <h5>MyTinerary</h5>
                         </div>
                     </Link>

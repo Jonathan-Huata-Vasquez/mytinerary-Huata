@@ -5,6 +5,8 @@ import grey from '@material-ui/core/colors/grey';
 import {useEffect, useState} from 'react'
 import CiudadesEncontradas from '../components/CiudadesEncontradas'
 import axios from 'axios'
+
+
 const useStyle = makeStyles({
     textField : {
         backgroundColor: grey[300],
@@ -23,10 +25,9 @@ const Cities = () =>{
         loading:true
     });
 
-     
-
     /*Este solo se ejecutara al montar ,luego del "render"*/
     useEffect(()=>{
+        
         axios.get('http://localhost:4000/api/cities')
         .then(response => {
             setEstado({
@@ -34,14 +35,14 @@ const Cities = () =>{
                 todasLasCiudades : response.data.respuesta,
                 ciudadesAMostrar : response.data.respuesta,
             })
-        }) 
+        })
+        
     },[]);
 
     function obtenerCadenaMinusculaSinEspacios(unaCadena){
         //saco los espacios y transformo todo a minuscula
         return unaCadena.split(" ").join("").toLowerCase();
     }
-
     const inputBuscador = document.getElementById("buscador");
 
     function actualizarCiudades(){

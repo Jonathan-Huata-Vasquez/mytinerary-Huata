@@ -1,4 +1,4 @@
-
+import {Link} from 'react-router-dom'
 const CiudadesEncontradas = ({ ciudadesEncontradas }) => {
     
     return (
@@ -13,9 +13,12 @@ const CiudadesEncontradas = ({ ciudadesEncontradas }) => {
 
             {ciudadesEncontradas.map(ciudad => {
                 return (
-                    <div key={ciudad.id} className="fotoCiudadCities" style={{ backgroundImage: `url(./assets/ciudades/${ciudad.foto})` }}>
-                        <div className="nombreCiudad">{ciudad.nombreCiudad}</div>
-                    </div>)
+                    <Link  to ={`/cities/${ciudad._id}`} key={ciudad._id}>
+                        <div  className="fotoCiudadCities" style={{ backgroundImage: `url(./assets/ciudades/${ciudad.foto})` }}>
+                            <div className="nombreCiudad">{ciudad.nombreCiudad}</div>
+                        </div>
+                    </Link>
+                ) 
             })}
         </div>
     )
