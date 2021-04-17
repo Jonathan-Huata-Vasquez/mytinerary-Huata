@@ -1,9 +1,10 @@
 import {Link} from 'react-router-dom'
-const CiudadesEncontradas = ({ ciudadesEncontradas }) => {
+
+const CiudadesFiltradas = ({ ciudades }) => {
     
     return (
         <div className="portaCiudadadesFiltradas">
-            {ciudadesEncontradas.length === 0 && 
+            {ciudades.length === 0 && 
                 <div className="ciudadNoEncontrada" style={{backgroundImage:"url(/assets/ciudadNoEncontrada.jpg)"}}>
                     <div className="nombreCiudad">
                         Looks like the city that you're looking for is not yet...Try another one!
@@ -11,7 +12,7 @@ const CiudadesEncontradas = ({ ciudadesEncontradas }) => {
                 </div>
             }
 
-            {ciudadesEncontradas.map(ciudad => {
+            {ciudades.map(ciudad => {
                 return (
                     <Link className="LinkBlancoNone" to ={`/cities/${ciudad._id}`} key={ciudad._id}>
                         <div  className="fotoCiudadCities" style={{ backgroundImage: `url(/assets/ciudades/${ciudad.foto})` }}>
@@ -24,4 +25,4 @@ const CiudadesEncontradas = ({ ciudadesEncontradas }) => {
     )
 }
 
-export default CiudadesEncontradas;
+export default CiudadesFiltradas;

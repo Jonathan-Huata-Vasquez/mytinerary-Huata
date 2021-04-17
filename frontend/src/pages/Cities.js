@@ -3,9 +3,9 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles'
 import grey from '@material-ui/core/colors/grey';
 import { useEffect, useState } from 'react'
-import CiudadesEncontradas from '../components/CiudadesFiltradas'
+import CiudadesFiltradas from '../components/CiudadesFiltradas'
 import axios from 'axios'
-
+import EsqueletoCiudadesFiltradas from '../components/EsqueletoCiudadesFiltradas'
 
 const useStyle = makeStyles({
     textField: {
@@ -31,7 +31,7 @@ const Cities = () => {
         axios.get('http://localhost:4000/api/cities')
             .then(response => {
                 setEstado({
-                    loading: false,
+                    loading: true,
                     todasLasCiudades: response.data.respuesta,
                     ciudadesAMostrar: response.data.respuesta,
                     textoFiltrador: "",
@@ -39,7 +39,7 @@ const Cities = () => {
             })
             .catch(e => setEstado({
                 ...estado,
-                loading: false
+                loading: true
             }))
         //esto es para que no me tire un warning de que 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -81,8 +81,9 @@ const Cities = () => {
                     <TextField className={ `${misEstilos.textField} mt-3 `} label="Find your City" variant="outlined" onChange={actualizarCiudades} />
                 </div>
             </div>
-            {estado.loading ?  <h1>Loading...</h1> :
-                <CiudadesEncontradas ciudadesEncontradas={estado.ciudadesAMostrar} />
+            {console.log(estado.loading)}
+            {estado.loading ?  <EsqueletoCiudadesFiltradas /> :
+                <CiudadesFiltradas ciudades={estado.ciudadesAMostrar} />
             }
 
         </div>
