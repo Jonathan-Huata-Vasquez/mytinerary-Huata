@@ -8,6 +8,7 @@ const cityEsquema = new mongoose.Schema({
     nombreCiudad: {type: String, require:true},
     pais:{type: String, require:true},
     foto:{type: String, require:true},
+    fotoBandera:{type: String, require:true},
 });
 
 //creamos el modelo

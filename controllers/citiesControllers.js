@@ -16,7 +16,7 @@ const citiesControllers = {
             //buscame aquellas ciudades que cumplan con este criterio () si no le ponemos nada, nos trae todo
             const ciudadesObtenidas = await City.find();
             res.json({ success: true, respuesta: ciudadesObtenidas });
-            
+
         }
         catch (e) {
             res.json({ success: false, respuesta: "ha ocurrido un error al obtener las ciudades" })
@@ -98,28 +98,29 @@ const citiesControllers = {
     /*Para el programador */
     agregarArrayCiudades: async (req, res) => {
         const arrayCiudades = req.body;
-        let nuevaCiudad;
+        
         /*
             El método Promise.all(iterable) devuelve una promesa que termina correctamente cuando todas las promesas 
             en el argumento iterable han sido concluídas con éxito, o bien rechaza la petición con el motivo pasado 
             por la primera promesa que es rechazada.
         */
-       try{
-            await Promise.all(arrayCiudades.map(ciudad => {//no funcion con el foreach porque no devuele la promesa
-            const { nombreCiudad, pais, foto } = ciudad;
-            nuevaCiudad = new City({
-                nombreCiudad: nombreCiudad,
-                pais: pais,
-                foto: foto
-            })
-            return nuevaCiudad.save();
-        }));
-        res.json({ success: true, respuesta: "se agregaron todas las ciudades correctamente" })
-       }
-       catch(e){
-        res.json({ success: false, respuesta: `hubo un error al agregar las ciudades \n error : ${e}` } )
+        try {
+            //no funcion con el foreach porque no devuele la promesa
+            /*await Promise.all(arrayCiudades.map(ciudad => {
+                let nuevaCiudad = new City({ ...ciudad })
+                return nuevaCiudad.save();
+            }));
+            res.json({ success: true, respuesta: "se agregaron todas las ciudades correctamente" })*/
+            arrayCiudades.map(async (ciudad) => {
+                let nuevaCiudad =  new City({ ...ciudad })
+                await nuevaCiudad.save();
+            });
+            res.json({success:true})
         }
-        
+        catch (e) {
+            res.json({ success: false, respuesta: ```hubo un error al agregar las ciudades  error : ${e}``` })
+        }
+
     },
     obtenerJSONCiudadesIniciales: async (req, res) => {
         const ciudadesCities = [

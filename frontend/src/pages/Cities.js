@@ -31,7 +31,7 @@ const Cities = () => {
         axios.get('http://localhost:4000/api/cities')
             .then(response => {
                 setEstado({
-                    loading: true,
+                    loading: false,
                     todasLasCiudades: response.data.respuesta,
                     ciudadesAMostrar: response.data.respuesta,
                     textoFiltrador: "",
@@ -39,7 +39,7 @@ const Cities = () => {
             })
             .catch(e => setEstado({
                 ...estado,
-                loading: true
+                loading: false
             }))
         //esto es para que no me tire un warning de que 
         // eslint-disable-next-line react-hooks/exhaustive-deps
