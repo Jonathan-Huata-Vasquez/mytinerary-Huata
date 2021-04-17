@@ -2,9 +2,9 @@ import {Link} from 'react-router-dom'
 const CiudadesEncontradas = ({ ciudadesEncontradas }) => {
     
     return (
-        <div className="portaCiudadadesBuscador">
+        <div className="portaCiudadadesFiltradas">
             {ciudadesEncontradas.length === 0 && 
-                <div className="ciudadNoEncontrada" style={{backgroundImage:"url(./assets/ciudadNoEncontrada.jpg)"}}>
+                <div className="ciudadNoEncontrada" style={{backgroundImage:"url(/assets/ciudadNoEncontrada.jpg)"}}>
                     <div className="nombreCiudad">
                         Looks like the city that you're looking for is not yet...Try another one!
                     </div>
@@ -13,8 +13,8 @@ const CiudadesEncontradas = ({ ciudadesEncontradas }) => {
 
             {ciudadesEncontradas.map(ciudad => {
                 return (
-                    <Link  to ={`/cities/${ciudad._id}`} key={ciudad._id}>
-                        <div  className="fotoCiudadCities" style={{ backgroundImage: `url(./assets/ciudades/${ciudad.foto})` }}>
+                    <Link className="LinkBlancoNone" to ={`/cities/${ciudad._id}`} key={ciudad._id}>
+                        <div  className="fotoCiudadCities" style={{ backgroundImage: `url(/assets/ciudades/${ciudad.foto})` }}>
                             <div className="nombreCiudad">{ciudad.nombreCiudad}</div>
                         </div>
                     </Link>
