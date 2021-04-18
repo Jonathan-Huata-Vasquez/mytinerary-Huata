@@ -21,7 +21,7 @@ class City extends React.Component{
     render(){
         if(this.state.loading){
             return (
-                <div className ="cityItinerariesContenido">>
+                <div className ="cityItinerariesContenido">
                     <SkeletonTheme color="#eceff1"  highlightColor ="#90caf9">
                         <Skeleton duration={0.25}  width="90vw" height="60vh" className="esqueletoFotoCiudadCities" />
                     </SkeletonTheme>
