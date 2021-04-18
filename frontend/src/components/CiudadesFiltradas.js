@@ -7,7 +7,7 @@ const CiudadesFiltradas = ({ ciudades }) => {
             {ciudades.length === 0 && 
                 <div className="ciudadNoEncontrada" style={{backgroundImage:"url(/assets/ciudadNoEncontrada.jpg)"}}>
                     <div className="nombreCiudad">
-                        Looks like the city that you're looking for is not yet...Try another one!
+                        It seems that the city you are looking for is not yet ... Try another!
                     </div>
                 </div>
             }

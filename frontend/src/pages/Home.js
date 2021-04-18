@@ -15,7 +15,7 @@ const Home = () => {
     //esto es porque no logro poner el estilo del background-image del hero 
     const estiloBackgroundImagen = "linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)) , url(./assets/opcHero5.gif)"
     return (
-        <>
+        <div className ="contenedorHome">
             <div className="hero" style={{ backgroundImage: estiloBackgroundImagen }}>
                 <img src="assets/logoCompleto2.png" alt="logoHome" className="logoHero" />
                 <h1>MyTinerary</h1>
@@ -40,7 +40,7 @@ const Home = () => {
             </Container>
             <h3 className="mt-5 mb-3">Popular MYtineraries</h3>
             <MiCarousel gruposCiudades={gruposCiudades} />
-        </>
+        </div>
     )
 }
 

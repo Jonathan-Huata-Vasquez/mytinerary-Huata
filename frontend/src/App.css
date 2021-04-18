@@ -1,3 +1,4 @@
+
 .LinkBlancoNone , .LinkBlancoNone:hover{
     color: white;
     text-decoration: none;
@@ -31,10 +32,16 @@
     width: 100%;
     overflow-x: hidden;
     min-height: 100vh;
+    
 }
 
 
-
+.contenedorHome{
+    flex-grow: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
 
 .MiCarrouselEstilo{
     display: flex;
@@ -142,6 +149,11 @@ div.estiloLogoNav{
 .contenedorCities{
     flex-grow: 1;
     width: 100vw;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .portadaCities{
     width: 100vw;
@@ -191,7 +203,7 @@ div.estiloLogoNav{
     display: flex;
     align-items: center;
     justify-content: center;
-
+    border-radius: 20px;
 }
 .esqueletoFotoCiudadCities{
     box-shadow: 8px 8px 10px rgb(0 0 0 / 43%);
@@ -230,14 +242,12 @@ div.estiloLogoNav{
 }
 .cityItinerariesPortada{
     width: 90vw;
-    /*min-width: 100vw;*/
     height: 60vh;
     margin-top: 5vh;
 
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    /*background-color: rgba(163, 163, 163, 0.123);*/
     background-color: rgba(0,0,0,0.300);
     background-blend-mode: soft-light;
     color: white;
@@ -246,5 +256,6 @@ div.estiloLogoNav{
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    
+    border-radius: 24px;
+    box-shadow: 8px 8px 10px rgb(0 0 0 / 43%);
 }

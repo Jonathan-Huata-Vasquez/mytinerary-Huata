@@ -1,6 +1,4 @@
-/*JSON 
-{"nombreCiudad":"Antalya","pais":"Turkey","foto":"antalya.jpg"},{"nombreCiudad":"Bangkok","pais":"Thailand","foto":"bangkok.jpg"},{"nombreCiudad":"Buenos Aires ","pais":"Argentina","foto":"buenosAires.jpg"},{"nombreCiudad":"Dubai","pais":"United Arab Emirates","foto":"dubai.jpg"},{"nombreCiudad":"Rio de Janeiro","pais":"Brazil","foto":"rioDeJaneiro.jpg"},{"nombreCiudad":"Kuala Lumpur","pais":"Malaysia","foto":"kualaLumpur.jpg"},{"nombreCiudad":"London","pais":"England","foto":"london.jpg"},{"nombreCiudad":"New Delhi","pais":"India","foto":"newDelhi.jpg"},{"nombreCiudad":"New York","pais":"United States","foto":"newYork.jpg"},{"nombreCiudad":"Paris","pais":"France","foto":"paris.jpg"},{"nombreCiudad":"Rome","pais":"Italy","foto":"rome.jpg"},{"nombreCiudad":"Tokyo","pais":"Japan","foto":"Tokyo.jpg"},{"nombreCiudad":"Hong Kong","pais":"China","foto":"hongKong.jpg"},{"nombreCiudad":"Sydney","pais":"Australia","foto":"Sydney.jpg"},{"nombreCiudad":"Berlin","pais":"Germany","foto":"berlin.jpg"}
-*/
+
 
 const City = require('../models/City');
 //como todo lo que manejemos con BD son procesos asincronos
@@ -45,7 +43,7 @@ const citiesControllers = {
             res.json({ respuesta: todasLasCIudades })
         }
         catch (e) {
-            res.json({ success: false, respuesta: "ha ocurrido un error al agregar la ciudad" })
+            res.json({ success: false, respuesta: "ha ocurrido un error al agregar la ciudad: "+e })
         }
 
     },
@@ -60,7 +58,6 @@ const citiesControllers = {
         catch (e) {
             res.json({ success: false, respuesta: "ha ocurrido un error al obtener la ciudad" })
         }
-
     },
 
 
@@ -71,7 +68,7 @@ const citiesControllers = {
             res.json({ success: true, respuesta: ciudadBorrada });
         }
         catch (e) {
-            res.json({ success: false, respuesta: "hubo un error al borrar la ciudad" })
+            res.json({ success: false, respuesta: "there was an error deleting the city with the id: "+id })
         }
 
     },

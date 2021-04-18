@@ -71,7 +71,11 @@ const Cities = () => {
     }
 
     if (!estado.loading && estado.todasLasCiudades.length === 0) {
-        return <h1>No hay ciudades</h1>
+        return (
+            <div className="contenedorCities mt-3 px-5"> 
+                <h1 >Ups, there has been an error, please reload the page or contact us</h1>
+            </div>
+        )
     }
     return (
         <div className="contenedorCities">
@@ -81,7 +85,6 @@ const Cities = () => {
                     <TextField className={ `${misEstilos.textField} mt-3 `} label="Find your City" variant="outlined" onChange={actualizarCiudades} />
                 </div>
             </div>
-            {console.log(estado.loading)}
             {estado.loading ?  <EsqueletoCiudadesFiltradas /> :
                 <CiudadesFiltradas ciudades={estado.ciudadesAMostrar} />
             }

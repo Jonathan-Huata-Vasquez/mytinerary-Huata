@@ -5,12 +5,11 @@ const mongoose = require('mongoose');
 //creamos una instancia de la clase Schema de mongoose
 //que toma como parametro un objeto que seran los campos y los tipos de datos que espera MONGO
 const cityEsquema = new mongoose.Schema({
-    nombreCiudad: {type: String, require:true},
-    pais:{type: String, require:true},
-    foto:{type: String, require:true},
-    fotoBandera:{type: String, require:true},
+    nombreCiudad: {type: String, required:true},
+    pais:{type: String, required:true},
+    foto:{type: String, required:true},
 });
-
+//fotoBandera:{type: String, require:true},
 //creamos el modelo
 //guardame todo lo que tenga que ver con las tareas en esta coleccio task 
 //y basate siempre en mi esquema cityEsquema

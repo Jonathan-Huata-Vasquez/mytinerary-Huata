@@ -8,11 +8,13 @@ const validador = require('../config/validador')
 const {obtenerTodasLasCiudades,agregarCiudad,obtenerCiudad,borrarCiudad,actualizarCiudad,
     obtenerJSONCiudadesIniciales,agregarArrayCiudades} = citiesControllers;
 
+const {validadorCampoVacio} = validador
+
 /*cuando te hagan un pedido a /api/tareas , si es tipo GET ejecuta este controlador, 
 sino si es POST ejecuta el controlador....*/
 router.route('/cities')
 .get(obtenerTodasLasCiudades)
-.post(validador,agregarCiudad)
+.post(validadorCampoVacio,agregarCiudad)
 
 //con los ":" le estamos diciendo que despues de la barra le va a venir algo dinamico
 router.route('/cities/:id')
