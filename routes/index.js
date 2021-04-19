@@ -16,7 +16,7 @@ router.route('/cities')
 .get(obtenerTodasLasCiudades)
 .post(validadorCampoVacio,agregarCiudad)
 
-//con los ":" le estamos diciendo que despues de la barra le va a venir algo dinamico
+//con los ":" le estamos diciendo que despues de la barra le va a venir algo dinamico, estara guardado con el nombre "id" en req.params
 router.route('/cities/:id')
 .get(obtenerCiudad)
 .delete(borrarCiudad)

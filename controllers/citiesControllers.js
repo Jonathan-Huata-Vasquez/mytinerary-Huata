@@ -17,7 +17,7 @@ const citiesControllers = {
 
         }
         catch (e) {
-            res.json({ success: false, respuesta: "ha ocurrido un error al obtener las ciudades" })
+            res.json({ success: false, respuesta: "an error occurred while getting the cities" })
         }
 
     },
@@ -27,7 +27,7 @@ const citiesControllers = {
         //creamos una instancia de City 
         /*va al modelo y se fija si lo que esta en el modelo corresponde 
         con lo que tengo como propiedades y valores
-        Si en el frontend mando una propiedad , distinta, aca no la toma(en mi codigo)
+        Si en el frontend mando una propiedad , desconocida, aca no la toma(en mi codigo)
         Si le mando bien la propiedad pero no el tipo de dato del valor, la base de datos no guarda esa propiedad
         */
 
@@ -43,7 +43,7 @@ const citiesControllers = {
             res.json({ respuesta: todasLasCIudades })
         }
         catch (e) {
-            res.json({ success: false, respuesta: "ha ocurrido un error al agregar la ciudad: "+e })
+            res.json({ success: false, respuesta: "an error occurred while adding the city: "+e })
         }
 
     },
@@ -56,7 +56,7 @@ const citiesControllers = {
             res.json({ success: true, respuesta: ciudadBuscada });
         }
         catch (e) {
-            res.json({ success: false, respuesta: "ha ocurrido un error al obtener la ciudad" })
+            res.json({ success: false, respuesta: "an error occurred while getting the city" })
         }
     },
 
@@ -84,7 +84,7 @@ const citiesControllers = {
             const ciudadModificada = await City.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true });
             //no importta si se le manda una propiedad desconocida ya que City utiliza el esquema que tiene para actualizar
             //y ignora las propiedades desconocidas
-            res.json({ respuesta: ciudadModificada });
+            res.json({success:true, respuesta: ciudadModificada });
         }
         catch (e) {
             res.json({ success: false, respuesta: "hubo un error al actualizar la ciudad" })
@@ -103,23 +103,24 @@ const citiesControllers = {
         */
         try {
             //no funcion con el foreach porque no devuele la promesa
-            /*await Promise.all(arrayCiudades.map(ciudad => {
+            await Promise.all(arrayCiudades.map(ciudad => {
                 let nuevaCiudad = new City({ ...ciudad })
                 return nuevaCiudad.save();
             }));
-            res.json({ success: true, respuesta: "se agregaron todas las ciudades correctamente" })*/
+            res.json({ success: true, respuesta: "se agregaron todas las ciudades correctamente" })
+            /*
             arrayCiudades.map(async (ciudad) => {
                 let nuevaCiudad =  new City({ ...ciudad })
                 await nuevaCiudad.save();
             });
-            res.json({success:true})
+            res.json({success:true})*/
         }
         catch (e) {
             res.json({ success: false, respuesta: ```hubo un error al agregar las ciudades  error : ${e}``` })
         }
 
     },
-    obtenerJSONCiudadesIniciales: async (req, res) => {
+    obtenerJSONCiudadesIniciales:  (req, res) => {
         const ciudadesCities = [
             { nombreCiudad: "Antalya", pais: "Turkey", foto: "antalya.jpg" },
             { nombreCiudad: "Bangkok", pais: "Thailand", foto: "bangkok.jpg" },
@@ -139,7 +140,6 @@ const citiesControllers = {
         ];
         res.json({ respuesta: ciudadesCities });
     }
-
 }
 
 module.exports = citiesControllers;

@@ -49,7 +49,7 @@ const Cities = () => {
         //saco los espacios del inicio y final y transformo todo a minuscula
         return unaCadena.trim().toLowerCase();
     }
-    
+
     function actualizarCiudades(e) {
         let inputValor = e.target.value;
         inputValor = obtenerCadenaMinusculaSinEspacios(inputValor);
@@ -72,7 +72,7 @@ const Cities = () => {
 
     if (!estado.loading && estado.todasLasCiudades.length === 0) {
         return (
-            <div className="contenedorCities mt-3 px-5"> 
+            <div className="contenedorCities mt-3 px-5">
                 <h1 >Ups, there has been an error, please reload the page or contact us</h1>
             </div>
         )
@@ -82,10 +82,10 @@ const Cities = () => {
             <div className="portadaCities " style={{ backgroundImage: "url(./assets/portadaCities.jpg)" }}>
                 <div className="portaTituloFiltradorCities" >
                     <h1>The best experiences, activities and destinations</h1>
-                    <TextField className={ `${misEstilos.textField} mt-3 `} label="Find your City" variant="outlined" onChange={actualizarCiudades} />
+                    <TextField className={`${misEstilos.textField} mt-3 `} label="Find your City" variant="outlined" onChange={actualizarCiudades} />
                 </div>
             </div>
-            {estado.loading ?  <EsqueletoCiudadesFiltradas /> :
+            {estado.loading ? <EsqueletoCiudadesFiltradas /> :
                 <CiudadesFiltradas ciudades={estado.ciudadesAMostrar} />
             }
 

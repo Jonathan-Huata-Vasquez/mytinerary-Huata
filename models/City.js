@@ -10,10 +10,10 @@ const cityEsquema = new mongoose.Schema({
     foto:{type: String, required:true},
 });
 //fotoBandera:{type: String, require:true},
-//creamos el modelo
-//guardame todo lo que tenga que ver con las tareas en esta coleccio task 
-//y basate siempre en mi esquema cityEsquema
 
+//creamos el modelo
+//guardame todo lo que tenga que ver con las ciudades en esta coleccion task 
+//y basate siempre en mi esquema cityEsquema
 const City = mongoose.model('city',cityEsquema);
 
 /*adentro de city tengo todas las posibilidades que me da mongoose 
