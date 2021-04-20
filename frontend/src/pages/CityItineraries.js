@@ -11,10 +11,13 @@ class City extends React.Component{
     }
 
     componentDidMount(){
-        axios.get(`http://localhost:4000/api/cities/${this.props.match.params.id}`)
+        axios.get(`http://192.168.1.104:4000/api/cities/${this.props.match.params.id}`)
         .then(response => this.setState({
             loading : false,
             ciudad : response.data.respuesta
+        }))
+        .catch(error => this.setState({ //caso de que falle la comunicacion
+            loading:false,
         }))
     }
 
@@ -27,6 +30,9 @@ class City extends React.Component{
                     </SkeletonTheme>
                 </div>
             )
+        }
+        if(!this.state.loading && this.state.ciudad){
+            return <div className ="cityItinerariesContenido"><h1>Ups, please reload the page </h1></div>
         }
         return(
             <div className ="cityItinerariesContenido">

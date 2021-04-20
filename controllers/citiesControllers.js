@@ -40,7 +40,7 @@ const citiesControllers = {
             //de la instancia le uso el metodo heredado save()
             await ciudadNueva.save();
             const todasLasCIudades = await City.find(); //find me devuelve un array
-            res.json({ respuesta: todasLasCIudades })
+            res.json({success: true, respuesta: todasLasCIudades })
         }
         catch (e) {
             res.json({ success: false, respuesta: "an error occurred while adding the city: "+e })
@@ -81,7 +81,7 @@ const citiesControllers = {
             //1er parametro le mandamos el id del elemento a actualizar
             //2do parametro le mandamos las nuevas propiedades y valores a actualizar
             //3er parametro es para  que query retornada sea la actualizada (true)
-            const ciudadModificada = await City.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true });
+            const ciudadModificada = await City.findOneAndUpdate({ _id: id }, req.body , { new: true });
             //no importta si se le manda una propiedad desconocida ya que City utiliza el esquema que tiene para actualizar
             //y ignora las propiedades desconocidas
             res.json({success:true, respuesta: ciudadModificada });
@@ -138,7 +138,7 @@ const citiesControllers = {
             { nombreCiudad: "Sydney", pais: "Australia", foto: "Sydney.jpg" },
             { nombreCiudad: "Berlin", pais: "Germany", foto: "berlin.jpg" },
         ];
-        res.json({ respuesta: ciudadesCities });
+        res.json({success:true, respuesta: ciudadesCities });
     }
 }
 

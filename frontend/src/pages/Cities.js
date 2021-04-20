@@ -1,7 +1,6 @@
 
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles'
-import grey from '@material-ui/core/colors/grey';
 import { useEffect, useState } from 'react'
 import CiudadesFiltradas from '../components/CiudadesFiltradas'
 import axios from 'axios'
@@ -9,9 +8,14 @@ import EsqueletoCiudadesFiltradas from '../components/EsqueletoCiudadesFiltradas
 
 const useStyle = makeStyles({
     textField: {
-        backgroundColor: grey[300],
-        width: "80%"
+        backgroundColor: "white",
+        width: "80%",
+        borderRadius:"5px",
+        '&:hover':{
+            outline:"none"
+        }
     },
+    
     formulario: {
         width: "100%"
     }
@@ -28,7 +32,7 @@ const Cities = () => {
     /*Este solo se ejecutara al montar ,luego del "render"*/
     useEffect(() => {
 
-        axios.get('http://localhost:4000/api/cities')
+        axios.get('http://192.168.1.104:4000/api/cities')
             .then(response => {
                 setEstado({
                     loading: false,
@@ -82,7 +86,7 @@ const Cities = () => {
             <div className="portadaCities " style={{ backgroundImage: "url(./assets/portadaCities.jpg)" }}>
                 <div className="portaTituloFiltradorCities" >
                     <h1>The best experiences, activities and destinations</h1>
-                    <TextField className={`${misEstilos.textField} mt-3 `} label="Find your City" variant="outlined" onChange={actualizarCiudades} />
+                    <TextField className={`${misEstilos.textField} mt-3 `} label="Find your City" variant="filled" onChange={actualizarCiudades} />
                 </div>
             </div>
             {estado.loading ? <EsqueletoCiudadesFiltradas /> :
