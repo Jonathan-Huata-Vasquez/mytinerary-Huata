@@ -11,8 +11,8 @@ const useStyle = makeStyles({
         backgroundColor: "white",
         width: "80%",
         borderRadius:"5px",
-        '&:hover':{
-            outline:"none"
+        "&.Mui-focused": {
+            border: "2px solid red",
         }
     },
     

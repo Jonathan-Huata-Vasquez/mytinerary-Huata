@@ -31,7 +31,7 @@ class City extends React.Component{
                 </div>
             )
         }
-        if(!this.state.loading && this.state.ciudad){
+        if(!this.state.loading && !this.state.ciudad){
             return <div className ="cityItinerariesContenido"><h1>Ups, please reload the page </h1></div>
         }
         return(
