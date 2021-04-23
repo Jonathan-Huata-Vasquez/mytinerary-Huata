@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import {connect} from 'react-redux'
 import cityItineraryActions from '../redux/actions/cityItineraryAction'
+import Itinerario from '../components/Itinerario'
 class City extends React.Component{
     state = {
         loading : true,
@@ -46,8 +47,9 @@ class City extends React.Component{
                 <div className = "cityItinerariesPortada" style={{backgroundImage : `url(/assets/ciudades/${this.state.ciudad.foto})`}} >
                     <h1>{this.state.ciudad.nombreCiudad}</h1>
                 </div>
-                <h1>Under construction</h1>           
-                <Link to = "/cities" className =" LinkBlancoNone">
+                <Itinerario></Itinerario>           
+
+                <Link to = "/cities" className =" LinkBlancoNone mt-5">
                     <Button variant="contained" color="primary" style={{color:"white"}}> 
                         Go back to Cities
                     </Button>

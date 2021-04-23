@@ -4,7 +4,7 @@ const CiudadesFiltradas = ({ ciudades }) => {
     
     return (
         <div className="portaCiudadadesFiltradas">
-            {ciudades.length === 0 && 
+            {(!ciudades || ciudades.length === 0) && 
                 <div className="ciudadNoEncontrada" style={{backgroundImage:"url(/assets/ciudadNoEncontrada.jpg)"}}>
                     <div className="nombreCiudad">
                         It seems that the city you are looking for is not yet ... Try another!
