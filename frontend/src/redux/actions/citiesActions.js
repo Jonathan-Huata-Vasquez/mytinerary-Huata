@@ -11,13 +11,20 @@ const citiesAction = {
                     loading: false
                 }
             }))
-            .catch(error => dispatch({
+            .catch(error => {
+                return  dispatch({
                 type:"ERROR_FETCHEO",
                 loading:false,
                 ciudades:[]
-            }))
+            })}
+            )
+            
+        }  
+    },
+    obtenerCiudadesAMostrar: (inputValor) => {
+        return (dispatch,getState) => {
+            dispatch({type:"CARGAR_CIUDADES_A_MOSTRAR",payload:inputValor});
         }
-        
     }
 }
 

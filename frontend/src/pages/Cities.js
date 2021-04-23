@@ -1,10 +1,13 @@
 
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import CiudadesFiltradas from '../components/CiudadesFiltradas'
-import axios from 'axios'
+
 import EsqueletoCiudadesFiltradas from '../components/EsqueletoCiudadesFiltradas'
+
+import {connect} from 'react-redux'
+import citiesAction from '../redux/actions/citiesActions'
 
 const useStyle = makeStyles({
     textField: {
@@ -21,60 +24,20 @@ const useStyle = makeStyles({
     }
 });
 
-const Cities = () => {
+const Cities = (props) => {
     const misEstilos = useStyle();
-    const [estado, setEstado] = useState({
-        ciudadesAMostrar: [],
-        todasLasCiudades: [],
-        loading: true
-    });
 
     /*Este solo se ejecutara al montar ,luego del "render"*/
     useEffect(() => {
-
-        axios.get('http://192.168.1.104:4000/api/cities')
-            .then(response => {
-                setEstado({
-                    loading: false,
-                    todasLasCiudades: response.data.respuesta,
-                    ciudadesAMostrar: response.data.respuesta,
-                    textoFiltrador: "",
-                })
-            })
-            .catch(e => setEstado({
-                ...estado,
-                loading: false
-            }))
-        //esto es para que no me tire un warning de que 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        if(!props.estadoCities.ciudades){
+            props.cargarCiudades();
+        }
+        // eslint-disable-next-line
     }, []);
 
-    function obtenerCadenaMinusculaSinEspacios(unaCadena) {
-        //saco los espacios del inicio y final y transformo todo a minuscula
-        return unaCadena.trim().toLowerCase();
-    }
+    
 
-    function actualizarCiudades(e) {
-        let inputValor = e.target.value;
-        inputValor = obtenerCadenaMinusculaSinEspacios(inputValor);
-        if (inputValor === "") {
-            setEstado({
-                ...estado,
-                ciudadesAMostrar: estado.todasLasCiudades
-            })
-            return;
-        }
-        let nuevasCiudades = estado.todasLasCiudades.filter(ciudad => {
-            return obtenerCadenaMinusculaSinEspacios(ciudad.nombreCiudad).startsWith(inputValor);
-        });
-        setEstado({
-            ...estado,
-            ciudadesAMostrar: nuevasCiudades,
-            //textoFiltrador : inputValor
-        })
-    }
-
-    if (!estado.loading && estado.todasLasCiudades.length === 0) {
+    if (!props.estadoCities.loading && props.estadoCities.todasLasCiudades.length === 0) {
         return (
             <div className="contenedorCities mt-3 px-5">
                 <h1 >Ups, there has been an error, please reload the page or contact us</h1>
@@ -86,14 +49,27 @@ const Cities = () => {
             <div className="portadaCities " style={{ backgroundImage: "url(./assets/portadaCities.jpg)" }}>
                 <div className="portaTituloFiltradorCities" >
                     <h1>The best experiences, activities and destinations</h1>
-                    <TextField className={`${misEstilos.textField} mt-3 `} label="Find your City" variant="filled" onChange={actualizarCiudades} />
+                    {<TextField className={`${misEstilos.textField} mt-3 `} label="Find your City" variant="filled" onChange={(e) => props.modificarCiudadesAMostrar(e.target.value)} />}
                 </div>
             </div>
-            {estado.loading ? <EsqueletoCiudadesFiltradas /> :
-                <CiudadesFiltradas ciudades={estado.ciudadesAMostrar} />
+            {props.estadoCities.loading ? <EsqueletoCiudadesFiltradas /> :
+                <CiudadesFiltradas ciudades={props.estadoCities.ciudadesAMostrar} />
             }
 
         </div>
     )
 }
-export default Cities;
+
+const mapStateToProps = (state) => {
+    return {
+        estadoCities : state.citiesReducer,
+    }
+}
+
+const mapDispatchToProps = {
+    cargarCiudades: citiesAction.obtenerCiudades, //esto es la referencia a una funcion
+    modificarCiudadesAMostrar :  citiesAction.obtenerCiudadesAMostrar
+
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Cities);

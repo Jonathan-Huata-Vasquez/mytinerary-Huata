@@ -1,24 +1,31 @@
 import React from 'react'
-import axios from 'axios'
 import {Button} from '@material-ui/core'
 import {Link} from 'react-router-dom'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import {connect} from 'react-redux'
+import cityItineraryActions from '../redux/actions/cityItineraryAction'
 class City extends React.Component{
-
     state = {
         loading : true,
         ciudad : {}
     }
 
     componentDidMount(){
-        axios.get(`http://192.168.1.104:4000/api/cities/${this.props.match.params.id}`)
-        .then(response => this.setState({
-            loading : false,
-            ciudad : response.data.respuesta
-        }))
-        .catch(error => this.setState({ //caso de que falle la comunicacion
+        let ciudadActual;
+        let idCiudad = this.props.match.params.id;
+        //if(this.props.ciudades.length !==0){
+            ciudadActual = this.props.ciudades.find(ciudad =>  idCiudad === ciudad._id)
+        /*}else{
+            
+            this.props.cargarciudad(idCiudad)
+            console.log("hola")
+            ciudadActual = this.props.ciudades.find(ciudad =>  idCiudad === ciudad._id)
+        }*/
+        
+        this.setState({
             loading:false,
-        }))
+            ciudad : ciudadActual
+        })
     }
 
     render(){
@@ -49,4 +56,13 @@ class City extends React.Component{
         );
     }
 }
-export default City;
+const mapStateToProps = (state) =>{
+    return {
+        ciudades : state.citiesReducer.todasLasCiudades,
+    }
+}
+const mapDispatchToProps = {
+    cargarCiudad : cityItineraryActions
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(City);
