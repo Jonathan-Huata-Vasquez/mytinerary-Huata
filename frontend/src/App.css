@@ -323,25 +323,33 @@ span.PriceDuration{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    
 }
 .portalikesHashtags{
     display: flex;
-    justify-content: space-around;
     width: 100%;
     padding: 0 3vw;
     flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
 }
 .portaLikes , .portaHashtags{
     width:  50%;
+    min-width: 258px;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0 5%;
 }
 .portaHashtags{
-    width: 50%;
+    width: 90%;
     flex-wrap: wrap;
 }
 span.hashtags{
     font-size: 1.1em;
+    font-weight: bold;
+    color: #3e52c1;
+    margin: 0 3px;
+    
+    overflow-wrap: break-word;
 }
