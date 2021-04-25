@@ -7,7 +7,12 @@ const cityItineraryActions = {
                 type : "CARGAR_ITINERARIOS",
                 payload: res.data.respuesta
             }))
-            //.catch(error => dispatch({type : "ERROR_CARGAR_CIUDAD"}))
+            .catch(error => dispatch({type : "ERROR_CARGAR_CIUDAD", payload:null}))
+        }
+    },
+    vaciarItinerarios: ()=>{
+        return (dispatch,getState) =>{
+            dispatch({type:"VACIAR_ITINERARIOS",payload:null});
         }
     }
 }

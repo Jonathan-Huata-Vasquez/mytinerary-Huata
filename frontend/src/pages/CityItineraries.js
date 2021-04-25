@@ -6,9 +6,10 @@ import { connect } from 'react-redux'
 import cityItineraryActions from '../redux/actions/cityItineraryAction'
 import Itinerario from '../components/Itinerario'
 import EsqueletoItinerario from '../components/esqueletos/EsqueletoItinerario'
+import {Redirect} from 'react-router-dom';
 class City extends React.Component {
     state = {
-        ciudad: {}
+        ciudad: null
     }
 
     componentDidMount() {
@@ -18,6 +19,9 @@ class City extends React.Component {
             ciudad: ciudadActual
         })
         this.props.cargarItinerarios(idCiudad);
+    }
+    componentWillUnmount(){
+        this.props.vaciarItinerarios();
     }
 
     render() {
@@ -32,8 +36,11 @@ class City extends React.Component {
                 </div>
             )
         }
-        if (!this.props.loading && !this.state.ciudad) {
-            return <div className="cityItinerariesContenido"><h1>Ups, please reload the page </h1></div>
+        if(!this.props.loading){
+            if (this.props.error500Itinerarios) 
+                return <Redirect to="error500" />
+            if(!this.props.error500Itinerarios && !this.state.ciudad)
+                return <div className="cityItinerariesContenido"><h1>Ups, please reload the page </h1></div>
         }
         return (
             <div className="cityItinerariesContenido">
@@ -65,11 +72,13 @@ const mapStateToProps = (state) => {
     return {
         ciudades: state.citiesReducer.todasLasCiudades,
         itinerariosCiudad: state.cityItineraryReducer.itinerariosCiudad,
-        loading: state.cityItineraryReducer.loading
+        loading: state.cityItineraryReducer.loading,
+        error500Itinerarios : state.cityItineraryReducer.error500Itinerarios
     }
 }
 const mapDispatchToProps = {
-    cargarItinerarios: cityItineraryActions.cargarItinerarios
+    cargarItinerarios: cityItineraryActions.cargarItinerarios,
+    vaciarItinerarios: cityItineraryActions.vaciarItinerarios
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(City);
