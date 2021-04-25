@@ -1,14 +1,12 @@
 
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/core/styles'
-import { useEffect } from 'react'
-import CiudadesFiltradas from '../components/CiudadesFiltradas'
-
-import EsqueletoCiudadesFiltradas from '../components/EsqueletoCiudadesFiltradas'
-
-import {connect} from 'react-redux'
-import citiesAction from '../redux/actions/citiesActions'
-
+import { makeStyles } from '@material-ui/core/styles';
+import { useEffect } from 'react';
+import CiudadesFiltradas from '../components/CiudadesFiltradas';
+import EsqueletoCiudadesFiltradas from '../components/EsqueletoCiudadesFiltradas';
+import {connect} from 'react-redux';
+import citiesAction from '../redux/actions/citiesActions';
+import {Redirect} from 'react-router-dom';
 const useStyle = makeStyles({
     textField: {
         backgroundColor: "white",
@@ -18,42 +16,44 @@ const useStyle = makeStyles({
             border: "2px solid red",
         }
     },
-    
-    formulario: {
-        width: "100%"
-    }
 });
 
-const Cities = (props) => {
+const Cities = ({estadoCities,cargarCiudades,modificarCiudadesAMostrar,cargarEstadoInicial}) => {
     const misEstilos = useStyle();
-
+     
     /*Este solo se ejecutara al montar ,luego del "render"*/
     useEffect(() => {
-        if(!props.estadoCities.ciudades){
-            props.cargarCiudades();
+        if(estadoCities.todasLasCiudades.length === 0){
+            cargarCiudades();
         }
         // eslint-disable-next-line
     }, []);
 
-    
-
-    if (!props.estadoCities.loading && props.estadoCities.todasLasCiudades.length === 0) {
+    //componenteWillUnmount()
+    useEffect(()=>{
+        return ()=>{
+            if(estadoCities.error500) cargarEstadoInicial();
+        }
+        // eslint-disable-next-line
+    },[])
+    if (estadoCities.error500) {
         return (
             <div className="contenedorCities mt-3 px-5">
-                <h1 >Ups, there has been an error, please reload the page or contact us</h1>
+                <Redirect to ="error500" />
             </div>
         )
     }
+
     return (
         <div className="contenedorCities">
             <div className="portadaCities " style={{ backgroundImage: "url(./assets/portadaCities.jpg)" }}>
                 <div className="portaTituloFiltradorCities" >
                     <h1>The best experiences, activities and destinations</h1>
-                    {<TextField className={`${misEstilos.textField} mt-3 `} label="Find your City" variant="filled" onChange={(e) => props.modificarCiudadesAMostrar(e.target.value)} />}
+                    {<TextField className={`${misEstilos.textField} mt-3 `} label="Find your City" variant="filled" onChange={(e) => modificarCiudadesAMostrar(e.target.value)} />}
                 </div>
             </div>
-            {props.estadoCities.loading ? <EsqueletoCiudadesFiltradas /> :
-                <CiudadesFiltradas ciudades={props.estadoCities.ciudadesAMostrar} />
+            {estadoCities.loading ? <EsqueletoCiudadesFiltradas /> :
+                <CiudadesFiltradas ciudades={estadoCities.ciudadesAMostrar} />
             }
 
         </div>
@@ -67,9 +67,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-    cargarCiudades: citiesAction.obtenerCiudades, //esto es la referencia a una funcion
-    modificarCiudadesAMostrar :  citiesAction.obtenerCiudadesAMostrar
-
+    cargarCiudades: citiesAction.obtenerCiudades,//esto es la referencia a una funcion 
+    modificarCiudadesAMostrar :  citiesAction.obtenerCiudadesAMostrar,
+    cargarEstadoInicial: citiesAction.cargarEstadoInicial
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(Cities);

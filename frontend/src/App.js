@@ -1,7 +1,8 @@
 import React from 'react';
 import Home from './pages/Home.js'
 import Cities from './pages/Cities.js'
-import Error404 from './pages/Error404.js'
+import Error404 from './pages/ErrorHTTP/Error404'
+import Error500 from './pages/ErrorHTTP/Error500'
 import City from './pages/CityItineraries'
 import './App.css'
 import {BrowserRouter,Redirect,Switch,Route} from 'react-router-dom'
@@ -20,8 +21,9 @@ class App extends React.Component{
                     <Route exact path ="/" component = {Home}/>
                     <Route exact path = "/cities" component = {Cities}/>
                     <Route path="/cities/:id" component = {City}/>
-                    <Route path = "/error" component = {Error404}/>
-                    <Redirect to ="/error" />
+                    <Route path = "/error404" component = {Error404}/>
+                    <Route path = "/error500" component = {Error500}/>
+                    <Redirect to ="/error404" />
                 </Switch>
                 <Footer />
                 </div>

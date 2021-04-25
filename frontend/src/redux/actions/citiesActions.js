@@ -18,12 +18,16 @@ const citiesAction = {
                 ciudades:[]
             })}
             )
-            
         }  
     },
     obtenerCiudadesAMostrar: (inputValor) => {
         return (dispatch,getState) => {
             dispatch({type:"CARGAR_CIUDADES_A_MOSTRAR",payload:inputValor});
+        }
+    },
+    cargarEstadoInicial:()=>{
+        return (dispath,getState) =>{
+            dispath({type:"CARGAR_ESTADO_INICIAL",payload:null});
         }
     }
 }

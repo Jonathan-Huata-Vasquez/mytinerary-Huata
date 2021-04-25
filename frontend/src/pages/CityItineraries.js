@@ -5,41 +5,34 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { connect } from 'react-redux'
 import cityItineraryActions from '../redux/actions/cityItineraryAction'
 import Itinerario from '../components/Itinerario'
+import EsqueletoItinerario from '../components/esqueletos/EsqueletoItinerario'
 class City extends React.Component {
     state = {
-        loading: true,
         ciudad: {}
     }
 
     componentDidMount() {
-        let ciudadActual;
         let idCiudad = this.props.match.params.id;
-        //if(this.props.ciudades.length !==0){
-        ciudadActual = this.props.ciudades.find(ciudad => idCiudad === ciudad._id)
-        /*}else{
-            this.props.cargarciudad(idCiudad)
-            console.log("hola")
-            ciudadActual = this.props.ciudades.find(ciudad =>  idCiudad === ciudad._id)
-        }*/
-
+        let ciudadActual = this.props.ciudades.find(ciudad => idCiudad === ciudad._id)
         this.setState({
-            loading: false,
             ciudad: ciudadActual
         })
         this.props.cargarItinerarios(idCiudad);
     }
 
     render() {
-        if (this.state.loading) {
+        if (this.props.loading) {
             return (
                 <div className="cityItinerariesContenido">
                     <SkeletonTheme color="#eceff1" highlightColor="#90caf9">
                         <Skeleton duration={0.25} width="90vw" height="60vh" className="esqueletoFotoCiudadCities" />
                     </SkeletonTheme>
+                    <EsqueletoItinerario />
+                    <EsqueletoItinerario />
                 </div>
             )
         }
-        if (!this.state.loading && !this.state.ciudad) {
+        if (!this.props.loading && !this.state.ciudad) {
             return <div className="cityItinerariesContenido"><h1>Ups, please reload the page </h1></div>
         }
         return (
@@ -47,6 +40,7 @@ class City extends React.Component {
                 <div className="cityItinerariesPortada" style={{ backgroundImage: `url(/assets/ciudades/${this.state.ciudad.foto})` }} >
                     <h1>{this.state.ciudad.nombreCiudad}</h1>
                 </div>
+
                 {this.props.itinerariosCiudad.length === 0 &&
                     <div className="sinItinerariosContenedor" style={{ backgroundImage: "url(/assets/itinerarios/sinItinerarios.jpg)" }}>
                         <div className="sinItinerariosContenido">
@@ -70,7 +64,8 @@ class City extends React.Component {
 const mapStateToProps = (state) => {
     return {
         ciudades: state.citiesReducer.todasLasCiudades,
-        itinerariosCiudad: state.cityItineraryReducer.itinerariosCiudad
+        itinerariosCiudad: state.cityItineraryReducer.itinerariosCiudad,
+        loading: state.cityItineraryReducer.loading
     }
 }
 const mapDispatchToProps = {

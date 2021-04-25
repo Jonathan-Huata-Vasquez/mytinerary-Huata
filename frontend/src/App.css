@@ -1,3 +1,11 @@
+.errorContenedor{
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    padding: 3vh 10vw;
+}
 
 .LinkBlancoNone , .LinkBlancoNone:hover{
     color: white;
@@ -376,4 +384,8 @@ span.hashtags{
      font-size: 1.75em;
      padding: 3vh 2.5vw;
      border-radius: 25px;
+}
+.esqueletoPrecio{
+    width: 40%;
+    height: 10px;
 }

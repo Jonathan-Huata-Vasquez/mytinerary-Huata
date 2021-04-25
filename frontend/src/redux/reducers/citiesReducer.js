@@ -1,8 +1,8 @@
 const inicialState = {
     ciudadesAMostrar: [],
     todasLasCiudades: [],
-    loading: true
-
+    loading: true,
+    error500:false
 }
 
 const citiesReducer = (state = inicialState, action) => {
@@ -32,11 +32,13 @@ const citiesReducer = (state = inicialState, action) => {
         case "ERROR_FETCHEO": {
             return {
                 ...state,
-                todasLasCiudades: action.payload.ciudades,
-                loading: false
+                todasLasCiudades: [],
+                loading: false,
+                error500:true
             }
-           
         }
+        case "CARGAR_ESTADO_INICIAL":
+            return inicialState;
         default:
             return state;
            
