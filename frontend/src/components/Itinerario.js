@@ -23,35 +23,40 @@ const useStyle = makeStyles({
         }
     }
 });
-const Itinerario = () => {
+const Itinerario = ({unItinerario}) => {
     const misEstilos = useStyle();
     const [liked,setLiked] = useState(false);
     const [estaExpandido,setEstaExpandido] = useState(false);
 
+    function crearNComponentes(n,componente){
+        let aux = [];
+        for(let i = 0 ; i< n ; i++){
+            aux.push(<div key= {i}>{componente}</div> )
+        }
+        return <>{aux}</>
+        /*
+        if(n === 0) return [];
+        let aux = crearNComponentes(n-1,componente)
+        aux.push(componente);
+        return aux;*/
+    }
+    
     return (
         <div className = "contenedorItinerario">
-            <div className ="tituloItinerario"><h3>Titulo Itinerario</h3></div>
-            <div className="autorItinerarioFoto" style={{backgroundImage : "url(/assets/itinerarios/antalya/autor.png)"}}></div>
-            <h4 className ="mt-3">Edgar Walddorf</h4>
+            <div className ="tituloItinerario"><h3>{unItinerario.titulo}</h3></div>
+            <div className="autorItinerarioFoto" style={{backgroundImage : `url(/assets/itinerarios/${unItinerario.autorFoto}`}}></div>
+            <h4 className ="mt-3">{unItinerario.autorNombre}</h4>
             <div className="portaPrecioDuracion">
                 <div className ="portaPrecio">
-                    <span className ="PriceDuration">Price: </span>
+                    <span className ="PriceDuration">Price </span>
                     <div className="portaSVGPriceDuration">
-                        <LocalAtmIcon style= {{color:"green"}} />
-                        <LocalAtmIcon style= {{color:"green"}} />
-                        <LocalAtmIcon style= {{color:"green"}} />
-                        <LocalAtmIcon style= {{color:"green"}} />
-                        <LocalAtmIcon style= {{color:"green"}} />
+                        {crearNComponentes(unItinerario.precio,<LocalAtmIcon style= {{color:"green"}} />)}
                     </div>
                 </div>
                 <div className ="portaDuracion">
-                    <span className ="PriceDuration">Duration: </span>
+                    <span className ="PriceDuration">Duration </span>
                     <div className="portaSVGPriceDuration">
-                        <AccessTimeIcon style= {{color:"#1565c0"}}/>
-                        <AccessTimeIcon style= {{color:"#1565c0"}}/>
-                        <AccessTimeIcon style= {{color:"#1565c0"}}/>
-                        <AccessTimeIcon style= {{color:"#1565c0"}}/>
-                        <AccessTimeIcon style= {{color:"#1565c0"}}/>
+                        {crearNComponentes(unItinerario.duracion,<AccessTimeIcon style= {{color:"#1565c0"}}/>)}
                     </div>
                 </div>
             </div>
@@ -61,14 +66,10 @@ const Itinerario = () => {
                     <IconButton size="small" color="secondary" onClick = {()=>setLiked(!liked)}>
                         {liked ?<FavoriteIcon /> : <FavoriteBorderIcon />}
                     </IconButton>
-                    <span className="PriceDuration">8</span>
+                    <span className="PriceDuration">{unItinerario.likes}</span>
                 </div>
                 <div className = "portaHashtags mt-3">
-                    <span className="hashtags ">#Paris</span>
-                    <span className="hashtags ">#NoMamesQueAsco</span>
-                    <span className="hashtags ">#AquiConElPincheMonstruoCulero</span>
-                    <span className="hashtags ">#presenciandoElMilagroDeLaVida</span>
-                    <span className="hashtags ">#Paris</span>
+                    {unItinerario.hashTags.map((hashTag,indice) => <span key={hashTag} className="hashtags ">{hashTag}</span>)}
                 </div>
             </div>
 

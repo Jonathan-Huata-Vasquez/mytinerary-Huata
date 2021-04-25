@@ -270,7 +270,7 @@ div.estiloLogoNav{
 .contenedorItinerario{
     padding: 3vh 0;
     margin-top: 5vw ;
-    width: 80vw;
+    width: 70vw;
     min-height: 40vh;
     box-shadow: 8px 8px 10px rgb(0 0 0 / 43%);
     background-color: hsla(0,0%,100%,.884);
@@ -350,6 +350,30 @@ span.hashtags{
     font-weight: bold;
     color: #3e52c1;
     margin: 0 3px;
-    
     overflow-wrap: break-word;
+}
+.sinItinerariosContenedor{
+    padding: 3vh 0;
+    margin-top: 5vw ;
+    width: 70vw;
+    min-height: 40vh;
+    box-shadow: 8px 8px 10px rgb(0 0 0 / 43%);
+    text-align: center;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.sinItinerariosContenido{
+    background-color: hsla(0,0%,100%,.884);
+     color: black; 
+     width :80%; 
+     text-align: center;
+     font-size: 1.75em;
+     padding: 3vh 2.5vw;
+     border-radius: 25px;
 }

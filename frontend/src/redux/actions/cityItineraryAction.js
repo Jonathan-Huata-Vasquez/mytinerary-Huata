@@ -1,13 +1,13 @@
 import axios from "axios";
 const cityItineraryActions = {
-    cargarCiudad : (id)=>{
+    cargarItinerarios : (idCiudad)=>{
         return (dispatch,getState)  => {
-            axios.get("http://localhost:4000/api/cities/"+id)
+            axios.get("http://localhost:4000/api/itineraries/city/"+idCiudad)
             .then(res => dispatch({
-                type : "CARGAR_CIUDAD",
+                type : "CARGAR_ITINERARIOS",
                 payload: res.data.respuesta
             }))
-            .catch(res => dispatch({type : "ERROR_CARGAR_CIUDAD",payload: res.data.respuesta}))
+            //.catch(error => dispatch({type : "ERROR_CARGAR_CIUDAD"}))
         }
     }
 }
