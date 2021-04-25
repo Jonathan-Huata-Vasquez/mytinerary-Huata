@@ -18,7 +18,7 @@ const useStyle = makeStyles({
     },
 });
 
-const Cities = ({estadoCities,cargarCiudades,modificarCiudadesAMostrar,cargarEstadoInicial}) => {
+const Cities = ({estadoCities,cargarCiudades,modificarCiudadesAMostrar,restaurarEstadoInicial}) => {
     const misEstilos = useStyle();
      
     /*Este solo se ejecutara al montar ,luego del "render"*/
@@ -32,10 +32,11 @@ const Cities = ({estadoCities,cargarCiudades,modificarCiudadesAMostrar,cargarEst
     //componenteWillUnmount()
     useEffect(()=>{
         return ()=>{
-            if(estadoCities.error500) cargarEstadoInicial();
+            if(estadoCities.error500) restaurarEstadoInicial();
         }
         // eslint-disable-next-line
     },[])
+    
     if (estadoCities.error500) {
         return (
             <div className="contenedorCities mt-3 px-5">
@@ -69,7 +70,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     cargarCiudades: citiesAction.obtenerCiudades,//esto es la referencia a una funcion 
     modificarCiudadesAMostrar :  citiesAction.obtenerCiudadesAMostrar,
-    cargarEstadoInicial: citiesAction.cargarEstadoInicial
+    restaurarEstadoInicial: citiesAction.restaurarEstadoInicial
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(Cities);

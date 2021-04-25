@@ -10,9 +10,9 @@ const cityItineraryActions = {
             .catch(error => dispatch({type : "ERROR_CARGAR_CIUDAD", payload:null}))
         }
     },
-    vaciarItinerarios: ()=>{
+    restaurarItinerarios: ()=>{
         return (dispatch,getState) =>{
-            dispatch({type:"VACIAR_ITINERARIOS",payload:null});
+            dispatch({type:"RESTAURAR_ITINERARIOS",payload:null});
         }
     }
 }

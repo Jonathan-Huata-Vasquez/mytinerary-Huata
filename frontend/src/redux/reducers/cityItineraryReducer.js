@@ -18,7 +18,7 @@ const cityItineraryReducer = (state = initialState,action) => {
                     loading:false,
                     error500Itinerarios : true
                 }
-            case "VACIAR_ITINERARIOS":
+            case "RESTAURAR_ITINERARIOS":
                 return initialState; 
         default :
             return state;

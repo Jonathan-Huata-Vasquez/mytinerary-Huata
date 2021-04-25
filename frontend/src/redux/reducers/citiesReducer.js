@@ -29,15 +29,14 @@ const citiesReducer = (state = inicialState, action) => {
                 ...state,
                 ciudadesAMostrar: nuevasCiudades
             } 
-        case "ERROR_FETCHEO": {
+        case "ERROR_FETCHEO": 
             return {
                 ...state,
-                todasLasCiudades: [],
                 loading: false,
                 error500:true
             }
-        }
-        case "CARGAR_ESTADO_INICIAL":
+        
+        case "RESTAURAR_ESTADO_INICIAL_CITIES":
             return inicialState;
         default:
             return state;

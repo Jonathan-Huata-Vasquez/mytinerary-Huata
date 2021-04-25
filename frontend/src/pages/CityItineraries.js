@@ -21,7 +21,7 @@ class City extends React.Component {
         this.props.cargarItinerarios(idCiudad);
     }
     componentWillUnmount(){
-        this.props.vaciarItinerarios();
+        this.props.restaurarItinerarios();
     }
 
     render() {
@@ -38,9 +38,18 @@ class City extends React.Component {
         }
         if(!this.props.loading){
             if (this.props.error500Itinerarios) 
-                return <Redirect to="error500" />
+                return <Redirect to="/error500" />
             if(!this.props.error500Itinerarios && !this.state.ciudad)
-                return <div className="cityItinerariesContenido"><h1>Ups, please reload the page </h1></div>
+                return (
+                    <div className="cityItinerariesContenido">
+                        <h1>Ups, please go back to Cities </h1>
+                        <Link to="/cities" className=" LinkBlancoNone mt-5">
+                            <Button variant="contained" color="primary" className="text-white">
+                                Go back to Cities
+                            </Button>
+                        </Link>
+                    </div>
+                )
         }
         return (
             <div className="cityItinerariesContenido">
@@ -78,7 +87,7 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = {
     cargarItinerarios: cityItineraryActions.cargarItinerarios,
-    vaciarItinerarios: cityItineraryActions.vaciarItinerarios
+    restaurarItinerarios: cityItineraryActions.restaurarItinerarios //para que no me aparescan los itinerarios anteriores
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(City);

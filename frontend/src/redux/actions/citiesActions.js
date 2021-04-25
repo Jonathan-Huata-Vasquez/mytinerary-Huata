@@ -14,8 +14,7 @@ const citiesAction = {
             .catch(error => {
                 return  dispatch({
                 type:"ERROR_FETCHEO",
-                loading:false,
-                ciudades:[]
+                payload:null,
             })}
             )
         }  
@@ -25,9 +24,9 @@ const citiesAction = {
             dispatch({type:"CARGAR_CIUDADES_A_MOSTRAR",payload:inputValor});
         }
     },
-    cargarEstadoInicial:()=>{
+    restaurarEstadoInicial:()=>{
         return (dispath,getState) =>{
-            dispath({type:"CARGAR_ESTADO_INICIAL",payload:null});
+            dispath({type:"RESTAURAR_ESTADO_INICIAL_CITIES",payload:null});
         }
     }
 }
