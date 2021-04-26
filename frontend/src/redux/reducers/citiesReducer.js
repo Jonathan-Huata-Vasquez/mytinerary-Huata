@@ -10,10 +10,11 @@ const citiesReducer = (state = inicialState, action) => {
         case "CARGAR_CIUDADES":
             return {
                 ...state,
-                ciudadesAMostrar: action.payload.ciudades,
-                todasLasCiudades: action.payload.ciudades,
+                ciudadesAMostrar: action.payload,
+                todasLasCiudades: action.payload,
                 loading: false
             }
+
 
         case "CARGAR_CIUDADES_A_MOSTRAR":
             let nuevasCiudades ;

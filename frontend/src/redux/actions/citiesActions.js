@@ -4,19 +4,11 @@ const citiesAction = {
     obtenerCiudades: () => {
         return (dispatch,getState) =>{
             axios.get("http://localhost:4000/api/cities")
-            .then(res => dispatch({
-                type: "CARGAR_CIUDADES",
-                payload: {
-                    ciudades:res.data.respuesta,
-                    loading: false
-                }
-            }))
+            .then(res => dispatch({type: "CARGAR_CIUDADES",payload: res.data.respuesta}))
             .catch(error => {
-                return  dispatch({
-                type:"ERROR_FETCHEO",
-                payload:null,
-            })}
-            )
+                dispatch({type:"ERROR_FETCHEO",payload:null,})
+                //dispatch(citiesAction.restaurarEstadoInicial())
+            })
         }  
     },
     obtenerCiudadesAMostrar: (inputValor) => {
