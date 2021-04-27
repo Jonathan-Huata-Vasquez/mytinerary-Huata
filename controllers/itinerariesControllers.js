@@ -35,6 +35,8 @@ const itinerariesControllers = {
     obtenerItinerarioPorCiudad : async(req,res) =>{
         const idCiudad = req.params.id;
         try {
+            //popular : poblar, como tenemos una relacion de un itinerario con una ciudad,
+            //hago que me traiga todos los datos del usuario
             let itinerarios = await Itinerary.find({idCiudad}).populate('idCiudad')
             res.json({success:true,respuesta:itinerarios});
         } catch (error) {

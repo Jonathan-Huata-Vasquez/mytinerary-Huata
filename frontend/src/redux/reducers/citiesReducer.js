@@ -14,6 +14,7 @@ const citiesReducer = (state = inicialState, action) => {
                 todasLasCiudades: action.payload,
                 loading: false
             }
+        
 
 
         case "CARGAR_CIUDADES_A_MOSTRAR":
