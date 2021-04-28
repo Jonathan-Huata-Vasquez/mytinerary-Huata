@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom'
 
 
 
-const Home = () => {
-
+const Home = (props) => {
+    
 
     let gruposCiudades = obtenerGruposCiudades(respuestaFetch);
 

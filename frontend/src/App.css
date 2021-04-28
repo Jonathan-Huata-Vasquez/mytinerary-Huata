@@ -143,7 +143,12 @@ div.estiloLogoNav{
     align-items: center;
     margin-right: 4vw;
 }
-
+.btnLoginLink{
+    color:black;
+}
+.btnLoginLinkActive{
+    color: dodgerblue;
+}
 /*Slide*/
 .nombreCiudad{
     background-color: rgba(0,0,0,.562);
@@ -362,7 +367,7 @@ span.hashtags{
 }
 .sinItinerariosContenedor{
     padding: 3vh 0;
-    margin-top: 5vw ;
+    margin-top: 3vw ;
     width: 70vw;
     min-height: 40vh;
     box-shadow: 8px 8px 10px rgb(0 0 0 / 43%);
@@ -388,4 +393,54 @@ span.hashtags{
 .esqueletoPrecio{
     width: 40%;
     height: 10px;
+}
+
+/*-------------------Formularios de registro y loguear--------------------------*/
+.contenedorSignUp,.contenedorLogIn{
+    flex-grow: 1;   
+    min-height: 80vh;
+    text-align: center;
+    margin-top: 2vw;
+}
+.contenedorFormularioBtnGoogle{
+    padding: 3vh 0;
+    margin-top: 5vw ;
+    width: 40vw;
+    min-width: 270px;
+    min-height: 40vh;
+    box-shadow: 8px 8px 10px rgb(0 0 0 / 43%);
+    background-color: hsla(0,0%,100%,.884);
+    text-align: center;
+    border-radius: 6px;
+}
+.formulario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+    
+}
+.separador{
+    margin-top: 20px ;
+    position: relative;
+    text-align: center;
+    color:black
+}
+.separador h5::before,.separador h5::after{
+    content:"";
+    position: absolute;
+    width: 30%;
+    height: 2px;
+    background-color: rgba(141, 138, 138, 0.445);
+    top:0.6em;
+}
+.separador h5::before{
+    left: 13%;
+}
+.separador h5::after{
+    right: 13%;
+}
+.callToActionFormulario{
+    text-decoration: underline;
+    color: rgb(116 204 223);
 }

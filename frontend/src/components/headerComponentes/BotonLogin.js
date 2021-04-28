@@ -5,10 +5,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react'
 import Avatar from '@material-ui/core/Avatar';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import { NavLink } from 'react-router-dom';
 
 const useStyle = makeStyles({
   menuDesplegable : {
-    marginTop : "35px"
+    marginTop : "35px",
   }
 
 });
@@ -32,16 +33,19 @@ const BotonLogin = () => {
           <Avatar src="./assets/header/usuarioGenerico.jpg" />
           <ArrowDropDownIcon fontSize ="large"/>
       </Button>
-      <Menu className = {misEstilos.menuDesplegable}
+      <Menu className = {misEstilos.menuDesplegable }
         id="simple-menu"
         anchorEl={menuAbierto}  //esto es usado para ver la posicion del menu
         //keepMounte
         open={Boolean(menuAbierto)} //transformamos lo que hay dentro de menuAbierto en booleano (Castear?), si es true el menu es visible
         onClose={handleClose}  // la accion que hace al cerarse el menu
       >
-        <MenuItem onClick={handleClose}>Log In</MenuItem>
-        <MenuItem onClick={handleClose}>Sign Up</MenuItem>
-
+        <NavLink to ="/login" className="btnLoginLink" activeClassName="btnLoginLinkActive">
+          <MenuItem onClick={handleClose}>Log In</MenuItem>
+        </NavLink>
+        <NavLink to ="/signup" className="btnLoginLink" activeClassName="btnLoginLinkActive">
+          <MenuItem onClick={handleClose}>Sign Up</MenuItem>
+        </NavLink>
       </Menu>
     </div>
   );

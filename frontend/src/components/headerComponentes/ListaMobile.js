@@ -28,12 +28,17 @@ const ListaSimple = () => {
                 </NavLink>
 
                 <Divider />
-                <ListItem button>
-                    <ListItemText primary="Sign In" />
-                </ListItem>
-                <ListItem button>
-                    <ListItemText primary="Log in" />
-                </ListItem>
+                <NavLink to ="/login" className="btnLoginLink" activeClassName="btnLoginLinkActive">
+                    <ListItem button>
+                        <ListItemText primary="Log in" />
+                    </ListItem>
+                </NavLink> 
+                <NavLink to ="/signup" className="btnLoginLink" activeClassName="btnLoginLinkActive">
+                    <ListItem button>
+                        <ListItemText primary="Sign Up" />
+                    </ListItem>
+                </NavLink>
+                
             </List>
         </div >
 
