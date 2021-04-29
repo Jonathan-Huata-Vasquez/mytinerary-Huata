@@ -5,14 +5,13 @@ const router = express.Router();
 const citiesControllers = require('../controllers/citiesControllers');
 const itinerariesControllers = require('../controllers/itinerariesControllers');
 const validador = require('../config/validador')
-
+const userControllers = require('../controllers/userControllers')
 const {obtenerTodasLasCiudades,agregarCiudad,obtenerCiudad,borrarCiudad,actualizarCiudad,
     obtenerJSONCiudadesIniciales,agregarArrayCiudades} = citiesControllers;
 
 const {validadorCampoVacio} = validador;
 
-const {agregarItinerario,obtenerTodosItinerarios,obtenerItinerarioPorId,
-    obtenerItinerarioPorCiudad,actualizarItinerario,borrarItinerario} = itinerariesControllers;
+
 
 
 /*cuando te hagan un pedido a /api/tareas , si es tipo GET ejecuta este controlador, 
@@ -28,6 +27,10 @@ router.route('/cities/:id')
 .put(actualizarCiudad)
 
 //------------------------------------------------
+const {agregarItinerario,obtenerTodosItinerarios,obtenerItinerarioPorId,
+    obtenerItinerarioPorCiudad,actualizarItinerario,borrarItinerario} = itinerariesControllers;
+
+
 router.route('/itineraries')
 .get(obtenerTodosItinerarios)
 .post(agregarItinerario)
@@ -40,11 +43,26 @@ router.route('/itineraries/:id')
 router.route('/itineraries/city/:id')
 .get(obtenerItinerarioPorCiudad)
 
+//------------------------------------
+const {crearUsuario,loguearUsuario} = userControllers;
+
+router.route('/user/signup')
+.post(crearUsuario)
+
+router.route("/user/login")
+.post(loguearUsuario)
+
+
+
+
+
+
+
 
 /*Para ayudar al programador */
 router.route('/backend/cities')
-.get(obtenerJSONCiudadesIniciales)
-.post(agregarArrayCiudades)
+.post(obtenerJSONCiudadesIniciales)
+.get(agregarArrayCiudades)
 
 module.exports = router;
 

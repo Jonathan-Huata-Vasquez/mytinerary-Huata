@@ -3,13 +3,15 @@ import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import FormControl from '@material-ui/core/FormControl';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import {connect} from 'react-redux'
+import authActions from '../redux/actions/authActions';
 const estilos = ({
     inputEstilo: {
         width: "80%",
@@ -28,33 +30,41 @@ const estilos = ({
     }
 })
 class LogIn extends React.Component {
-    state ={
-        visibleContrasena:false,
-        inputsValores:{
+    state = {
+        visibleContrasena: false,
+        valoresInputs: {
             email: "",
-            contrasena:""
+            contrasena: ""
         }
-        
+
     }
-    leerInput(e){
+    leerInput(e) {
         this.setState({
             ...this.state,
-            inputsValores: {
-                ...this.state.inputsValores,
-                [e.target.name]:e.target.value
+            valoresInputs: {
+                ...this.state.valoresInputs,
+                [e.target.name]: e.target.value
             }
         });
     }
 
-    cambiarVisibilidadContrasena(){
+    cambiarVisibilidadContrasena() {
         this.setState({
             ...this.state,
             visibleContrasena: !this.state.visibleContrasena
         })
     }
+    enviar() {
+        const { email, contrasena } = this.state.valoresInputs ;
+        if ( email === "" || contrasena === ""){
+            console.log("hay campos vacios");
+            return null;
+        }
+        this.props.loguearUsuario(this.state.valoresInputs)
+    }
 
     render() {
-        const {classes:misEstilos} = this.props;
+        const { classes: misEstilos } = this.props;
         return (
             <div className="contenedorLogIn">
                 <h2>Log in to your account</h2>
@@ -75,15 +85,15 @@ class LogIn extends React.Component {
                             variant="outlined"
                             className={misEstilos.inputEstilo}
                             onChange={(e) => this.leerInput(e)}
-                            value={this.state.email}
+                            value={this.state.valoresInputs.email}
                         />
-                        
+
                         <FormControl variant="outlined" className={misEstilos.inputEstilo}>
                             <InputLabel>Password</InputLabel>
                             <OutlinedInput
                                 name="contrasena"
                                 type={this.state.visibleContrasena ? 'text' : 'password'}
-                                value={this.state.contrasena}
+                                value={this.state.valoresInputs.contrasena}
                                 onChange={(e) => this.leerInput(e)}
                                 endAdornment={ //pongo al final el icono
                                     <InputAdornment position="end">
@@ -99,7 +109,7 @@ class LogIn extends React.Component {
                             />
                         </FormControl>
 
-                        <Button variant="contained" color="primary" className="mt-3">
+                        <Button variant="contained" color="primary" className="mt-3" onClick = {()=>this.enviar()} >
                             Log in !
                         </Button>
 
@@ -112,4 +122,9 @@ class LogIn extends React.Component {
     }
 }
 
-export default withStyles(estilos)(LogIn)
+
+const mapDispatchToProps = {
+    loguearUsuario : authActions.loguearUsuario
+}
+
+export default   connect(null,mapDispatchToProps)(withStyles(estilos)(LogIn))

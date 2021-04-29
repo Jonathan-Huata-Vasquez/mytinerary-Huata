@@ -13,7 +13,7 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom'
 import axios from 'axios';
-
+import {endpointUserSignUp} from '../helpers/endpoints'
 const estilos = ({
     inputEstilo: {
         width: "80%",
@@ -78,6 +78,21 @@ class SignUp extends React.Component {
                 ...this.state.valoresInputs,
                 [e.target.name]: e.target.value
             }
+        })
+    }
+    enviar(){
+        let {email,contrasena} = this.state.valoresInputs
+        let hayCamposVacios = false;
+        
+        if(email === "" || contrasena === "") hayCamposVacios = true;
+        
+        if(hayCamposVacios ){
+            console.log("Hay campos vacios")
+            return null;
+        }
+        axios.post(endpointUserSignUp,this.state.valoresInputs)
+        .then(res => {
+            console.log(res.data)
         })
     }
 
@@ -175,7 +190,7 @@ class SignUp extends React.Component {
                             </Select>
                         </FormControl>
                         
-                        <Button variant="contained" color="primary" className="mt-3">
+                        <Button variant="contained" color="primary" className="mt-3" onClick={()=>this.enviar()}>
                             Sign Up !
                         </Button>
                         
