@@ -35,6 +35,7 @@ const BotonLogin = (props) => {
   }
   
   const { usuarioLogueado } = props
+
   //valores por defecto
   let usuarioAvatar = usuarioLogueado
   ? usuarioLogueado.usuarioAvatar

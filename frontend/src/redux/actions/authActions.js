@@ -8,7 +8,7 @@ const authActions = {
                 const { data } = await axios.post(endpointUserSignUp, valoresInputs)
                 if (!data.success)
                     console.log(data.error)
-                dispatch({ type: "LOGUEAR_USER", payload: data.respuesta })
+                dispatch({ type: "LOGUEAR_USER", payload: data })
             } catch (e) {
                 console.log(e);
             }

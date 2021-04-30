@@ -14,10 +14,7 @@ import ScrollToTop from './components/ScrollToTop'
 import {connect} from 'react-redux'
 import authActions from './redux/actions/authActions.js';
 class App extends React.Component {
-    componentDidMount(){
-        
-    }
-    
+ 
     render() {
         const usuarioLogueadoLS = localStorage.getItem("usuarioLogueado");
         if(!this.props.usuarioLogueado && usuarioLogueadoLS){

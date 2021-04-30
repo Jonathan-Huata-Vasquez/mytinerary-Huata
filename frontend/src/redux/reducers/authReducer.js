@@ -5,7 +5,7 @@ const inicialState ={
 const authReducer = (state = inicialState, action) =>{
     switch(action.type){
         case "LOGUEAR_USER":
-            localStorage.setItem("usuarioLogueado",JSON.stringify(action.payload))
+            localStorage.setItem("usuarioLogueado",JSON.stringify(action.payload));
             return {
                 ...state,
                 usuarioLogueado : action.payload
