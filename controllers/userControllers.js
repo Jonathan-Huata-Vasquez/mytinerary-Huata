@@ -35,7 +35,7 @@ const userControllers = {
 
         res.json({
             success: !error ? true : false,
-            respuesta: respuesta,
+            token: respuesta,
             usuarioAvatar,
             error: error
         })
@@ -49,10 +49,15 @@ const userControllers = {
 
             if (existeUsuario) {
                 const claveEsIgual = bcryptsjs.compareSync(contrasena, existeUsuario.contrasena)
-                claveEsIgual
-                    ? respuesta = existeUsuario
-                    : error = "Please provide a valid username and password (pass)"
+                if(claveEsIgual){
 
+                    respuesta = jwToken.sign({...existeUsuario},process.env.SECRET_OR_KEY)
+                    usuarioAvatar = existeUsuario.usuarioAvatar;
+                }else{
+                    error = "Please provide a valid username and password (pass)"  
+                }
+                  
+                
             } else {
                 error = "Please provide a valid username and password (email)"
             }
@@ -61,7 +66,8 @@ const userControllers = {
         }
         res.json({
             success: !error ? true : false,
-            respuesta,
+            token: respuesta,
+            usuarioAvatar,
             error
         })
     }

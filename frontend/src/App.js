@@ -17,8 +17,10 @@ class App extends React.Component {
  
     render() {
         const usuarioLogueadoLS = localStorage.getItem("usuarioLogueado");
-        if(!this.props.usuarioLogueado && usuarioLogueadoLS){
-            this.props.logueoForzadoPorLS(JSON.parse(usuarioLogueadoLS))
+        if(!this.props.usuarioLogueado && usuarioLogueadoLS && usuarioLogueadoLS !== "undefined"){
+            const token = JSON.parse(localStorage.getItem("token"))
+            const usuarioAvatar = JSON.parse(usuarioLogueadoLS);
+            this.props.logueoForzadoPorLS({token,usuarioAvatar})
         }
 
         return (

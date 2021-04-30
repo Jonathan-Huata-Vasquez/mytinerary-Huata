@@ -22,9 +22,10 @@ const authActions = {
             if (!data.success) {
                 return console.log(data.error);
             }
-            dispatch({ type: "LOGUEAR_USER", payload: data.respuesta })
+            dispatch({ type: "LOGUEAR_USER", payload: data })
         }
     },
+    
     logueoForzadoPorLS: (usuarioLS)=>{
         return (dispatch,getState)=>{
             dispatch({type:"LOGUEAR_USER",payload:usuarioLS});
