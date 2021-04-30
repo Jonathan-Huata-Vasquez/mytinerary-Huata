@@ -11,9 +11,19 @@ import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom'
 import Header from './components/headerComponentes/Header'
 import Footer from './components/Footer.js';
 import ScrollToTop from './components/ScrollToTop'
+import {connect} from 'react-redux'
+import authActions from './redux/actions/authActions.js';
 class App extends React.Component {
-
+    componentDidMount(){
+        
+    }
+    
     render() {
+        const usuarioLogueadoLS = localStorage.getItem("usuarioLogueado");
+        if(!this.props.usuarioLogueado && usuarioLogueadoLS){
+            this.props.logueoForzadoPorLS(JSON.parse(usuarioLogueadoLS))
+        }
+
         return (
             <BrowserRouter>
                 <ScrollToTop />
@@ -22,12 +32,15 @@ class App extends React.Component {
                     <Switch>
                         <Route exact path="/" component={Home} />
                         <Route exact path="/cities" component={Cities} />
-                        <Route path="/signup" component={SignUp} />
-                        <Route path="/login" component={LogIn} />
+                        {!this.props.usuarioLogueado && [
+                            <Route path="/signup" component={SignUp} key="/signup"/>,
+                            <Route path="/login" component={LogIn} key="/login"/>
+                        ]}
+                        
                         <Route path="/cities/:id" component={City} />
                         <Route path="/error404" component={Error404} />
                         <Route path="/error500" component={Error500} />
-                        <Redirect to="/error404" />
+                        <Redirect to="/" />
                     </Switch>
                     <Footer />
                 </div>
@@ -36,4 +49,13 @@ class App extends React.Component {
     }
 
 }
-export default App;
+const mapStateToProps = (state) =>{
+    return {
+        usuarioLogueado : state.authReducer.usuarioLogueado
+    }
+}
+const mapDispatchToProps = {
+    logueoForzadoPorLS: authActions.logueoForzadoPorLS
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);

@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const bcryptsjs = require('bcryptjs')
 
+
 const userControllers = {
     crearUsuario: async (req,res)=>{
         let {email,contrasena} = req.body;

@@ -35,9 +35,10 @@ const Cajon = ({variante,abierto,abrirCerrarDrawer})=>{
         
         <div className ={misEstilos.navBarBottonMargin}></div>
         <Divider />
-         <ListaMobile />
+         <ListaMobile cerrarDrawer = {abrirCerrarDrawer} />
         </Drawer>
     );
-
 }
+
+
 export default Cajon ;

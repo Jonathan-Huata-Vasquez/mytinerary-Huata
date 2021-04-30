@@ -13,7 +13,9 @@ import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom'
 import axios from 'axios';
-import {endpointUserSignUp} from '../helpers/endpoints'
+import authActions from '../redux/actions/authActions'
+import {connect} from 'react-redux'
+
 const estilos = ({
     inputEstilo: {
         width: "80%",
@@ -83,17 +85,12 @@ class SignUp extends React.Component {
     enviar(){
         let {email,contrasena} = this.state.valoresInputs
         let hayCamposVacios = false;
-        
         if(email === "" || contrasena === "") hayCamposVacios = true;
-        
         if(hayCamposVacios ){
             console.log("Hay campos vacios")
             return null;
         }
-        axios.post(endpointUserSignUp,this.state.valoresInputs)
-        .then(res => {
-            console.log(res.data)
-        })
+        this.props.crearUsuario(this.state.valoresInputs);
     }
 
     render() {
@@ -203,7 +200,11 @@ class SignUp extends React.Component {
     }
 }
 
-export default withStyles(estilos)(SignUp)
+const mapDispatchToProps ={
+    crearUsuario: authActions.crearUsuario
+}
+
+export default  connect(null,mapDispatchToProps)(withStyles(estilos)(SignUp))
 
 /*
 
