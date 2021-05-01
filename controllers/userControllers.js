@@ -50,14 +50,11 @@ const userControllers = {
             if (existeUsuario) {
                 const claveEsIgual = bcryptsjs.compareSync(contrasena, existeUsuario.contrasena)
                 if(claveEsIgual){
-
                     respuesta = jwToken.sign({...existeUsuario},process.env.SECRET_OR_KEY)
                     usuarioAvatar = existeUsuario.usuarioAvatar;
                 }else{
                     error = "Please provide a valid username and password (pass)"  
                 }
-                  
-                
             } else {
                 error = "Please provide a valid username and password (email)"
             }
@@ -70,6 +67,9 @@ const userControllers = {
             usuarioAvatar,
             error
         })
+    },
+    loginForzado : (req,res) => {
+        res.json({success:true, respuesta: req.user.usuarioAvatar})
     }
 }
 

@@ -1,4 +1,4 @@
-import { endpointUserLogIn, endpointUserSignUp } from '../../helpers/endpoints'
+import { endpointUserLogIn, endpointUserSignUp, endpointUserLogInToken } from '../../helpers/endpoints'
 import axios from 'axios';
 
 const authActions = {
@@ -25,10 +25,23 @@ const authActions = {
             dispatch({ type: "LOGUEAR_USER", payload: data })
         }
     },
-    
-    logueoForzadoPorLS: (usuarioLS)=>{
-        return (dispatch,getState)=>{
-            dispatch({type:"LOGUEAR_USER",payload:usuarioLS});
+
+    logueoForzadoPorLS: (token)=>{
+        return async (dispatch,getState)=>{
+            try {
+                const {data} = await axios.get(endpointUserLogInToken,{
+                    headers:{'Authorization': 'Bearer '+token}
+                })
+                dispatch({type:"LOGUEAR_USER",payload: {
+                    token,
+                    usuarioAvatar:data.respuesta
+                }});
+            } 
+            catch (error) {
+                if(error.response.status === 401){
+                    alert("try harder next time")
+                }
+            }
         }
     },
     desloguearUsuario: () => {

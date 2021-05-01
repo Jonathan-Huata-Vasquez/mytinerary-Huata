@@ -4,15 +4,12 @@ const express = require('express');
 const router = express.Router();
 const citiesControllers = require('../controllers/citiesControllers');
 const itinerariesControllers = require('../controllers/itinerariesControllers');
-const validador = require('../config/validador')
 const userControllers = require('../controllers/userControllers')
+const passport = require('passport')
+
+
 const {obtenerTodasLasCiudades,agregarCiudad,obtenerCiudad,borrarCiudad,actualizarCiudad,
     obtenerJSONCiudadesIniciales,agregarArrayCiudades} = citiesControllers;
-
-const {validadorCampoVacio} = validador;
-
-
-
 
 /*cuando te hagan un pedido a /api/tareas , si es tipo GET ejecuta este controlador, 
 sino si es POST ejecuta el controlador....*/
@@ -43,8 +40,8 @@ router.route('/itineraries/:id')
 router.route('/itineraries/city/:id')
 .get(obtenerItinerarioPorCiudad)
 
-//------------------------------------
-const {crearUsuario,loguearUsuario} = userControllers;
+//---------------Usuario---------
+const {crearUsuario,loguearUsuario,loginForzado} = userControllers;
 
 router.route('/user/signup')
 .post(crearUsuario)
@@ -52,7 +49,10 @@ router.route('/user/signup')
 router.route("/user/login")
 .post(loguearUsuario)
 
+//------------ValidacionToken---------
 
+router.route('/user/loginLS')
+.get(passport.authenticate('jwt',{session:false}),loginForzado)
 
 
 

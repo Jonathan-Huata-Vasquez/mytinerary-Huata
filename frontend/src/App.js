@@ -16,11 +16,9 @@ import authActions from './redux/actions/authActions.js';
 class App extends React.Component {
  
     render() {
-        const usuarioLogueadoLS = localStorage.getItem("usuarioLogueado");
-        if(!this.props.usuarioLogueado && usuarioLogueadoLS && usuarioLogueadoLS !== "undefined"){
-            const token = JSON.parse(localStorage.getItem("token"))
-            const usuarioAvatar = JSON.parse(usuarioLogueadoLS);
-            this.props.logueoForzadoPorLS({token,usuarioAvatar})
+        const token = localStorage.getItem("token");
+        if(!this.props.usuarioLogueado && token && token !== "undefined"){
+            this.props.logueoForzadoPorLS(JSON.parse(token))
         }
 
         return (

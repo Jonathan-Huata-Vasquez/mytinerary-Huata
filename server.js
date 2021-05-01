@@ -3,7 +3,7 @@ require('./config/database');
 const express = require(`express`);
 const cors = require(`cors`);
 const router = require('./routes/index');
-
+require('./config/passport')
 
 
 const app = express();
