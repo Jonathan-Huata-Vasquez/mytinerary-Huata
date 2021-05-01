@@ -447,3 +447,12 @@ span.hashtags{
     text-decoration: underline;
     color: rgb(116 204 223);
 }
+.btnGoogle{
+    background-color: #343a40 !important;
+    color: white;
+    transition: transform 0.25s;
+}
+.btnGoogle:hover{
+    background-color: #01579b;
+    transform: scale(1.1);
+}
