@@ -6,9 +6,8 @@ const authActions = {
         return async (dispatch, getState) => {
             try {
                 const { data } = await axios.post(endpointUserSignUp, valoresInputs)
-                console.log(data)
                 if (!data.success){
-                    return data.errores;
+                    return data.errores;    
                 }
                 dispatch({ type: "LOGUEAR_USER", payload: data })
             } 
@@ -23,7 +22,6 @@ const authActions = {
             const { email, contrasena } = usuario;
             const { data } = await axios.post(endpointUserLogIn, { email, contrasena })
             if (!data.success) {
-                console.log(data.error);
                 return data.error;
             }
             dispatch({ type: "LOGUEAR_USER", payload: data })
@@ -42,7 +40,9 @@ const authActions = {
                 }});
             } 
             catch (error) {
-                if(error.response.status === 401){
+                alert("Error 500 , please come back later")
+                //console.log(error.response)
+                if(error.response && error.response.status === 401){
                     alert("try harder next time")
                 }
             }

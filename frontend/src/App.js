@@ -13,6 +13,8 @@ import Footer from './components/Footer.js';
 import ScrollToTop from './components/ScrollToTop'
 import {connect} from 'react-redux'
 import authActions from './redux/actions/authActions.js';
+
+
 class App extends React.Component {
  
     render() {
@@ -20,6 +22,10 @@ class App extends React.Component {
         if(!this.props.usuarioLogueado && token && token !== "undefined"){
             this.props.logueoForzadoPorLS(JSON.parse(token))
         }
+
+        /*if(!this.props.usuarioLogueado && token && token !== "undefined"){
+            return <CircularProgress />;
+        }*/
 
         return (
             <BrowserRouter>

@@ -20,6 +20,8 @@ import axios from 'axios';
 import authActions from '../redux/actions/authActions'
 import { connect } from 'react-redux'
 import GoogleLogin from 'react-google-login';
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const estilos = ({
     inputEstilo: {
@@ -60,7 +62,6 @@ class SignUp extends React.Component {
             contrasena: "",
             usuarioAvatar: "",
         }
-
     }
 
     iterableSetError(propiedad, valor){
@@ -119,7 +120,6 @@ class SignUp extends React.Component {
                     this.iterableSetError(campo,"")
                 }
             })
-            console.log(this.state.error)
             if (hayCamposVacios) return null;
         }
 
@@ -128,14 +128,25 @@ class SignUp extends React.Component {
             ...objUsuario,
             nombre: objUsuario.nombre.trim(),
             apellido: objUsuario.apellido.trim()
-        });
+        },conGoogle);
+
 
         if(errores){
-            errores.forEach(unError=>{
-                this.iterableSetError(unError.label,unError.message)
-            })
-            
-            console.log(this.state)
+            if(conGoogle){
+                toast.error(errores[0].message, {
+                    position: "top-right",
+                    autoClose: 3500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }else{
+                errores.forEach(unError=>{
+                    this.iterableSetError(unError.label,unError.message)
+                })
+            }
         }
     }
     respuestaGoogle(response){
@@ -168,6 +179,7 @@ class SignUp extends React.Component {
 
         return (
             <div className="contenedorSignUp">
+                 <ToastContainer/>
                 <h2>Create your account</h2>
                 <div className="contenedorFormularioBtnGoogle">
                     
@@ -233,6 +245,7 @@ class SignUp extends React.Component {
                         >
                             <InputLabel>Password</InputLabel>
                             <OutlinedInput
+                                autoComplete="off"
                                 name="contrasena"
                                 type={this.state.visibleContrasena ? 'text' : 'password'}
                                 value={this.state.valoresInputs.contrasena}
@@ -284,6 +297,7 @@ class SignUp extends React.Component {
                         <h4><Link to="/login" className="callToActionFormulario">Log in now</Link></h4>
                     </form>
                 </div>
+                
             </div>
         )
     }

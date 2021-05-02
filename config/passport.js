@@ -25,7 +25,7 @@ module.exports = passport.use(new jwtStrategy({
         }
     })
     .catch(error => { //en caso de que no haya comunicaicon con la BD
-        console.log("hubo un error en la BD")
+        console.log("hubo un error en la comunicacion con la BD")
         return done(error,false)
     })
 }))
