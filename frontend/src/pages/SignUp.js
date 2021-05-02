@@ -89,10 +89,14 @@ class SignUp extends React.Component {
             if (email === "" || contrasena === "") hayCamposVacios = true;
             if (hayCamposVacios) {
                 console.log("Hay campos vacios")
-            return null;
+                return null;
             }
         }
-        this.props.crearUsuario(objUsuario);
+        this.props.crearUsuario({
+            ...objUsuario,
+            //nombre: objUsuario.nombre.trim(),
+            apellido: objUsuario.apellido.trim()
+        });
     }
     respuestaGoogle(response){
         if(!response.profileObj){//en caso de que el usuario cierre el popup
@@ -210,6 +214,7 @@ class SignUp extends React.Component {
                                 value={this.state.valoresInputs.pais}
                                 onChange={(e) => this.leerInput(e)}
                             >
+                                <MenuItem  value={""}>...</MenuItem>
                                 {this.state.paises.map(pais => {
                                     return <MenuItem key={pais} value={pais}>{pais}</MenuItem>
                                 })}

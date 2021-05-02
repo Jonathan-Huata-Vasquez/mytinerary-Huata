@@ -85,11 +85,7 @@ class LogIn extends React.Component {
                 return null;
             }
         }
-        const error = await this.props.loguearUsuario({
-            ...objUsuario,
-            nombre: objUsuario.trim(),
-            apellido: objUsuario.trim()
-        })
+        const error = await this.props.loguearUsuario(objUsuario)
         if(error){
             this.setState({
                 ...this.state,

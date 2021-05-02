@@ -12,7 +12,6 @@ para desencriptar el token se necesita la frase de seguridad
 const userControllers = {
     crearUsuario: async (req, res) => {
         let { email, contrasena } = req.body;
-        console.log(req)
         let respuesta, error;
         let usuarioAvatar;
         try {
