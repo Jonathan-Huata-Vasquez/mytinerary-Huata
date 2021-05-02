@@ -6,9 +6,9 @@ const authActions = {
         return async (dispatch, getState) => {
             try {
                 const { data } = await axios.post(endpointUserSignUp, valoresInputs)
+                console.log(data)
                 if (!data.success){
-                    console.log(data)
-                    return null;
+                    return data.errores;
                 }
                 dispatch({ type: "LOGUEAR_USER", payload: data })
             } 

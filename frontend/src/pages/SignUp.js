@@ -40,7 +40,6 @@ const estilos = ({
 
 class SignUp extends React.Component {
 
-
     state = {
         loading: true,
         errorPaises500: false,
@@ -63,8 +62,19 @@ class SignUp extends React.Component {
         }
 
     }
-    
 
+    iterableSetError(propiedad, valor){
+        //setState(updater, [callback])
+        // La salida del updater se fusiona de forma superficial (shallow) con state.
+        this.setState(estadoActual =>{
+            return {
+                error: {
+                    ...estadoActual.error,
+                    [propiedad]:valor
+                }
+            }
+        })
+    }
     componentDidMount() {
         axios.get("https://restcountries.eu/rest/v2/all")
             .then(res => this.setState({
@@ -96,38 +106,37 @@ class SignUp extends React.Component {
         })
     }
 
-    enviar(objUsuario,conGoogle = false) {
+   async enviar(objUsuario,conGoogle = false) {
         if(!conGoogle){
             let campos = ["nombre","apellido","email","contrasena","usuarioAvatar"]
             let hayCamposVacios = false;
-            let error = {}
+            
             campos.forEach(campo =>{
-                console.log(this.state.valoresInputs[campo])
-                if(this.state.valoresInputs[campo] === ""){
+                if(objUsuario[campo] === ""){
                     hayCamposVacios = true;
-                    error[campo] = "This field is required"
+                    this.iterableSetError(campo,"This field is required")
                 }else{
-                    console.log("entra en false")
-                    error[campo] = ""
+                    this.iterableSetError(campo,"")
                 }
-                
-            })
-            this.setState({
-                ...this.state,
-                error
             })
             console.log(this.state.error)
-            if (hayCamposVacios) {
-                console.log("Hay campos vacios")
-                return null;
-            }
+            if (hayCamposVacios) return null;
         }
 
-        this.props.crearUsuario({
+        //Veo si hay erroes del backend
+        let errores = await this.props.crearUsuario({
             ...objUsuario,
             nombre: objUsuario.nombre.trim(),
             apellido: objUsuario.apellido.trim()
         });
+
+        if(errores){
+            errores.forEach(unError=>{
+                this.iterableSetError(unError.label,unError.message)
+            })
+            
+            console.log(this.state)
+        }
     }
     respuestaGoogle(response){
         if(!response.profileObj){//en caso de que el usuario cierre el popup

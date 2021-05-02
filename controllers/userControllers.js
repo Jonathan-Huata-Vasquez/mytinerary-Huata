@@ -12,7 +12,7 @@ para desencriptar el token se necesita la frase de seguridad
 const userControllers = {
     crearUsuario: async (req, res) => {
         let { email, contrasena } = req.body;
-        let respuesta, error;
+        let respuesta, errores;
         let usuarioAvatar;
         try {
             let emailExiste = await User.findOne({ email });
@@ -24,17 +24,24 @@ const userControllers = {
                 usuarioAvatar = nuevoUsuario.usuarioAvatar;
                 respuesta = token;
             } else {
-                error = "El email ya existe";
+                errores = [{
+                    message:"This email is already in use, choose another",
+                    label:"email"
+                }];
             }
         } catch (error) {
-            error = "Hubo un error al querer agregar el usuario, reintente";
+            console.log(error)
+            errores = [{
+                message:"Error BD",
+                label:""
+            }];
         }
 
         res.json({
-            success: !error ? true : false,
+            success: !errores ? true : false,
             token: respuesta,
             usuarioAvatar,
-            error: error
+            errores
         })
     },
 

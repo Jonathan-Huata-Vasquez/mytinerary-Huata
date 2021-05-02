@@ -6,24 +6,24 @@ const validador = (req,res,next) => {
     const esquema = Joi.object({
         nombre: Joi.string().min(2).max(25).required().pattern(new RegExp('[a-zA-Z]$'))
         .messages({
-            "string.base": "your First name must not have numbers or special characters",
+            "string.pattern.base": "your First name must not have numbers or special characters",
             "string.min": "requires at least 2 characters",
             "string.max": "maximum characters exceeded (25)",
         }),
 
-
+//   (/(?=.*\d)(?=.*[A-z])/)
         apellido: Joi.string().min(2).max(25).required().pattern(new RegExp('[a-zA-Z]$'))
         .messages({
             "string.base": "your Last name must not have numbers or special characters",
             "string.min": "requires at least 2 characters",
             "string.max": "maximum characters exceeded (25)",
         }),
-        email: Joi.string().required().email().
-        messages({
+        email: Joi.string().required().email()
+        .messages({
             "string.email": "Please provide a valid email address. Por ejemplo test@example.com"
         }),
         contrasena: Joi.string().min(6).required().pattern(new RegExp('[a-zA-Z0-9]$'))
-        .menssages({
+        .messages({
             "string.base": "your password must not have special characters",
             "string.min": "requires at least 6 characters",
         }),
@@ -39,9 +39,14 @@ const validador = (req,res,next) => {
     
     //Respuesta al next
     console.log(validacion.error)
-
+    
+    
     if(validacion.error){
-        return res.json({success:false,errores:validacion.error})
+        const respuestaErrores = [] 
+        validacion.error.details.forEach(error => {
+            respuestaErrores.push({message:error.message,label: error.context.label})
+        })
+        return res.json({success:false,errores:respuestaErrores})
     }
     
     next();//si no pongo esto , el controlador , que esta como 2do parametro de route.verboHTML() , no se va a ejecutar
