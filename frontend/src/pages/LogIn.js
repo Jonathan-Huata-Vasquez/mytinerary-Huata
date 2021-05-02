@@ -43,6 +43,13 @@ class LogIn extends React.Component {
         },
         error:""
     }
+    setError(unError){
+        this.setState({
+            ...this.state,
+            error:unError
+        })
+    }
+
     leerInput(e) {
         this.setState({
             ...this.state,
@@ -70,28 +77,22 @@ class LogIn extends React.Component {
         }, true)
     }
 
+    
+
     async enviar(objUsuario, conGoogle = false) {
-        this.setState({
-            ...this.state,
-            error:""
-        })
+        this.setError("");
         if (!conGoogle) {
             const { email, contrasena } = this.state.valoresInputs;
             if (email === "" || contrasena === "") {
-                this.setState({
-                    ...this.state,
-                    error : "All the fields must be filled"
-                })
+                this.setError("All the fields must be filled")
                 return null;
             }
         }
+        
         const error = await this.props.loguearUsuario(objUsuario)
-        if(error){
-            this.setState({
-                ...this.state,
-                error 
-            })
-        }
+        if(error)   
+            this.setError(error);
+        
     }
 
     render() {

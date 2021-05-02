@@ -28,8 +28,8 @@ const validador = (req,res,next) => {
             "string.min": "requires at least 6 characters",
         }),
         usuarioAvatar: Joi.string().required(),
-        
-        pais: Joi.string().allow('')
+
+        pais: Joi.string().allow('').required(),
     });
 
     //La verificacion

@@ -1,4 +1,6 @@
 import React from 'react'
+
+//material-ui
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -8,9 +10,11 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
+import FormHelperText from '@material-ui/core/FormHelperText';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import authActions from '../redux/actions/authActions'
@@ -49,8 +53,17 @@ class SignUp extends React.Component {
             contrasena: "",
             usuarioAvatar: "",
             pais: ""
+        },
+        error:{
+            nombre: "",
+            apellido: "",
+            email: "",
+            contrasena: "",
+            usuarioAvatar: "",
         }
+
     }
+    
 
     componentDidMount() {
         axios.get("https://restcountries.eu/rest/v2/all")
@@ -82,19 +95,37 @@ class SignUp extends React.Component {
             }
         })
     }
+
     enviar(objUsuario,conGoogle = false) {
         if(!conGoogle){
-            let { email, contrasena } = objUsuario
+            let campos = ["nombre","apellido","email","contrasena","usuarioAvatar"]
             let hayCamposVacios = false;
-            if (email === "" || contrasena === "") hayCamposVacios = true;
+            let error = {}
+            campos.forEach(campo =>{
+                console.log(this.state.valoresInputs[campo])
+                if(this.state.valoresInputs[campo] === ""){
+                    hayCamposVacios = true;
+                    error[campo] = "This field is required"
+                }else{
+                    console.log("entra en false")
+                    error[campo] = ""
+                }
+                
+            })
+            this.setState({
+                ...this.state,
+                error
+            })
+            console.log(this.state.error)
             if (hayCamposVacios) {
                 console.log("Hay campos vacios")
                 return null;
             }
         }
+
         this.props.crearUsuario({
             ...objUsuario,
-            //nombre: objUsuario.nombre.trim(),
+            nombre: objUsuario.nombre.trim(),
             apellido: objUsuario.apellido.trim()
         });
     }
@@ -144,7 +175,9 @@ class SignUp extends React.Component {
                                 className={misEstilos.btnGoogle}
                                 variant="contained"
                                 startIcon={<svg width="18" height="18" xmlns="http://www.w3.org/2000/svg"><g fill="#000" fillRule="evenodd"><path d="M9 3.48c1.69 0 2.83.73 3.48 1.34l2.54-2.48C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.96l2.91 2.26C4.6 5.05 6.62 3.48 9 3.48z" fill="#EA4335"></path><path d="M17.64 9.2c0-.74-.06-1.28-.19-1.84H9v3.34h4.96c-.1.83-.64 2.08-1.84 2.92l2.84 2.2c1.7-1.57 2.68-3.88 2.68-6.62z" fill="#4285F4"></path><path d="M3.88 10.78A5.54 5.54 0 0 1 3.58 9c0-.62.11-1.22.29-1.78L.96 4.96A9.008 9.008 0 0 0 0 9c0 1.45.35 2.82.96 4.04l2.92-2.26z" fill="#FBBC05"></path><path d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.84-2.2c-.76.53-1.78.9-3.12.9-2.38 0-4.4-1.57-5.12-3.74L.97 13.04C2.45 15.98 5.48 18 9 18z" fill="#34A853"></path><path fill="none" d="M0 0h18v18H0z"></path></g></svg>}
-                        >  Sign up with Google  </Button>    
+                            >  
+                                Sign up with Google  
+                            </Button>    
                         )}
                     />
 
@@ -155,14 +188,18 @@ class SignUp extends React.Component {
                     <form className="formulario">
 
                         <TextField
+                            error = {this.state.error.nombre === "" ? false:true}
                             name="nombre"
                             label="First name"
                             variant="outlined"
                             className={misEstilos.inputEstilo}
                             onChange={(e) => this.leerInput(e)}
                             value={this.state.valoresInputs.nombre}
+                            helperText= {this.state.error.nombre}
                         />
                         <TextField
+                            error = {this.state.error.apellido === "" ? false:true}
+                            helperText= {this.state.error.apellido}
                             name="apellido"
                             label="Last name"
                             variant="outlined"
@@ -171,6 +208,8 @@ class SignUp extends React.Component {
                             className={misEstilos.inputEstilo}
                         />
                         <TextField
+                            error = {this.state.error.email === "" ? false:true}
+                            helperText= {this.state.error.email}
                             name="email"
                             label="Email"
                             variant="outlined"
@@ -178,7 +217,11 @@ class SignUp extends React.Component {
                             value={this.state.valoresInputs.email}
                             className={misEstilos.inputEstilo}
                         />
-                        <FormControl variant="outlined" className={misEstilos.inputEstilo}>
+                        <FormControl 
+                            variant="outlined" 
+                            className={misEstilos.inputEstilo} 
+                            error = {this.state.error.contrasena === "" ? false:true}
+                        >
                             <InputLabel>Password</InputLabel>
                             <OutlinedInput
                                 name="contrasena"
@@ -197,8 +240,11 @@ class SignUp extends React.Component {
                                 }
                                 labelWidth={70} //el ancho del label cuando esta focuseado
                             />
+                            <FormHelperText id="component-error-text">{this.state.error.contrasena}</FormHelperText>
                         </FormControl>
                         <TextField
+                            error = {this.state.error.usuarioAvatar === "" ? false:true}
+                            helperText= {this.state.error.usuarioAvatar}
                             name="usuarioAvatar"
                             label="Enter the URL of your picture"
                             variant="outlined"
