@@ -31,7 +31,6 @@ const userControllers = {
             error = "Hubo un error al querer agregar el usuario, reintente";
         }
 
-
         res.json({
             success: !error ? true : false,
             token: respuesta,
@@ -42,7 +41,7 @@ const userControllers = {
 
     loguearUsuario: async (req, res) => {
         let { email, contrasena } = req.body;
-        let respuesta, error;
+        let respuesta, error,usuarioAvatar;
         try {
             let existeUsuario = await User.findOne({ email })
 
@@ -52,10 +51,10 @@ const userControllers = {
                     respuesta = jwToken.sign({...existeUsuario},process.env.SECRET_OR_KEY)
                     usuarioAvatar = existeUsuario.usuarioAvatar;
                 }else{
-                    error = "Please provide a valid username and password (pass)"  
+                    error = "Please provide a valid email and password (pass)"  
                 }
             } else {
-                error = "Please provide a valid username and password (email)"
+                error = "Please provide a valid email and password "
             }
         } catch {
             error = "Hubo un error al querer loguear el usuario, reintente"

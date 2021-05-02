@@ -6,7 +6,7 @@ const citiesControllers = require('../controllers/citiesControllers');
 const itinerariesControllers = require('../controllers/itinerariesControllers');
 const userControllers = require('../controllers/userControllers')
 const passport = require('passport')
-
+const validador = require('../config/validador')
 
 const {obtenerTodasLasCiudades,agregarCiudad,obtenerCiudad,borrarCiudad,actualizarCiudad,
     obtenerJSONCiudadesIniciales,agregarArrayCiudades} = citiesControllers;
@@ -44,7 +44,7 @@ router.route('/itineraries/city/:id')
 const {crearUsuario,loguearUsuario,loginForzado} = userControllers;
 
 router.route('/user/signup')
-.post(crearUsuario)
+.post(validador,crearUsuario)
 
 router.route("/user/login")
 .post(loguearUsuario)

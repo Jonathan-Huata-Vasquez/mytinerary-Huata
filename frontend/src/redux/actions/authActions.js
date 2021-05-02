@@ -6,10 +6,13 @@ const authActions = {
         return async (dispatch, getState) => {
             try {
                 const { data } = await axios.post(endpointUserSignUp, valoresInputs)
-                if (!data.success)
-                    console.log(data.error)
+                if (!data.success){
+                    console.log(data)
+                    return null;
+                }
                 dispatch({ type: "LOGUEAR_USER", payload: data })
-            } catch (e) {
+            } 
+            catch (e) {
                 console.log(e);
             }
 
@@ -20,7 +23,8 @@ const authActions = {
             const { email, contrasena } = usuario;
             const { data } = await axios.post(endpointUserLogIn, { email, contrasena })
             if (!data.success) {
-                return console.log(data.error);
+                console.log(data.error);
+                return data.error;
             }
             dispatch({ type: "LOGUEAR_USER", payload: data })
         }
