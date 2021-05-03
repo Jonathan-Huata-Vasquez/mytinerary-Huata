@@ -19,6 +19,7 @@ class App extends React.Component {
  
     render() {
         const token = localStorage.getItem("token");
+        //veo que no haya en el store un usuario logueado y que haya un token en el localStorage
         if(!this.props.usuarioLogueado && token && token !== "undefined"){
             this.props.logueoForzadoPorLS(JSON.parse(token))
         }

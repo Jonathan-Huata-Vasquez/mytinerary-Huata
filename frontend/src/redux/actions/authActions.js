@@ -11,16 +11,17 @@ const authActions = {
                 }
                 dispatch({ type: "LOGUEAR_USER", payload: data })
             } 
-            catch (e) {
+            catch (e) {//error en la comunicacion con el backend
                 console.log(e);
+                alert("Error 500 , please come back later")
             }
 
         }
     },
     loguearUsuario: (usuario) => {
         return async (dispatch, getState) => {
-            const { email, contrasena } = usuario;
-            const { data } = await axios.post(endpointUserLogIn, { email, contrasena })
+            //obtengo respuesta y la destructuro
+            const { data } = await axios.post(endpointUserLogIn, usuario)
             if (!data.success) {
                 return data.error;
             }

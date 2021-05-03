@@ -91,6 +91,7 @@ class LogIn extends React.Component {
             }
         }
 
+        //Envio los datos y en caso de errores de validaciones, lo trato
         const error = await this.props.loguearUsuario(objUsuario)
         if (!error)
             return null

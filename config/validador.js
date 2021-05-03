@@ -11,10 +11,10 @@ const validador = (req,res,next) => {
             "string.max": "maximum characters exceeded (25)",
         }),
 
-//   (/(?=.*\d)(?=.*[A-z])/)
+
         apellido: Joi.string().min(2).max(25).required().pattern(new RegExp(/^[a-z ']{2,}$/i))
         .messages({
-            "string.base": "your Last name must not have numbers or special characters",
+            "string.pattern.base": "your Last name must not have numbers or special characters",
             "string.min": "requires at least 2 letters",
             "string.max": "maximum characters exceeded (25)",
         }),

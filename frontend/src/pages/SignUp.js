@@ -142,17 +142,16 @@ class SignUp extends React.Component {
                     draggable: true,
                     progress: undefined,
                 });
-            }else{
-                errores.forEach(unError=>{
-                    this.iterableSetError(unError.label,unError.message)
-                })
+            }
+            else{
+                errores.forEach(unError=> this.iterableSetError(unError.label,unError.message))
             }
         }
     }
     respuestaGoogle(response){
-        if(!response.profileObj){//en caso de que el usuario cierre el popup
-            return null;
-        }
+        //en caso de que el usuario cierre el popup
+        if(!response.profileObj) return null;
+        
         const usuarioGoogle = response.profileObj
         this.enviar({
             nombre: usuarioGoogle.givenName,
@@ -169,9 +168,9 @@ class SignUp extends React.Component {
         if (this.state.loading) {
             return (
                 <div className="contenedorSignUp">
-                    {this.state.errorPaises500 ?
-                        <h1>Ups, please reload the page</h1> :
-                        <h1>Loading...</h1>
+                    {this.state.errorPaises500 
+                    ?<h1>Ups, please reload the page</h1> 
+                    :<h1>Loading...</h1>
                     }
                 </div>
             )
