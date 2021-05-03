@@ -25,7 +25,10 @@ const authActions = {
             if (!data.success) {
                 return data.error;
             }
-            dispatch({ type: "LOGUEAR_USER", payload: data })
+            dispatch({ type: "LOGUEAR_USER", payload: {
+                token:data.token,
+                usuarioAvatar:data.usuarioAvatar
+            }})
         }
     },
 

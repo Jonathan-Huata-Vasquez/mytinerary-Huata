@@ -8,6 +8,7 @@ const authReducer = (state = inicialState, action) =>{
             localStorage.setItem("token",JSON.stringify(action.payload.token));
             return {
                 ...state,
+                //guardo el token y la foto en el store
                 usuarioLogueado : action.payload  
             };
         case "DESLOGUEAR_USER":
