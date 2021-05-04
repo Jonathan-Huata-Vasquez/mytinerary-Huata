@@ -13,16 +13,18 @@ const userControllers = {
     crearUsuario: async (req, res) => {
         let { email, contrasena } = req.body;
         let respuesta, errores;
-        let usuarioAvatar;
         try {
             let emailExiste = await User.findOne({ email });
             if (!emailExiste) {
                 contrasena = bcryptsjs.hashSync(contrasena, 10);
                 let nuevoUsuario = new User({ ...req.body, contrasena });
                 await nuevoUsuario.save();
-                const token = jwToken.sign({ ...nuevoUsuario }, process.env.SECRET_OR_KEY);
-                usuarioAvatar = nuevoUsuario.usuarioAvatar;
-                respuesta = token;
+                
+                respuesta = {
+                    nombreCompleto : nuevoUsuario.nombre + nuevoUsuario.apellido,
+                    usuarioAvatar : nuevoUsuario.usuarioAvatar,
+                    token:  jwToken.sign({ ...nuevoUsuario }, process.env.SECRET_OR_KEY)
+                }
             } else {
                 errores = [{
                     message:"This email is already in use, choose another",
@@ -39,36 +41,39 @@ const userControllers = {
 
         res.json({
             success: !errores ? true : false,
-            token: respuesta,
-            usuarioAvatar,
+            respuesta,
             errores
         })
     },
 
     loguearUsuario: async (req, res) => {
         let { email, contrasena } = req.body;
-        let respuesta, error,usuarioAvatar;
+        let respuesta, error;
         try {
             let existeUsuario = await User.findOne({ email })
 
             if (existeUsuario) {
                 const claveEsIgual = bcryptsjs.compareSync(contrasena, existeUsuario.contrasena)
                 if(claveEsIgual){
-                    respuesta = jwToken.sign({...existeUsuario},process.env.SECRET_OR_KEY)
-                    usuarioAvatar = existeUsuario.usuarioAvatar;
+                    respuesta = {
+                        nombreCompleto : existeUsuario.nombre +" "+existeUsuario.apellido,
+                        usuarioAvatar : existeUsuario.usuarioAvatar,
+                        token  : jwToken.sign({...existeUsuario},process.env.SECRET_OR_KEY),
+                    }
+                    
                 }else{
-                    error = "Please provide a valid email and password (pass)"  
+                    error = "Please provide a valid email and password "  
                 }
             } else {
                 error = "Please provide a valid email and password "
             }
-        } catch {
+        } catch(e) {
+            console.log(e)
             error = "Hubo un error al querer loguear el usuario, reintente"
         }
         res.json({
             success: !error ? true : false,
-            token: respuesta,
-            usuarioAvatar,
+            respuesta,
             error
         })
     },

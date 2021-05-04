@@ -1,6 +1,6 @@
 import { endpointUserLogIn, endpointUserSignUp, endpointUserLogInToken } from '../../helpers/endpoints'
 import axios from 'axios';
-
+import {mostrarTostada} from '../../helpers/tostadas'
 const authActions = {
     crearUsuario: (valoresInputs) => {
         return async (dispatch, getState) => {
@@ -9,7 +9,8 @@ const authActions = {
                 if (!data.success){
                     return data.errores;    
                 }
-                dispatch({ type: "LOGUEAR_USER", payload: data })
+                mostrarTostada("success",`Welcome ${data.respuesta.nombreCompleto}` ,"top-right");
+                dispatch({ type: "LOGUEAR_USER", payload: data.respuesta })
             } 
             catch (e) {//error en la comunicacion con el backend
                 console.log(e);
@@ -25,10 +26,8 @@ const authActions = {
             if (!data.success) {
                 return data.error;
             }
-            dispatch({ type: "LOGUEAR_USER", payload: {
-                token:data.token,
-                usuarioAvatar:data.usuarioAvatar
-            }})
+            mostrarTostada("success",`Welcome ${data.respuesta.nombreCompleto}` ,"top-right");
+            dispatch({ type: "LOGUEAR_USER", payload: data.respuesta})
         }
     },
 
@@ -54,6 +53,7 @@ const authActions = {
     },
     desloguearUsuario: () => {
         return (dispatch, getState) => {
+            mostrarTostada("info","Come back later " ,"top-right");
             dispatch({ type: "DESLOGUEAR_USER" })
         }
     }

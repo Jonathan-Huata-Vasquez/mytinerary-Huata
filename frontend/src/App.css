@@ -1,3 +1,21 @@
+.Toastify__toast--success {
+    background-color: #43a047;
+    font-weight: bold;
+}
+.Toastify__toast-container--top-right {
+    margin-top: 8vh;
+    width: auto;
+    min-width: 18vw;
+    text-align: center;
+}
+.nombreUsuario{
+    background-color: rgba(0,0,0,.562);
+     color: white; 
+     width :auto; 
+     text-align: center;
+     font-size: 1.75em;
+}
+
 .errorContenedor{
     flex-grow: 1;
     display: flex;

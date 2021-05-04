@@ -20,8 +20,7 @@ import axios from 'axios';
 import authActions from '../redux/actions/authActions'
 import { connect } from 'react-redux'
 import GoogleLogin from 'react-google-login';
-import { toast,ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import {mostrarTostada} from '../helpers/tostadas'
 
 const estilos = ({
     inputEstilo: {
@@ -109,16 +108,13 @@ class SignUp extends React.Component {
 
    async enviar(objUsuario,conGoogle = false) {
         if(!conGoogle){
-            let campos = ["nombre","apellido","email","contrasena","usuarioAvatar"]
+            let campos = Object.keys(this.state.valoresInputs);
             let hayCamposVacios = false;
-            
+            //
             campos.forEach(campo =>{
-                if(objUsuario[campo] === ""){
-                    hayCamposVacios = true;
-                    this.iterableSetError(campo,"This field is required")
-                }else{
-                    this.iterableSetError(campo,"")
-                }
+                const estaVacio =  campo !=="pais" && objUsuario[campo] === "" ;
+                hayCamposVacios =  estaVacio ? true : hayCamposVacios;
+                this.iterableSetError(campo,estaVacio ? "This field is required" : "")
             })
             if (hayCamposVacios) return null;
         }
@@ -130,23 +126,15 @@ class SignUp extends React.Component {
             apellido: objUsuario.apellido.trim()
         },conGoogle);
 
-
         if(errores){
             if(conGoogle){
-                toast.error(errores[0].message, {
-                    position: "top-right",
-                    autoClose: 3500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                
+                mostrarTostada("error",errores[0].message,"top-right");
             }
             else{
                 errores.forEach(unError=> this.iterableSetError(unError.label,unError.message))
             }
-        }
+        }   
     }
     respuestaGoogle(response){
         //en caso de que el usuario cierre el popup
@@ -178,7 +166,6 @@ class SignUp extends React.Component {
 
         return (
             <div className="contenedorSignUp">
-                 <ToastContainer/>
                 <h2>Create your account</h2>
                 <div className="contenedorFormularioBtnGoogle">
                     

@@ -13,7 +13,7 @@ import Footer from './components/Footer.js';
 import ScrollToTop from './components/ScrollToTop'
 import {connect} from 'react-redux'
 import authActions from './redux/actions/authActions.js';
-
+import { ToastContainer } from 'react-toastify';
 
 class App extends React.Component {
  
@@ -30,6 +30,7 @@ class App extends React.Component {
 
         return (
             <BrowserRouter>
+                <ToastContainer/>
                 <ScrollToTop />
                 <div className="bg-dark text-white contenidoBody">
                     <Header />

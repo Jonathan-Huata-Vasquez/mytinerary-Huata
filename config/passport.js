@@ -19,9 +19,9 @@ module.exports = passport.use(new jwtStrategy({
     User.findById(payload._doc._id)
     .then( user => {
         if(user){
-            return done(null,user)
+            return done(null,user) //le pone en el req una propiedad user, con los datos del usuario
         }else{
-           return done(null,false)
+           return done(null,false) //el peticion se queda cin un error 401
         }
     })
     .catch(error => { //en caso de que no haya comunicaicon con la BD
@@ -31,10 +31,11 @@ module.exports = passport.use(new jwtStrategy({
 }))
 
 
-
-
-
 /*
+new Strategy
+    //1er parametro recibe en un objeto en el que le especificamos jwtFromRequest y secretOrKey , que es de donde saca el token y como lo va a tratar
+    //2do parametro :una funcion de callback se ejecuta despues de que intercepta el token, 
+    (payload,done) , payload es lo que va a tener los datos desencriptados
+    en nuestro caso verifica exista un usuario con el id que tiene encriptado el token
 
 */
-//tiene que verificar en la BD , si esta en la coleccion de usuarios

@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useEffect } from 'react';
 import CiudadesFiltradas from '../components/CiudadesFiltradas';
-import EsqueletoCiudadesFiltradas from '../components/EsqueletoCiudadesFiltradas';
+import EsqueletoCiudadesFiltradas from '../components/esqueletos/EsqueletoCiudadesFiltradas';
 import {connect} from 'react-redux';
 import citiesAction from '../redux/actions/citiesActions';
 import {Redirect} from 'react-router-dom';

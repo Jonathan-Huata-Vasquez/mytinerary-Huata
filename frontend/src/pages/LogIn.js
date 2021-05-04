@@ -84,8 +84,8 @@ class LogIn extends React.Component {
     async enviar(objUsuario, conGoogle = false) {
         this.setError("");
         if (!conGoogle) {
-            const { email, contrasena } = this.state.valoresInputs;
-            if (email === "" || contrasena === "") {
+            const valoresCampos = Object.values(this.state.valoresInputs) ;
+            if (valoresCampos.some(campo => campo === "")) {
                 this.setError("All the fields must be filled")
                 return null;
             }

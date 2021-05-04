@@ -2,7 +2,8 @@ const Joi = require('joi')
 
 
 const validador = (req,res,next) => {
-    //Esquema
+    //Creamos un esquema para que se use al validar lo que nos viene en el body
+    //un objeto que tiene como propiedad los nombres de los campos y como valor las validaciones que hace y sus mensajes de error
     const esquema = Joi.object({
         nombre: Joi.string().min(2).max(25).required().pattern(new RegExp(/^[a-z ']{2,}$/i))
         .messages({
@@ -35,13 +36,13 @@ const validador = (req,res,next) => {
     //La verificacion
     //usamos el esquema para validar lo que viene en el req.body
     //abortEarly es para que se dentenga al primer error que encuentre
+    //esquema.validate() retorna un objeto que entre las propiedades esta "error" que contendra detalles de los errores y sus menssages
     const validacion = esquema.validate(req.body,{abortEarly : false})
     
+    
     if(validacion.error){
-        const respuestaErrores = [] 
-        validacion.error.details.forEach(error => {
-            respuestaErrores.push({message:error.message,label: error.context.label})
-        })
+        const respuestaErrores = validacion.error.details.map(error => 
+            respuestaErrores.push({message:error.message,label: error.context.label}))
         return res.json({success:false,errores:respuestaErrores})
     }
     
@@ -51,3 +52,27 @@ const validador = (req,res,next) => {
     
 
 module.exports = validador;
+
+
+/*
+pattern - a pattern that can be either a regular expression or a joi schema 
+ it must begin with ^ and end with $
+*/
+//  /^[a-z ']{2,}$/i    acepta letras de a-z (y mayusculas gracias a la flag /i) y el apostrofe , 
+//                      como minimo tiene que tener 2 de esos caracteres
+
+// /(?=.*\d)(?=.*[A-z])/  
+
+/* 
+    (?=.*\d)
+    (?= ) requiere
+    * 0 o mas veces con el elemento anterior
+    .  Coincide con cualquier carácter único excepto terminadores de línea: \n, \r, \u2028 o \u2029
+    \d  Equivalente a [0-9]
+
+   (?=.*[A-z])
+   requiere 0 o mas veces que coincidad con cualquiera de los caracteres [A-z](salvo saltos de linea o tabulaciones) 
+
+
+   /(?=.*\d)(?=.*[A-z]){2,}/   si tuviera esto me obliga a poner 0 o mas digitos y 2 o mas 
+*/
