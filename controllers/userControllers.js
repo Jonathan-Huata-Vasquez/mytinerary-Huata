@@ -21,7 +21,7 @@ const userControllers = {
                 await nuevoUsuario.save();
                 
                 respuesta = {
-                    nombreCompleto : nuevoUsuario.nombre + nuevoUsuario.apellido,
+                    nombreCompleto : nuevoUsuario.nombre + " " +nuevoUsuario.apellido,
                     usuarioAvatar : nuevoUsuario.usuarioAvatar,
                     token:  jwToken.sign({ ...nuevoUsuario }, process.env.SECRET_OR_KEY)
                 }
@@ -78,7 +78,11 @@ const userControllers = {
         })
     },
     loginForzado : (req,res) => {
-        res.json({success:true, respuesta: req.user.usuarioAvatar})
+        respuesta = {
+            usuarioAvatar :req.user.usuarioAvatar,
+            nombreCompleto : `${req.user.nombre} ${req.user.apellido}`
+        }
+        res.json({success:true, respuesta })
     }
 }
 

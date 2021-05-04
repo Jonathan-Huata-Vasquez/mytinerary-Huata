@@ -8,10 +8,12 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux'
 import authActions from '../../redux/actions/authActions'
+import Hidden from '@material-ui/core/Hidden';
 
 const useStyle = makeStyles({
   menuDesplegable: {
-    marginTop: "35px",
+    marginTop: "2.5em",
+    
   }
 
 });
@@ -19,6 +21,8 @@ const useStyle = makeStyles({
 const BotonLogin = (props) => {
   const misEstilos = useStyle();
   const [menuAbierto, setMenuAbierto] = useState(false);
+
+
 
   // que un Handler es un "manejador", algo que es capaz de "recibir" un evento, un mensaje, etc y actuar en función al mismo.
   const handleClick = (event) => {
@@ -43,10 +47,15 @@ const BotonLogin = (props) => {
   
   
   return (
-    <div>
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} color="inherit">
+    <div className="portaNombreUsuarioAvatar">
+      <Hidden xsDown>
+        {usuarioLogueado && <div className="nombreUsuario">{usuarioLogueado.nombreCompleto}</div>}
+      </Hidden>      
+      
+      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} color="inherit" >
         <Avatar src={usuarioAvatar} />
         <ArrowDropDownIcon fontSize="large" />
+        
       </Button>
       <Menu className={misEstilos.menuDesplegable}
         id="simple-menu"
@@ -66,9 +75,7 @@ const BotonLogin = (props) => {
           ]
         )}
 
-        {usuarioLogueado && (
-          <MenuItem className="btnLoginLink" onClick={desloguearse}>Log out</MenuItem>
-        )}
+        {usuarioLogueado && ( <MenuItem className="btnLoginLink" onClick={desloguearse}>Log out</MenuItem> )}
       </Menu>
     </div>
   );

@@ -9,6 +9,8 @@ const useStyles = makeStyles(theme => ({
     },
     cajonPaper: {
         width :anchoCajon,
+        backgroundColor:"#343a40",
+        color:"white"
     },
     //para  que tenga un espaciado al principio del tamaño del nav
     navBarBottonMargin: theme.mixins.toolbar,

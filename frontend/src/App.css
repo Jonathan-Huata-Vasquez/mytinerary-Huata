@@ -8,12 +8,20 @@
     min-width: 18vw;
     text-align: center;
 }
+.portaNombreUsuarioAvatar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .nombreUsuario{
     background-color: rgba(0,0,0,.562);
      color: white; 
      width :auto; 
      text-align: center;
-     font-size: 1.75em;
+     font-size: 1.25em;
+     padding: 0 10px;
+     height: fit-content;
+     margin-right: 10px;
 }
 
 .errorContenedor{
@@ -150,6 +158,7 @@ footer div.social{
 .estilosLinkNavActive{
     color : #00ffff;
 }
+
 .estilosLinkFooter{
     text-decoration: none;
 }
@@ -164,9 +173,17 @@ div.estiloLogoNav{
 .btnLoginLink{
     color:black;
 }
+.btnMovilLoginLink{
+    color: white;    
+}
+
 .btnLoginLinkActive{
     color: dodgerblue;
 }
+.btnMovilLoginLinkActive{
+    color: #2ac6ff;
+}
+
 /*Slide*/
 .nombreCiudad{
     background-color: rgba(0,0,0,.562);

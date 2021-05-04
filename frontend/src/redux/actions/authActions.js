@@ -35,11 +35,11 @@ const authActions = {
         return async (dispatch,getState)=>{
             try {
                 const {data} = await axios.get(endpointUserLogInToken,{
-                    headers:{'Authorization': 'Bearer '+token}
+                    headers:{'Authorization': 'Bearer ' + token}
                 })
                 dispatch({type:"LOGUEAR_USER",payload: {
-                    token,
-                    usuarioAvatar:data.respuesta
+                    ...data.respuesta,
+                    token
                 }});
             } 
             catch (error) {

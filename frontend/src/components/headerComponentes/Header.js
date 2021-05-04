@@ -14,7 +14,7 @@ const Header = () => {
     return (
         <header>
             <NavBar abrirCerrarDrawer = {abrirCerrarDrawer}/>
-            <Hidden smUp>
+            <Hidden mdUp>
                 {/*la variante es el tipo que sera , temporary es para que se puede abrir y cerrar */}
                 <CajonListaMobile variante="temporary" abierto={abierto} abrirCerrarDrawer={abrirCerrarDrawer} />
             </Hidden>

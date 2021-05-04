@@ -34,11 +34,7 @@ const Itinerario = ({unItinerario}) => {
             aux.push(<div key= {i}>{componente}</div> )
         }
         return <>{aux}</>
-        /*
-        if(n === 0) return [];
-        let aux = crearNComponentes(n-1,componente)
-        aux.push(componente);
-        return aux;*/
+
     }
     
     return (

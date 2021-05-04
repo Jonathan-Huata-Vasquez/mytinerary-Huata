@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     menuHamburguesaBoton: {
         marginRight: theme.spacing(2),
         //devuelve una media query que se aplica para los menores a sm 600px
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
             display: 'none',
         }
     },
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 
         marginRight: theme.spacing(2),
         //devuelve una media query que se aplica para los mayores a sm 600px
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
             display: 'none',
         }
     },
