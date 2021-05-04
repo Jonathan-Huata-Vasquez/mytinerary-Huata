@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core'
 import { respuestaFetch, obtenerGruposCiudades } from '../helpers/ciudades.js'
-import MiCarousel from '../components/MiCarousel.js'
+import MiCarousel from '../components/carrousel/MiCarousel'
 
 import { Container, Row, Col, Button } from 'reactstrap';
 import { Link } from 'react-router-dom'
@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 const Home = (props) => {
     
 
-    let gruposCiudades = obtenerGruposCiudades(respuestaFetch);
+    let gruposCiudades = obtenerGruposCiudades(respuestaFetch,1);
 
     //esto es porque no logro poner el estilo del background-image del hero 
     const estiloBackgroundImagen = "linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)) , url(./assets/opcHero5.gif)"

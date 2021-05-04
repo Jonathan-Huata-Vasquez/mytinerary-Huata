@@ -15,17 +15,24 @@ export  const respuestaFetch = [
 
 
 
-export function obtenerGruposCiudades(ciudades){
-    const cantidadCiudadSlide = 4;
-    const ciudadesDeGrupo = [];
-    for(let i = 0; i < Math.ceil(ciudades.length/cantidadCiudadSlide); i++){
+export function obtenerGruposCiudades(ciudades,cantidadCiudadesSlide){
+     
+
+    /*for(let i = 0; i < Math.ceil(ciudades.length/cantidadCiudadesSlide); i++){
         ciudadesDeGrupo.push([])
+    }*/
+    let retorno = [];
+    for(let i = 0; i< ciudades.length; i += cantidadCiudadesSlide){
+        let unGrupo = ciudades.slice(i,i+ cantidadCiudadesSlide);
+        retorno.push(unGrupo)
     }
-    let indiceActualGrupo = 0;
+
+
+    /*let indiceActualGrupo = 0;
     ciudades.forEach(ciudad => {
-        if(ciudadesDeGrupo[indiceActualGrupo].length >= cantidadCiudadSlide)
+        if(ciudadesDeGrupo[indiceActualGrupo].length >= cantidadCiudadesSlide)
             indiceActualGrupo ++;
         ciudadesDeGrupo[indiceActualGrupo].push(ciudad);
-    });
-    return ciudadesDeGrupo;   
+    });*/
+    return retorno;   
 }

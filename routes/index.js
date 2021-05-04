@@ -5,6 +5,7 @@ const router = express.Router();
 const citiesControllers = require('../controllers/citiesControllers');
 const itinerariesControllers = require('../controllers/itinerariesControllers');
 const userControllers = require('../controllers/userControllers')
+const activiesControllers = require("../controllers/activitiesControllers");
 const passport = require('passport')
 const validador = require('../config/validador')
 
@@ -54,10 +55,19 @@ router.route("/user/login")
 router.route('/user/loginLS')
 .get(passport.authenticate('jwt',{session:false}),loginForzado)
 
+//--------------Activity Routes--------------------------------
+const {agregarActividad,obtenerActividades,obtenerActividadPorId,obtenerActividadesPorItinerario,actualizarActividad,borrarActividad} = activiesControllers;
+router.route('/activities')
+.get(obtenerActividades)
+.post(agregarActividad)
 
+router.route('/activities/:id')
+.get(obtenerActividadPorId)
+.put(actualizarActividad)
+.delete(borrarActividad)
 
-
-
+router.route("/activities/itinerary/:idItinerary")
+.get(obtenerActividadesPorItinerario)
 
 /*Para ayudar al programador */
 router.route('/backend/cities')

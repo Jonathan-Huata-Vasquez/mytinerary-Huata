@@ -12,6 +12,7 @@ import MiSlide from './MiSlide.js'
 
 
 const MiCarousel = ({gruposCiudades}) => {
+  
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false); //esto es para evitar usar los controles manuales mientras esta la animacion de cambio de slide
 
