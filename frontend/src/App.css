@@ -83,14 +83,14 @@
 }
 
 /*para agrandar el tamaño del carrousel hay que agrandar el tamaño del slide*/
-.slideEstilo{
+.slideEstilo-4{
     width: 100vw;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.imagenCarrousel{
+.imagenCarrousel-4{
     width : 40%;
     height: 40vh;
     margin :5px; 
@@ -481,4 +481,60 @@ span.hashtags{
 .callToActionFormulario{
     text-decoration: underline;
     color: rgb(116 204 223);
+}
+
+.contenedorActivities{
+    padding: 3vh 0;
+    margin-top: 3vw ;
+    width: 60vw;
+    min-height: 40vh;
+    box-shadow: 8px 8px 10px rgb(0 0 0 / 43%);
+    background-color: hsla(0,0%,100%,.884);
+    text-align: center;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.slideEstilo-Activity{
+    width: 60vw;
+    display: flex;
+    justify-content: center;
+    margin: 0.5em 0
+}
+
+.imagenCarrousel-Activity{
+    width : 90%;
+    height: 40vh;
+    margin :5px; 
+    border-radius: 5%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: transform,0.25s;
+}
+.imagenCarrousel-Activity:hover{
+    transform: scale(1.1);
+}
+.imagenCarrousel-Activity:hover >*{
+    display: none;
+}
+
+
+.imagenCarrousel-Activity .nombreCiudad {
+    background-color: rgb(52 58 64);
+    border-radius: 1px 1px 50em 50em;
+    border: 3px solid #00cae8;   
+}
+.labelActividades{
+    background:#FF813E; 
+    color:white; 
+    font-weight:bold; 
+    padding:10px; 
+    border:3px solid #B34F19;  
+    text-align:center; 
+    font-size:22px; 
+    border-radius:10px;
+    width: 95%;
 }

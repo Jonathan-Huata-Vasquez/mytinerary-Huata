@@ -1,7 +1,7 @@
 import { toast } from 'react-toastify';
 
     
-   export  function mostrarTostada(tipo,message,position,) {
+   export  function mostrarTostada(tipo,message,position = "top-right",) {
         const configuracionTostada = {
             position: position,
             autoClose: 3500,
@@ -11,7 +11,6 @@ import { toast } from 'react-toastify';
             draggable: true,
             progress: undefined,
         }
-        console.log(tipo)
         switch(tipo){
             case "error":
                 toast.error(message, configuracionTostada);

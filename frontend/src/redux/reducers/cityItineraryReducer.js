@@ -1,26 +1,24 @@
 const initialState = {
-    itinerariosCiudad : [],
-    loading:true,
-    error500Itinerarios: false,
+    itinerariosCiudad: [],
+    loading: true,
 }
 
-const cityItineraryReducer = (state = initialState,action) => {
-    switch(action.type){
-        case "CARGAR_ITINERARIOS": 
+const cityItineraryReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case "CARGAR_ITINERARIOS":
             return {
                 ...state,
                 itinerariosCiudad: action.payload,
-                loading:false
+                loading: false
             }
-            case "ERROR_CARGAR_ITINERARIOS": 
-                return{
-                    ...state ,
-                    loading:false,
-                    error500Itinerarios : true
-                }
-            case "RESTAURAR_ITINERARIOS":
-                return initialState; 
-        default :
+        case "ERROR_CARGAR_ITINERARIOS":
+            return {
+                ...state,
+                loading: false,
+            }
+        case "RESTAURAR_ITINERARIOS":
+            return initialState;
+        default:
             return state;
     }
 }

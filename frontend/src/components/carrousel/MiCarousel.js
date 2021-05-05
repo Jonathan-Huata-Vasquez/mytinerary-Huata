@@ -1,30 +1,25 @@
 import React, { useState } from 'react';
-import {
-  Carousel,
-  CarouselItem,
-  CarouselControl,
-  CarouselIndicators,
-} from 'reactstrap';
-
+import {Carousel,CarouselItem,CarouselControl,CarouselIndicators,} from 'reactstrap';
+import {  obtenerGruposElementos } from '../../helpers/ciudades'
 
 import MiSlide from './MiSlide.js'
 
 
 
-const MiCarousel = ({gruposCiudades}) => {
-  
+const MiCarousel = ({elementos,cantidadElementosSlide,estiloSlide,estiloImagen,propTitulo,propUrlImagen}) => {
+  let gruposElementos = obtenerGruposElementos(elementos,cantidadElementosSlide);
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false); //esto es para evitar usar los controles manuales mientras esta la animacion de cambio de slide
 
   const next = () => {  //actualiza el indexActual (el estado) al siguiente o a 0 si esta en el ultimo slide
     if (animating) return;
-    const nextIndex = activeIndex === gruposCiudades.length - 1 ? 0 : activeIndex + 1;
+    const nextIndex = activeIndex === gruposElementos.length - 1 ? 0 : activeIndex + 1;
     setActiveIndex(nextIndex);
   }
 
   const previous = () => { //actualiza el indexActual (el estado) al anterior o al ultimo de los slide si esta en el primer slide
     if (animating) return;
-    const nextIndex = activeIndex === 0 ? gruposCiudades.length - 1 : activeIndex - 1;
+    const nextIndex = activeIndex === 0 ? gruposElementos.length - 1 : activeIndex - 1;
     setActiveIndex(nextIndex);
   }
 
@@ -36,7 +31,7 @@ const MiCarousel = ({gruposCiudades}) => {
   }
 
   //un array de CarouselItem que se inyectan en <Caroucel>
-  const slides = gruposCiudades.map((unGrupoCiudades,indice) => {
+  const slides = gruposElementos.map((unGrupoElementos,indice) => {
     return (
       <CarouselItem
         //onExiting y onExited Es de React Transition Group
@@ -48,14 +43,19 @@ const MiCarousel = ({gruposCiudades}) => {
         key={indice}
       >
         {/*Le colocamos como contenido del item , un slide propio  */}
-        <MiSlide grupoCiudades ={unGrupoCiudades}/>
+        <MiSlide grupoElementos ={unGrupoElementos} 
+          estiloSlide = {estiloSlide} 
+          estiloImagen={estiloImagen} 
+          propTitulo = {propTitulo} 
+          propUrlImagen= {propUrlImagen}
+        />
       </CarouselItem>
     );
   });
   
   
   //esto es para que no nos tire error internamente Reacstrap de hijos de una lista contenga unica key
-  let keysGruposCiudades = gruposCiudades.map(unGrupoCiudades => JSON.stringify(unGrupoCiudades));
+  let keysGruposElementos = gruposElementos.map(unGrupoElementos => JSON.stringify(unGrupoElementos));
 
   return (
     <div className ="MiCarrouselEstilo">
@@ -70,7 +70,7 @@ const MiCarousel = ({gruposCiudades}) => {
         al indice que tiene esa franja
         */}
         
-        <CarouselIndicators items={keysGruposCiudades} activeIndex={activeIndex} onClickHandler={goToIndex} />
+        <CarouselIndicators items={keysGruposElementos} activeIndex={activeIndex} onClickHandler={goToIndex} />
         {/*inyectamos nuestros CarouselItem armados anteriormente */}
         {/*slides*/}
         {slides}

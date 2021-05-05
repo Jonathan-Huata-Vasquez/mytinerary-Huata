@@ -6,23 +6,31 @@ import { connect } from 'react-redux'
 import cityItineraryActions from '../redux/actions/cityItineraryAction'
 import Itinerario from '../components/Itinerario'
 import EsqueletoItinerario from '../components/esqueletos/EsqueletoItinerario'
-import {Redirect} from 'react-router-dom';
+import { mostrarTostada } from '../helpers/tostadas';
 class City extends React.Component {
     state = {
         ciudad: null
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        
         let idCiudad = this.props.match.params.id;
-        let ciudadActual = this.props.ciudades.find(ciudad => idCiudad === ciudad._id)
+        let ciudadActual;
+        if(this.props.ciudades.length !== 0){
+            ciudadActual = this.props.ciudades.find(ciudad => idCiudad === ciudad._id)
+        }else{
+            try{
+                ciudadActual = await this.props.cargarCiudad(idCiudad)
+            }catch(e){ //en que casos llega aca ???
+                mostrarTostada("error","ups, reload please")
+            }
+        }
         this.setState({
             ciudad: ciudadActual
         })
         this.props.cargarItinerarios(idCiudad);
     }
-    componentWillUnmount(){
-        this.props.restaurarItinerarios();
-    }
+    
 
     render() {
         if (this.props.loading) {
@@ -37,8 +45,6 @@ class City extends React.Component {
             )
         }
         if(!this.props.loading){
-            if (this.props.error500Itinerarios) 
-                return <Redirect to="/error500" />
             if(!this.props.error500Itinerarios && !this.state.ciudad)
                 return (
                     <div className="cityItinerariesContenido">
@@ -82,12 +88,12 @@ const mapStateToProps = (state) => {
         ciudades: state.citiesReducer.todasLasCiudades,
         itinerariosCiudad: state.cityItineraryReducer.itinerariosCiudad,
         loading: state.cityItineraryReducer.loading,
-        error500Itinerarios : state.cityItineraryReducer.error500Itinerarios
+        
     }
 }
 const mapDispatchToProps = {
     cargarItinerarios: cityItineraryActions.cargarItinerarios,
-    restaurarItinerarios: cityItineraryActions.restaurarItinerarios //para que no me aparescan los itinerarios anteriores
+    cargarCiudad: cityItineraryActions.cargarCiudad
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(City);

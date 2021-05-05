@@ -4,11 +4,15 @@ import IconButton from '@material-ui/core/IconButton';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import {useState} from 'react'
+import {useState} from 'react';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
-import {makeStyles}from '@material-ui/core'
+import {makeStyles} from '@material-ui/core';
+import {connect} from 'react-redux'
+import cityItineraryActions from '../redux/actions/cityItineraryAction.js'
+import ItineraryActivities from './activities/ItineraryActivities'
+
 const useStyle = makeStyles({
     btnViewMoreEstilo :{
         backgroundColor: "#00bcd4",
@@ -19,14 +23,15 @@ const useStyle = makeStyles({
             color:"#00bcd4",
             borderWidth: "3px",
             borderColor:"#564345"
-
         }
     }
 });
-const Itinerario = ({unItinerario}) => {
+const Itinerario = ({unItinerario,cargarActividadesDeItinerario}) => {
     const misEstilos = useStyle();
     const [liked,setLiked] = useState(false);
     const [estaExpandido,setEstaExpandido] = useState(false);
+
+    const [actividades,setActividades] = useState([]);
 
     function crearNComponentes(n,componente){
         let aux = [];
@@ -34,7 +39,20 @@ const Itinerario = ({unItinerario}) => {
             aux.push(<div key= {i}>{componente}</div> )
         }
         return <>{aux}</>
+    }
 
+    const  cargarActividades = async ()=>{
+        setEstaExpandido(!estaExpandido)
+        if(actividades.length === 0){
+            try{
+                let respuesta = await cargarActividadesDeItinerario(unItinerario._id);
+                console.log(respuesta)
+                setActividades(respuesta)
+            }catch(e){
+                console.log(e);
+            }
+        }
+        
     }
     
     return (
@@ -70,18 +88,21 @@ const Itinerario = ({unItinerario}) => {
             </div>
 
             <Collapse in={estaExpandido} className="mt-3">
-                <img src = "http://gulahmedelectric.com/under_construction1.jpg" alt="construccion" className="w-75"/>
+                <ItineraryActivities  actividades={actividades}/>
             </Collapse> 
             <Button
                 className= {`${misEstilos.btnViewMoreEstilo} mt-3`}   
                 variant="contained"
                 endIcon={estaExpandido?  <ExpandLessIcon /> : <ExpandMoreIcon />}
-                onClick = {()=>setEstaExpandido(!estaExpandido)}
+                onClick = {cargarActividades}
             >
                 {estaExpandido ? <>View Less</> : <>View More</>}
             </Button>
         </div>
     )
 }
+const mapDispatchToProps = {
+    cargarActividadesDeItinerario : cityItineraryActions.cargarActividadesDeItinerario
+}
 
-export default Itinerario;
+export default connect(null,mapDispatchToProps)(Itinerario);
