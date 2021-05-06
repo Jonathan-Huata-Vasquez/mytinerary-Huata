@@ -29,7 +29,9 @@ class City extends React.Component {
         })
         this.props.cargarItinerarios(idCiudad);
     }
-    
+    componentWillUnmount(){
+        this.props.restaurarItinerarios()
+    }    
 
     render() {
         if (this.props.loading) {
@@ -92,7 +94,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = {
     cargarItinerarios: cityItineraryActions.cargarItinerarios,
-    cargarCiudad: cityItineraryActions.cargarCiudad
+    cargarCiudad: cityItineraryActions.cargarCiudad,
+    restaurarItinerarios: cityItineraryActions.restaurarItinerarios
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(City);

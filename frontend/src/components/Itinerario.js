@@ -1,18 +1,16 @@
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import IconButton from '@material-ui/core/IconButton';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import {  useState} from 'react';
-import FavoriteIcon from '@material-ui/icons/Favorite';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import {makeStyles} from '@material-ui/core';
 import {connect} from 'react-redux'
 import cityItineraryActions from '../redux/actions/cityItineraryAction.js'
 import ItineraryActivities from './activities/ItineraryActivities'
-import { mostrarTostada } from '../helpers/tostadas.js';
+//import { mostrarTostada } from '../helpers/tostadas.js';
+import BtnLike from './BtnLike'
 
 const useStyle = makeStyles({
     btnViewMoreEstilo :{
@@ -30,10 +28,9 @@ const useStyle = makeStyles({
 const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,likearItinerario}) => {
     const misEstilos = useStyle();
     const [estaExpandido,setEstaExpandido] = useState(false);
-    const [loading,setLoading] = useState(false);
     const [state,setState] = useState({
         actividades:[],
-        liked:unItinerario.estadoUserLike
+        
     })
 
     
@@ -61,25 +58,6 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
     }
     
     
-    const likear = async ()=>{
-        if(!usuarioLogueado){
-            return  mostrarTostada("info","You must be logged in to like it");
-        }
-        //btnLike.current.disabled();
-        try{
-            setLoading(true)
-            console.log("hola")
-            await likearItinerario(usuarioLogueado.token,unItinerario._id);
-            setState({
-                ...state,
-                liked: !state.liked
-            })
-            setLoading(false)
-        }catch(e){
-            console.log(e)
-            setLoading(false)
-        }
-    }
 
     return (
         <div className = "contenedorItinerario">
@@ -102,12 +80,7 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
             </div>
 
             <div className="portalikesHashtags mt-3">
-                <div className = "portaLikes">
-                    <IconButton size="small" color="secondary" onClick = {likear} >
-                        {state.liked ?<FavoriteIcon /> : <FavoriteBorderIcon />}
-                    </IconButton>
-                    <span className="PriceDuration">{unItinerario.likes}</span>
-                </div>
+                <BtnLike itinerarioId = {unItinerario._id} estadoUserLike={unItinerario.estadoUserLike} cantidadLikes={unItinerario.likes} />
                 <div className = "portaHashtags mt-3">
                     {unItinerario.hashTags.map((hashTag,indice) => <span key={hashTag} className="hashtags ">{hashTag}</span>)}
                 </div>
