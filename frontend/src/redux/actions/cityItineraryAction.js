@@ -1,6 +1,7 @@
 import axios from "axios";
 import {endpointCities,endpointActivitiesItinerary,endpointItinerariesOfCity,
-    endpointItinerariesLike,endpointItinerariesOfCityLogueado} from "../../helpers/endpoints"
+    endpointItinerariesLike,endpointItinerariesOfCityLogueado,
+    endpointItinerariesAgregarComentario} from "../../helpers/endpoints"
 import {mostrarTostada,mostrarTostadaError500} from '../../helpers/tostadas'
 
 const cityItineraryActions = {
@@ -66,9 +67,24 @@ const cityItineraryActions = {
             }catch(e){
                 console.log(e);
                 mostrarTostadaError500();
-                return {success :false}
-                
+                return {success :false}    
             }
+        }
+    },
+    agregarComentario : (token,idItinerario,comentario) => {
+        return async (dispatch) =>{
+            try{
+                let {data} = await axios.put(`${endpointItinerariesAgregarComentario}/${idItinerario}`,{comentario},{
+                    headers:{'Authorization': 'Bearer ' + token}
+                });
+                data.success
+                ? dispatch({type:"ACTUALIZAR_ITINERARIO",payload:data.respuesta}) 
+                : mostrarTostada("error",data.error);
+            }catch(e){
+                console.log(e);
+                mostrarTostadaError500();
+            }
+            
         }
     }
 

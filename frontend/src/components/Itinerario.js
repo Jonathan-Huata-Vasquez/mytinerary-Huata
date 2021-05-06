@@ -9,7 +9,7 @@ import {makeStyles} from '@material-ui/core';
 import {connect} from 'react-redux'
 import cityItineraryActions from '../redux/actions/cityItineraryAction.js'
 import ItineraryActivities from './activities/ItineraryActivities'
-//import { mostrarTostada } from '../helpers/tostadas.js';
+
 import BtnLike from './BtnLike'
 
 const useStyle = makeStyles({
@@ -87,7 +87,7 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
             </div>
 
             <Collapse in={estaExpandido} className="mt-3">
-                <ItineraryActivities  actividades={state.actividades}/>
+                <ItineraryActivities  actividades={state.actividades} comentarios={unItinerario.comentarios}/>
             </Collapse> 
             <Button
                 className= {`${misEstilos.btnViewMoreEstilo} mt-3`}   
