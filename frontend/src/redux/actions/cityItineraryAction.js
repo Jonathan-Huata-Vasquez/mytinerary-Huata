@@ -1,16 +1,27 @@
 import axios from "axios";
-import {endpointCities,endpointActivitiesItinerary,endpointItinerariesOfCity} from "../../helpers/endpoints"
+import {endpointCities,endpointActivitiesItinerary,endpointItinerariesOfCity,
+    endpointItinerariesLike,endpointItinerariesOfCityLogueado} from "../../helpers/endpoints"
 import {mostrarTostada} from '../../helpers/tostadas'
 
 const cityItineraryActions = {
-    cargarItinerarios : (idCiudad)=>{
-        return (dispatch,getState)  => {
-            axios.get(`${endpointItinerariesOfCity}/${idCiudad}`)
-            .then(res => dispatch({
-                type : "CARGAR_ITINERARIOS",
-                payload: res.data.respuesta
-            }))
-            .catch(error => dispatch({type : "ERROR_CARGAR_CIUDAD", payload:null}))
+    cargarItinerarios :   (idCiudad)=>{
+        return async (dispatch,getState)  => {
+            let usuarioLogueado = getState().authReducer.usuarioLogueado;
+            console.log(usuarioLogueado)
+            try{
+                const endpoint = usuarioLogueado ? endpointItinerariesOfCityLogueado :endpointItinerariesOfCity;
+                console.log(endpoint)
+                let header = usuarioLogueado && {headers:{'Authorization': 'Bearer ' + usuarioLogueado.token}}
+                const {data} = await axios.get(`${endpoint}/${idCiudad}`,header)
+                dispatch({type : "CARGAR_ITINERARIOS",payload: data.respuesta})
+            }
+            catch(e){
+                console.log(e)
+                mostrarTostada("error","ups, something went wrong, pls try again","top-right")    
+                dispatch({type : "ERROR_CARGAR_CIUDAD", payload:null})
+            }
+
+            
         }
     },
     cargarCiudad : (idCiudad)=>{
@@ -21,7 +32,7 @@ const cityItineraryActions = {
                     return data.respuesta;}
                 else{
                     mostrarTostada("error",data.error,"top-right");
-                }
+                }//getState()
 
             }catch(e){
                 mostrarTostada("error","ups, something went wrong, pls try again","top-right")    
@@ -34,10 +45,8 @@ const cityItineraryActions = {
             dispatch({type:"RESTAURAR_ITINERARIOS",payload:null});
         }
     },
-    cargarActividadesDeItinerario :  (itinerarioId) =>{
-        
+    cargarActividadesDeItinerario :  (itinerarioId) =>{  
         return async ()=>{
-            console.log(itinerarioId)
             try {
                 let {data} = await axios.get(`${endpointActivitiesItinerary}/${itinerarioId}`)
                 if(data.success)
@@ -49,6 +58,22 @@ const cityItineraryActions = {
                 mostrarTostada("error","ups, somethin went wrong, pls try again","top-right")    
             }
         }
+    },
+    likearItinerario : (token,idItinerario) => {
+        return async (dispatch,getState) => {
+            try{
+                const {data} = await axios.get(`${endpointItinerariesLike}/${idItinerario}`,{
+                    headers:{'Authorization': 'Bearer ' + token}
+                })
+                dispatch({type:"ACTUALIZAR_ITINERARIO",payload:data.respuesta})
+            }catch(e){
+                console.log(e);
+                mostrarTostada("error","ups, somethin went wrong, pls try again","top-right")    
+            }
+        }
     }
+
+
+
 }
 export default cityItineraryActions;

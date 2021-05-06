@@ -13,7 +13,6 @@ class City extends React.Component {
     }
 
     async componentDidMount() {
-        
         let idCiudad = this.props.match.params.id;
         let ciudadActual;
         if(this.props.ciudades.length !== 0){
@@ -63,7 +62,7 @@ class City extends React.Component {
                     <h1>{this.state.ciudad.nombreCiudad}</h1>
                 </div>
 
-                {this.props.itinerariosCiudad.length === 0 &&
+                { this.props.itinerariosCiudad.length === 0 &&
                     <div className="sinItinerariosContenedor" style={{ backgroundImage: "url(/assets/itinerarios/sinItinerarios.jpg)" }}>
                         <div className="sinItinerariosContenido">
                             Sorry, we don't have any itinerary in this city yet :(

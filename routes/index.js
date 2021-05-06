@@ -26,7 +26,7 @@ router.route('/cities/:id')
 
 //------------------------------------------------
 const {agregarItinerario,obtenerTodosItinerarios,obtenerItinerarioPorId,
-    obtenerItinerarioPorCiudad,actualizarItinerario,borrarItinerario} = itinerariesControllers;
+    obtenerItinerarioPorCiudad,actualizarItinerario,borrarItinerario,likearItinerario} = itinerariesControllers;
 
 
 router.route('/itineraries')
@@ -38,8 +38,14 @@ router.route('/itineraries/:id')
 .put(actualizarItinerario)
 .delete(borrarItinerario)
 
+router.route('/itinerariesLike/:id')
+.get(passport.authenticate('jwt',{session:false}),likearItinerario)
+
 router.route('/itineraries/city/:id')
 .get(obtenerItinerarioPorCiudad)
+
+router.route('/itinerariesLogueado/city/:id')
+.get(passport.authenticate('jwt',{session:false}),obtenerItinerarioPorCiudad)
 
 //---------------Usuario---------
 const {crearUsuario,loguearUsuario,loginForzado} = userControllers;

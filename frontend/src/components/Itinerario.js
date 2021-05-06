@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import {useState} from 'react';
+import {  useState} from 'react';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
@@ -12,6 +12,7 @@ import {makeStyles} from '@material-ui/core';
 import {connect} from 'react-redux'
 import cityItineraryActions from '../redux/actions/cityItineraryAction.js'
 import ItineraryActivities from './activities/ItineraryActivities'
+import { mostrarTostada } from '../helpers/tostadas.js';
 
 const useStyle = makeStyles({
     btnViewMoreEstilo :{
@@ -26,13 +27,16 @@ const useStyle = makeStyles({
         }
     }
 });
-const Itinerario = ({unItinerario,cargarActividadesDeItinerario}) => {
+const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,likearItinerario}) => {
     const misEstilos = useStyle();
-    const [liked,setLiked] = useState(false);
     const [estaExpandido,setEstaExpandido] = useState(false);
+    const [loading,setLoading] = useState(false);
+    const [state,setState] = useState({
+        actividades:[],
+        liked:unItinerario.estadoUserLike
+    })
 
-    const [actividades,setActividades] = useState([]);
-
+    
     function crearNComponentes(n,componente){
         let aux = [];
         for(let i = 0 ; i< n ; i++){
@@ -43,18 +47,40 @@ const Itinerario = ({unItinerario,cargarActividadesDeItinerario}) => {
 
     const  cargarActividades = async ()=>{
         setEstaExpandido(!estaExpandido)
-        if(actividades.length === 0){
+        if(state.actividades.length === 0){
             try{
                 let respuesta = await cargarActividadesDeItinerario(unItinerario._id);
-                console.log(respuesta)
-                setActividades(respuesta)
+                setState({
+                    ...state,
+                    actividades:respuesta,
+                })
             }catch(e){
                 console.log(e);
             }
         }
-        
     }
     
+    
+    const likear = async ()=>{
+        if(!usuarioLogueado){
+            return  mostrarTostada("info","You must be logged in to like it");
+        }
+        //btnLike.current.disabled();
+        try{
+            setLoading(true)
+            console.log("hola")
+            await likearItinerario(usuarioLogueado.token,unItinerario._id);
+            setState({
+                ...state,
+                liked: !state.liked
+            })
+            setLoading(false)
+        }catch(e){
+            console.log(e)
+            setLoading(false)
+        }
+    }
+
     return (
         <div className = "contenedorItinerario">
             <div className ="tituloItinerario"><h3>{unItinerario.titulo}</h3></div>
@@ -77,8 +103,8 @@ const Itinerario = ({unItinerario,cargarActividadesDeItinerario}) => {
 
             <div className="portalikesHashtags mt-3">
                 <div className = "portaLikes">
-                    <IconButton size="small" color="secondary" onClick = {()=>setLiked(!liked)}>
-                        {liked ?<FavoriteIcon /> : <FavoriteBorderIcon />}
+                    <IconButton size="small" color="secondary" onClick = {likear} >
+                        {state.liked ?<FavoriteIcon /> : <FavoriteBorderIcon />}
                     </IconButton>
                     <span className="PriceDuration">{unItinerario.likes}</span>
                 </div>
@@ -88,7 +114,7 @@ const Itinerario = ({unItinerario,cargarActividadesDeItinerario}) => {
             </div>
 
             <Collapse in={estaExpandido} className="mt-3">
-                <ItineraryActivities  actividades={actividades}/>
+                <ItineraryActivities  actividades={state.actividades}/>
             </Collapse> 
             <Button
                 className= {`${misEstilos.btnViewMoreEstilo} mt-3`}   
@@ -101,8 +127,15 @@ const Itinerario = ({unItinerario,cargarActividadesDeItinerario}) => {
         </div>
     )
 }
-const mapDispatchToProps = {
-    cargarActividadesDeItinerario : cityItineraryActions.cargarActividadesDeItinerario
+const mapStateToProps = state =>{
+    return {
+        usuarioLogueado : state.authReducer.usuarioLogueado
+    }
 }
 
-export default connect(null,mapDispatchToProps)(Itinerario);
+const mapDispatchToProps = {
+    cargarActividadesDeItinerario : cityItineraryActions.cargarActividadesDeItinerario,
+    likearItinerario : cityItineraryActions.likearItinerario
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Itinerario);

@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import MiCarrousel from '../carrousel/MiCarousel'
 
 const ItineraryActivities = ({actividades = []}) => {
-    console.log(actividades)
     useEffect( ()=>{
         console.log("se monto ItineraryActivities")
         
@@ -11,7 +10,7 @@ const ItineraryActivities = ({actividades = []}) => {
     //{elementos,cantidadElementosSlide,estiloSlide,estiloImagen}
     return(
         <div className ="contenedorActivities">
-            <div className="labelActividades">Activities</div>
+            <div className="labelActividades mb-2">Activities</div>
             {<MiCarrousel
             className="mt-3"
             elementos = {actividades} 

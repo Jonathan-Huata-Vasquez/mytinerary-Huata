@@ -6,6 +6,7 @@ const initialState = {
 const cityItineraryReducer = (state = initialState, action) => {
     switch (action.type) {
         case "CARGAR_ITINERARIOS":
+            console.log(action)
             return {
                 ...state,
                 itinerariosCiudad: action.payload,
@@ -16,6 +17,16 @@ const cityItineraryReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
             }
+        case "ACTUALIZAR_ITINERARIO":
+            let itinerariosActualizados = state.itinerariosCiudad.map(itinerario =>{
+                if(itinerario._id === action.payload._id)
+                    return action.payload;
+                return itinerario;
+            })
+            return {
+                ...state,
+                itinerariosCiudad: itinerariosActualizados
+            } 
         case "RESTAURAR_ITINERARIOS":
             return initialState;
         default:
