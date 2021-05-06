@@ -80,7 +80,7 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
             </div>
 
             <div className="portalikesHashtags mt-3">
-                <BtnLike itinerarioId = {unItinerario._id} estadoUserLike={unItinerario.estadoUserLike} cantidadLikes={unItinerario.likes} />
+                <BtnLike itinerarioId = {unItinerario._id} estaLikeado={unItinerario.estaLikeado} cantidadLikes={unItinerario.likes} />
                 <div className = "portaHashtags mt-3">
                     {unItinerario.hashTags.map((hashTag,indice) => <span key={hashTag} className="hashtags ">{hashTag}</span>)}
                 </div>

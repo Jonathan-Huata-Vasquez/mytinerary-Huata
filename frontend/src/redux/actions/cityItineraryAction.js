@@ -1,27 +1,23 @@
 import axios from "axios";
 import {endpointCities,endpointActivitiesItinerary,endpointItinerariesOfCity,
     endpointItinerariesLike,endpointItinerariesOfCityLogueado} from "../../helpers/endpoints"
-import {mostrarTostada} from '../../helpers/tostadas'
+import {mostrarTostada,mostrarTostadaError500} from '../../helpers/tostadas'
 
 const cityItineraryActions = {
     cargarItinerarios :   (idCiudad)=>{
         return async (dispatch,getState)  => {
             let usuarioLogueado = getState().authReducer.usuarioLogueado;
-            console.log(usuarioLogueado)
             try{
                 const endpoint = usuarioLogueado ? endpointItinerariesOfCityLogueado :endpointItinerariesOfCity;
-                console.log(endpoint)
                 let header = usuarioLogueado && {headers:{'Authorization': 'Bearer ' + usuarioLogueado.token}}
                 const {data} = await axios.get(`${endpoint}/${idCiudad}`,header)
                 dispatch({type : "CARGAR_ITINERARIOS",payload: data.respuesta})
             }
             catch(e){
                 console.log(e)
-                mostrarTostada("error","ups, something went wrong, pls try again","top-right")    
+                mostrarTostadaError500();
                 dispatch({type : "ERROR_CARGAR_CIUDAD", payload:null})
             }
-
-            
         }
     },
     cargarCiudad : (idCiudad)=>{
@@ -35,7 +31,7 @@ const cityItineraryActions = {
                 }//getState()
 
             }catch(e){
-                mostrarTostada("error","ups, something went wrong, pls try again","top-right")    
+                mostrarTostadaError500()
             }
             
         }
@@ -55,7 +51,7 @@ const cityItineraryActions = {
                     mostrarTostada("error",data.error,"top-right")    
             } catch (error) {
                 console.log(error);
-                mostrarTostada("error","ups, somethin went wrong, pls try again","top-right")    
+                mostrarTostadaError500();
             }
         }
     },
@@ -66,9 +62,12 @@ const cityItineraryActions = {
                     headers:{'Authorization': 'Bearer ' + token}
                 })
                 dispatch({type:"ACTUALIZAR_ITINERARIO",payload:data.respuesta})
+                return {success :true}
             }catch(e){
                 console.log(e);
-                mostrarTostada("error","ups, somethin went wrong, pls try again","top-right")    
+                mostrarTostadaError500();
+                return {success :false}
+                
             }
         }
     }

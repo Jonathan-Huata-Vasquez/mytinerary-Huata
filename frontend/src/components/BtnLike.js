@@ -5,41 +5,37 @@ import { useState} from 'react';
 import {connect} from  'react-redux'
 import { mostrarTostada,mostrarTostadaError500 } from '../helpers/tostadas.js';
 import cityItineraryActions from '../redux/actions/cityItineraryAction.js'
-const BtnLike = ({itinerarioId,estadoUserLike,cantidadLikes, usuarioLogueado,likearItinerario,  }) => {    
+const BtnLike = ({itinerarioId,estaLikeado,cantidadLikes, usuarioLogueado,likearItinerario,  }) => {    
     const [estado,setEstado] = useState({
-        liked:estadoUserLike,
+        estaLikeado,
         cantidadLikes ,
-        peticionCargando: false
     })
+    const [peticionando,setPeticionando] = useState(false);
     
 
     const likear = async ()=>{
         if(!usuarioLogueado){
             return  mostrarTostada("info","You must be logged in to like it");
         }
-        
-        
-        if(estado.peticionCargando) return null
-        let nuevaCantidadLike = estado.liked? estado.cantidadLikes-1: estado.cantidadLikes+1;
-        let likeado = !estado.liked;
+        if(peticionando) return false
+
+        setPeticionando(true);
+
+        let estadoAntesDeActualizar = {...estado}
         setEstado({
             ...estado,
-            cantidadLikes : nuevaCantidadLike,
-            liked: likeado,
-            peticionCargando:true
+            cantidadLikes : estado.estaLikeado? estado.cantidadLikes-1: estado.cantidadLikes+1,
+            estaLikeado: !estado.estaLikeado,
         })
+        let respuesta;
         try{
-            
-            await likearItinerario(usuarioLogueado.token,itinerarioId);
-            setEstado({
-                ...estado,
-                cantidadLikes : nuevaCantidadLike,
-                liked: likeado,
-                peticionCargando:false
-            })
-            
+            respuesta = await likearItinerario(usuarioLogueado.token,itinerarioId);
+            if(!respuesta.success) setEstado(estadoAntesDeActualizar)
+            setPeticionando(false)
+
         }catch(e){
-            mostrarTostadaError500()
+            console.log(e)
+            mostrarTostadaError500();
         }
         
     }
@@ -47,7 +43,7 @@ const BtnLike = ({itinerarioId,estadoUserLike,cantidadLikes, usuarioLogueado,lik
     return (
         <div className="portaLikes">
             <IconButton size="small" color="secondary" onClick={likear} >
-                {estado.liked && usuarioLogueado ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                {estado.estaLikeado && usuarioLogueado ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </IconButton>
             <span className="PriceDuration">{estado.cantidadLikes}</span>
         </div>

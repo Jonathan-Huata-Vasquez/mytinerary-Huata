@@ -6,7 +6,6 @@ const initialState = {
 const cityItineraryReducer = (state = initialState, action) => {
     switch (action.type) {
         case "CARGAR_ITINERARIOS":
-            console.log(action)
             return {
                 ...state,
                 itinerariosCiudad: action.payload,

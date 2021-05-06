@@ -44,7 +44,7 @@ const itinerariesControllers = {
             let nuevosItineraios =  itinerarios.map(itinerario => {
                 return {
                     ...itinerario.toObject(),
-                    estadoUserLike: itinerario.usuariosLiked.some(idUser =>{
+                    estaLikeado: itinerario.usuariosLiked.some(idUser =>{
                         //si existe  prop user del req , continua ,
                         return req.user?._id == idUser ; 
                     })
