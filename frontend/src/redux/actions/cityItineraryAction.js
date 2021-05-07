@@ -71,12 +71,17 @@ const cityItineraryActions = {
             }
         }
     },
-    agregarComentario : (token,idItinerario,comentario) => {
+    agregarComentario : (idItinerario,token,comentario) => {
+
         return async (dispatch) =>{
             try{
                 let {data} = await axios.put(`${endpointItinerariesAgregarComentario}/${idItinerario}`,{comentario},{
-                    headers:{'Authorization': 'Bearer ' + token}
+                    
+                    headers:{
+                        'Authorization': 'Bearer ' + token,    
+                    }
                 });
+                console.log(data)
                 data.success
                 ? dispatch({type:"ACTUALIZAR_ITINERARIO",payload:data.respuesta}) 
                 : mostrarTostada("error",data.error);

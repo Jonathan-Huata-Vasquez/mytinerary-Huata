@@ -143,17 +143,21 @@ const itinerariesControllers = {
         const idItinerario = req.params.id;
         const usuarioId = req.user._id;
         const {comentario} = req.body
+        console.log(idItinerario , usuarioId, comentario)
         let respuesta, error;
         
         try {
             let itinerarioModificado = await Itinerary.findByIdAndUpdate({ _id: idItinerario }, {
-                $push: {
-                    comentarios: { usuarioId, comentario }
-                }
-            },
-            { new: true })
+                $push: {comentarios: { usuarioId, comentario }}},
+                { new: true }
+            ).populate('idCiudad').populate({
+                path:"comentarios.usuarioId",
+                select:"nombre apellido usuarioAvatar -_id"
+            })
 
-            itinerarioModificado ? respuesta = itinerarioModificado : error = errorItineraryNotFound;
+            itinerarioModificado ? 
+            respuesta = itinerarioModificado
+            : error = errorItineraryNotFound;
 
         } catch (e) {
             console.log(e)

@@ -40,3 +40,15 @@ export function mostrarTostadaError500( position = "top-right",) {
     toast.error("ups , something went wrong, please try again... ", configuracionTostada);
 }
 
+export function mostrarTostadaNecesarioLoguearse( position = "top-right",) {
+    const configuracionTostada = {
+        position: position,
+        autoClose: 3500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    }
+    toast.info("ups , something went wrong, please try again... ", configuracionTostada);
+}

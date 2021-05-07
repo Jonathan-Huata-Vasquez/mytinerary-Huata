@@ -2,7 +2,7 @@
 import MiCarrousel from '../carrousel/MiCarousel'
 import CajaCommentarios from './CajaComentario'
 
-const ItineraryActivities = ({actividades = [],comentarios}) => {
+const ItineraryActivities = ({actividades = [],idItinerario,comentarios}) => {
     return(
         <div className ="contenedorActivities">
             <div className="labelActividades mb-2">Activities</div>
@@ -16,7 +16,7 @@ const ItineraryActivities = ({actividades = [],comentarios}) => {
                 propUrlImagen = "imagen"
             />
             <h3>Leave a Comment</h3>
-            <CajaCommentarios comentarios={comentarios}/>
+            <CajaCommentarios idItinerario={idItinerario} comentarios={comentarios}/>
         </div>
     );
 }

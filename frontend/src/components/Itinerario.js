@@ -87,7 +87,7 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
             </div>
 
             <Collapse in={estaExpandido} className="mt-3">
-                <ItineraryActivities  actividades={state.actividades} comentarios={unItinerario.comentarios}/>
+                <ItineraryActivities  actividades={state.actividades} idItinerario={unItinerario._id} comentarios={unItinerario.comentarios}/>
             </Collapse> 
             <Button
                 className= {`${misEstilos.btnViewMoreEstilo} mt-3`}   

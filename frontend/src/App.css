@@ -552,11 +552,14 @@ span.hashtags{
     border-radius: 6px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: flex-start;
+    
+    max-height: 24vh;
 }
 .TodosLosComentarios{
     flex-grow: 1;
+    overflow-x: auto;
+    width: 100%;
 }
 .portaAvatarComentario{
     display: flex;
@@ -613,3 +616,18 @@ span.hashtags{
 .formularioComentario{
     width: 100%;
 }
+
+.TodosLosComentarios::-webkit-scrollbar{
+    width: 10px;
+}
+.TodosLosComentarios::-webkit-scrollbar-track{
+    background-color: rgba(54, 99, 110, 0.662);
+    border-radius: 25px;
+}
+
+.TodosLosComentarios::-webkit-scrollbar-thumb{
+    background-color: #53afe4;
+    border-radius: 25px;
+    
+}
+
