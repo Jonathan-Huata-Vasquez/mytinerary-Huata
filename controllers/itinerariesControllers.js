@@ -138,6 +138,7 @@ const itinerariesControllers = {
         })
     },
 
+    
 
     agregarNuevoComentario: async (req, res) => {
         const idItinerario = req.params.id;
@@ -164,7 +165,29 @@ const itinerariesControllers = {
             error = errorBD;
         }
         responderFrontEnd(res, respuesta, error)
-    }
+    },
+
+    borrarComentario: async (req,res) => {
+        const {idComentario} = req.body ;
+        const idItinerario = req.params.id;
+        
+        let respuesta,error;
+        try{
+            respuesta = await Itinerary.findByIdAndUpdate(idItinerario,{
+                $pull:{comentarios:{_id:idComentario}}
+            },{new:true}).populate({
+                path:"comentarios.usuarioId",
+                select:"nombre apellido usuarioAvatar -_id"
+            })
+            console.log(respuesta)
+            error = !respuesta && errorItineraryNotFound
+        }
+        catch(e){
+            console.log(e)
+            error = errorBD;
+        }
+        responderFrontEnd(res,respuesta,error);
+    },
 }
 
 

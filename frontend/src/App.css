@@ -568,10 +568,7 @@ span.hashtags{
     align-items: flex-end;
 }
  
-.cajitaComentarioOtroUsuario{
-    
-    
-}
+
 .portaNombreUsuarioYComentario{
     padding: 0.5em;
     width: auto;
@@ -592,6 +589,7 @@ span.hashtags{
 .portaNombreUsuarioYComentario h5{
     color:#11c8e3;
     font-size: 1rem;
+    text-align: start;
 }
 
 .comentario{
@@ -645,7 +643,8 @@ span.hashtags{
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .espacioNombreUsuarioComentario{
-    margin-right:20px ;
+    margin-right:10px ;
 }
