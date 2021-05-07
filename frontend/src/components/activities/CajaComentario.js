@@ -5,6 +5,8 @@ import FormControl from '@material-ui/core/FormControl';
 import { makeStyles } from '@material-ui/core/styles';
 import SendIcon from '@material-ui/icons/Send';
 import { useState } from 'react';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import {connect} from 'react-redux'
 import cityItineraryActions from '../../redux/actions/cityItineraryAction'
@@ -25,12 +27,16 @@ const CajaComentario = ({ idItinerario,comentarios, usuarioLogueado ,agregarCome
     const misEstilos = useStyle();
 
     const [comentarioAPostear,setComentarioAPostear] = useState("");
+    const [comentarioAEditar,setComentarioAEditar] = useState({
+            idItinerario: "",
+    })
 
     const leerInputPostear = (e)=>{
         setComentarioAPostear(e.target.value)
     }
 
     const postearComentario = async () =>{
+        
         console.log(comentarioAPostear)
         if(!usuarioLogueado) {
             return  mostrarTostada("info","You must be logged in to comment it");
@@ -55,8 +61,14 @@ const CajaComentario = ({ idItinerario,comentarios, usuarioLogueado ,agregarCome
                     return (
                         <div className="portaAvatarComentario" key={unComentario._id}>
                             <div className="avatar" style={{ backgroundImage: `url(${unComentario.usuarioId.usuarioAvatar})` }}></div>
-                            <div className="cajitaComentarioOtroUsuario" >
-                                <h5>{nombreCompleto}</h5>
+                            <div className="portaNombreUsuarioYComentario" >
+                                <div className ="portaNombreUsuarioYOpcionesComentario">
+                                    <div className= "espacioNombreUsuarioComentario"><h5>{nombreCompleto}</h5></div>
+                                    <div className = "opcionesComentarios">
+                                        <EditIcon  />
+                                        <DeleteIcon />
+                                    </div>
+                                </div>
                                 <div className="comentario">
                                     <span> {unComentario.comentario}</span>
                                 </div>

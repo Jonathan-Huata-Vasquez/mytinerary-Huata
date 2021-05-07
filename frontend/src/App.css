@@ -319,6 +319,7 @@ div.estiloLogoNav{
     padding: 3vh 0;
     margin-top: 5vw ;
     width: 70vw;
+    min-width: 380px;
     min-height: 40vh;
     box-shadow: 8px 8px 10px rgb(0 0 0 / 43%);
     background-color: hsla(0,0%,100%,.884);
@@ -487,6 +488,7 @@ span.hashtags{
     padding: 3vh 0;
     margin-top: 3vw ;
     width: 60vw;
+    min-width: 355px;
     min-height: 40vh;
     box-shadow: 8px 8px 10px rgb(0 0 0 / 43%);
     background-color: hsla(0,0%,100%,.884);
@@ -544,22 +546,21 @@ span.hashtags{
 .contenedorCajaComentario{
     padding: 1.5vh ;
     width: 90%;
-    min-height: 40vh;
     box-shadow: 8px 8px 10px rgb(0 0 0 / 43%);
     background-color: hsla(0,0%,100%,.884);
-    
     text-align: center;
     border-radius: 6px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     
-    max-height: 24vh;
 }
 .TodosLosComentarios{
     flex-grow: 1;
     overflow-x: auto;
     width: 100%;
+    min-height: 30vh;
+    max-height: 40vh; /*btn para agrandar*/
 }
 .portaAvatarComentario{
     display: flex;
@@ -568,8 +569,13 @@ span.hashtags{
 }
  
 .cajitaComentarioOtroUsuario{
+    
+    
+}
+.portaNombreUsuarioYComentario{
     padding: 0.5em;
     width: auto;
+    min-width: 237px;
     max-width: 27em;
     margin: 1.2em 0.5em 0 0.5em;
     display: flex;
@@ -580,11 +586,14 @@ span.hashtags{
     box-shadow: 8px 8px 10px rgb(0 0 0 / 43%);
     position:relative;
     border-radius: 18px 18px 18px 4px;
-    
 }
-.cajitaComentarioOtroUsuario h5{
+
+
+.portaNombreUsuarioYComentario h5{
     color:#11c8e3;
+    font-size: 1rem;
 }
+
 .comentario{
     word-wrap: break-word;
     align-self: stretch;
@@ -593,6 +602,8 @@ span.hashtags{
 .avatar{
     width: 40px;
     height: 40px;
+    min-width: 40px;
+    min-height: 40px;
     border-radius: 25px 25px;
     background-position: center;
     background-size: cover;
@@ -630,4 +641,11 @@ span.hashtags{
     border-radius: 25px;
     
 }
-
+.portaNombreUsuarioYOpcionesComentario{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.espacioNombreUsuarioComentario{
+    margin-right:20px ;
+}

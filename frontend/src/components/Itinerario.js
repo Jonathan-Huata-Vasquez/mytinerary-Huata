@@ -2,7 +2,7 @@ import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import {  useState} from 'react';
+import {  useState,useRef} from 'react';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import {makeStyles} from '@material-ui/core';
@@ -30,8 +30,8 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
     const [estaExpandido,setEstaExpandido] = useState(false);
     const [state,setState] = useState({
         actividades:[],
-        
     })
+    const refBtnViewMore = useRef(null);
 
     
     function crearNComponentes(n,componente){
@@ -44,6 +44,7 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
 
     const  cargarActividades = async ()=>{
         setEstaExpandido(!estaExpandido)
+        refBtnViewMore.current.focus()
         if(state.actividades.length === 0){
             try{
                 let respuesta = await cargarActividadesDeItinerario(unItinerario._id);
@@ -78,8 +79,9 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
                     </div>
                 </div>
             </div>
-
-            <div className="portalikesHashtags mt-3">
+            {/*eslint-disable-next-line*/}
+            <a href="#" ref= {refBtnViewMore}></a>
+            <div className="portalikesHashtags mt-3" >
                 <BtnLike itinerarioId = {unItinerario._id} estaLikeado={unItinerario.estaLikeado} cantidadLikes={unItinerario.likes} />
                 <div className = "portaHashtags mt-3">
                     {unItinerario.hashTags.map((hashTag,indice) => <span key={hashTag} className="hashtags ">{hashTag}</span>)}
@@ -94,6 +96,7 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
                 variant="contained"
                 endIcon={estaExpandido?  <ExpandLessIcon /> : <ExpandMoreIcon />}
                 onClick = {cargarActividades}
+                
             >
                 {estaExpandido ? <>View Less</> : <>View More</>}
             </Button>
