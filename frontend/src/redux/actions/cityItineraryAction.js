@@ -1,7 +1,8 @@
 import axios from "axios";
 import {endpointCities,endpointActivitiesItinerary,endpointItinerariesOfCity,
     endpointItinerariesLike,endpointItinerariesOfCityLogueado,
-    endpointItinerariesAgregarComentario,endpointItinerariesBorrarComentario} from "../../helpers/endpoints"
+    endpointItinerariesBorrarComentario,
+    endpointItinerariesModificarComentario} from "../../helpers/endpoints"
 import {mostrarTostada,mostrarTostadaError500} from '../../helpers/tostadas'
 
 const cityItineraryActions = {
@@ -71,12 +72,12 @@ const cityItineraryActions = {
             }
         }
     },
-    agregarComentario : (idItinerario,token,comentario) => {
-
+    modificarComentario : (idItinerario,token,body) => {
+        const {idComentario,comentario,accion} = body;
         return async (dispatch) =>{
             try{
-                let {data} = await axios.put(`${endpointItinerariesAgregarComentario}/${idItinerario}`,{comentario},{
-                    
+                //let {data} = await axios.put(`${endpointItinerariesAgregarComentario}/${idItinerario}`,{comentario},{
+                let {data} = await axios.put(`${endpointItinerariesModificarComentario  }/${idItinerario}`,{idComentario,comentario,accion},{
                     headers:{
                         'Authorization': 'Bearer ' + token,    
                     }
@@ -93,7 +94,6 @@ const cityItineraryActions = {
     },
     borrarComentario:(idItinerario,token,idComentario) =>{
         return async (dispatch) => {
-            
             try {
                 let {data} = await axios.put(`${endpointItinerariesBorrarComentario}/${idItinerario}`,{idComentario},{
                     headers: {

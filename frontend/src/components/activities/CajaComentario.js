@@ -65,7 +65,7 @@ const useStyle = makeStyles(theme => ({
 
 
 
-const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, agregarComentario, borrarComentario }) => {
+const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarComentario, borrarComentario }) => {
     //console.log(comentarios)
     const misEstilos = useStyle();
     const [comentarioAPostear, setComentarioAPostear] = useState("");
@@ -97,7 +97,7 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, agregarCom
     const postearComentario = () => {
         if (!usuarioLogueado)
             return mostrarTostada("info", "You must be logged in to comment it");
-        agregarComentario(idItinerario, usuarioLogueado.token, comentarioAPostear)
+        modificarComentario(idItinerario, usuarioLogueado.token, {comentario :comentarioAPostear,accion:"agregar"})
         setComentarioAPostear("");
     }
 
@@ -116,8 +116,15 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, agregarCom
     const solicitarBorrarComentario = (e) => {
         const idComentario = e.currentTarget.dataset.idcomentario
         console.log("el comentaio seleccionado es: ", comentarios.find(comentario => comentario._id === idComentario))
-        borrarComentario(idItinerario, usuarioLogueado.token, e.currentTarget.dataset.idcomentario)
+        modificarComentario(idItinerario, usuarioLogueado.token, {
+            idComentario : e.currentTarget.dataset.idcomentario,
+            accion:"borrar"
+        })
     }
+
+    
+
+
     return (
         <div className="contenedorCajaComentario" style={{ backgroundImage: "url(/assets/fondoComentarios.png)" }}>
             <div className="TodosLosComentarios">
@@ -129,8 +136,10 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, agregarCom
                             <div className={comentarioAEditar.idComentario === "" ? "portaNombreUsuarioYComentario" : "portaNombreUsuarioYComentarioEditando"} >
                                 <div className="portaNombreUsuarioYOpcionesComentario">
                                     <div className="espacioNombreUsuarioComentario"><h5>{nombreCompleto}</h5></div>
-                                    <div className="opcionesComentarios">
-                                        {comentarioAEditar.idComentario === unComentario._id
+                                    
+                                    {(usuarioLogueado && unComentario.esModificable) && 
+                                        <div className="opcionesComentarios">
+                                            {comentarioAEditar.idComentario === unComentario._id
                                             ?
                                             <IconButton
                                                 onClick={cancelarEditacion}
@@ -161,10 +170,10 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, agregarCom
                                                 >
                                                     <DeleteIcon />
                                                 </IconButton>
-                                            </>
-                                        }
-                                    </div>
-                                </div>
+                                            </>}
+                                        </div>
+                                    }
+                                </div>    
                                 {comentarioAEditar.idComentario === unComentario._id
                                     ? (
                                         <FormControl variant="outlined" className={misEstilos.estiloTextField} fullWidth={true} size="small">
@@ -185,9 +194,7 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, agregarCom
                                                     </InputAdornment>
                                                 }
                                             />
-                                        </FormControl>
-
-                                    )
+                                        </FormControl>)
                                     : (
                                         <div className="comentario">
                                             <span> {unComentario.comentario}</span>
@@ -228,7 +235,7 @@ const mapStateToProps = (state) => {
     }
 }
 const mapDispatchToProps = {
-    agregarComentario: cityItineraryActions.agregarComentario,
+    modificarComentario: cityItineraryActions.modificarComentario,
     borrarComentario: cityItineraryActions.borrarComentario
 }
 
