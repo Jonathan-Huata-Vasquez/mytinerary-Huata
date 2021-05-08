@@ -28,11 +28,14 @@ const useStyle = makeStyles(theme => ({
     }
     ,
 
-
     estiloTextField: {
         backgroundColor: "white",
         borderRadius: "5px",
-        marginTop: "1em"
+        marginTop: "1em",
+        "&::placeholder": {
+            color: "black",
+            backgroundColor: "#53afe4",
+        },
     },
     estiloInputEditando: {
         color: "white",
@@ -160,7 +163,7 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                 {comentarios.map((unComentario) => {
                     let nombreCompleto = unComentario.usuarioId.nombre + " " + unComentario.usuarioId.apellido;
                     return (
-                        <div className="portaAvatarComentario" key={unComentario._id}>
+                        <div className={usuarioLogueado?"portaAvatarComentarioLogueado":"portaAvatarComentario"} key={unComentario._id}>
                             <div className="avatar" style={{ backgroundImage: `url(${unComentario.usuarioId.usuarioAvatar})` }}></div>
                             <div className={comentarioAEditar.idComentario === "" ? "portaNombreUsuarioYComentario" : "portaNombreUsuarioYComentarioEditando"} >
                                 <div className="portaNombreUsuarioYOpcionesComentario">
@@ -247,9 +250,10 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                     <OutlinedInput
                         rowsMax={4}
                         placeholder={usuarioLogueado? "Leave your comment here" : "You must be logued to comment it"}
+                        //disabled={!usuarioLogueado}
                         multiline={true}
                         type='text'
-                        value={comentarioAPostear.comentario}
+                        value={usuarioLogueado? comentarioAPostear.comentario : ""}
                         onChange={(e) => leerInputPostear(e)}
                         endAdornment={
                             procesandoPeticionPostear

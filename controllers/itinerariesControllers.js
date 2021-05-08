@@ -13,7 +13,11 @@ function responderFrontEnd(res, respuesta, error) {
     })
 }
 function adaptarItinerariosUsuarioLogueado(itinerario,usuarioId = null){
-    let estaLikeado = usuarioId ?  itinerario.usuariosLiked.some(unUsuarioId => unUsuarioId === usuarioId) : false;
+    
+    let estaLikeado = usuarioId ?  itinerario.usuariosLiked.some(unUsuarioId => {
+        console.log(unUsuarioId , usuarioId)
+        return unUsuarioId === usuarioId.toString()
+    }) : false;
     let nuevosComentarios = itinerario.comentarios.map(unComentario => {
         let esModificable = usuarioId ? unComentario.usuarioId._id.toString() === usuarioId.toString() : false;
         return {
