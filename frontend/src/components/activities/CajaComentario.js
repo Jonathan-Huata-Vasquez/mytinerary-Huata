@@ -163,7 +163,7 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                 {comentarios.map((unComentario) => {
                     let nombreCompleto = unComentario.usuarioId.nombre + " " + unComentario.usuarioId.apellido;
                     return (
-                        <div className={usuarioLogueado?"portaAvatarComentarioLogueado":"portaAvatarComentario"} key={unComentario._id}>
+                        <div className={"portaAvatarComentario"} key={unComentario._id}>
                             <div className="avatar" style={{ backgroundImage: `url(${unComentario.usuarioId.usuarioAvatar})` }}></div>
                             <div className={comentarioAEditar.idComentario === "" ? "portaNombreUsuarioYComentario" : "portaNombreUsuarioYComentarioEditando"} >
                                 <div className="portaNombreUsuarioYOpcionesComentario">

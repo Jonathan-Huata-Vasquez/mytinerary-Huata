@@ -126,24 +126,25 @@ const itinerariesControllers = {
                 //(sin el $all buscaria los que solo tengan un array solo con el elemento [idUsuario])
             });
 
-            let modificaciones = usuarioLikeo
+            let updateOperator = usuarioLikeo
                 ? { $pull: { usuariosLiked: idUsuario }, $inc: { likes: -1 } }
                 : { $push: { usuariosLiked: idUsuario }, $inc: { likes: 1 } }
 
 
-            respuesta = await Itinerary.findByIdAndUpdate({ _id: idItinerario },modificaciones,{ new: true });
+            let itinerario = await Itinerary.findByIdAndUpdate({ _id: idItinerario },updateOperator,{ new: true })
+            .populate({
+                path:"comentarios.usuarioId",
+                select:"nombre apellido usuarioAvatar "
+            });
+            
+            itinerario? respuesta = adaptarItinerariosUsuarioLogueado(itinerario) : error = errorItineraryNotFound;
 
         } catch (e) {
             console.log(e);
-            error = "error DB"
+            error = "error DB";
         }
 
-        //mejorar codigo
-        res.json({
-            success: !error ? true : false,
-            respuesta,
-            error
-        })
+        responderFrontEnd(res,respuesta,error);
     },
     //idComentario para modificar o borrar
     //comentario para agregar o modificar

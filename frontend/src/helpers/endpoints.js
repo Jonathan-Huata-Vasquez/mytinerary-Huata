@@ -2,7 +2,6 @@ export const endpointCities = "http://localhost:4000/api/cities";
 export const endpointItineraries = "http://localhost:4000/api/itineraries";
 export const endpointItinerariesOfCity = "http://localhost:4000/api/itineraries/city";
 export const endpointItinerariesOfCityLogueado = "http://localhost:4000/api/itinerariesLogueado/city";
-export const endpointItinerariesBorrarComentario = "http://localhost:4000/api/itineraries/borrarComentario";
 export const endpointItinerariesModificarComentario = "http://localhost:4000/api/itineraries/modificarComentario";
 export const endpointItinerariesLike = "http://localhost:4000/api/itinerariesLike";
 export const endpointUserSignUp = "http://localhost:4000/api/user/signup";
