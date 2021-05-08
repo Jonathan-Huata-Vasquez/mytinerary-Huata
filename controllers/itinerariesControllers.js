@@ -136,8 +136,8 @@ const itinerariesControllers = {
                 path:"comentarios.usuarioId",
                 select:"nombre apellido usuarioAvatar "
             });
-            
-            itinerario? respuesta = adaptarItinerariosUsuarioLogueado(itinerario) : error = errorItineraryNotFound;
+
+            itinerario? respuesta = adaptarItinerariosUsuarioLogueado(itinerario,idUsuario) : error = errorItineraryNotFound;
 
         } catch (e) {
             console.log(e);
