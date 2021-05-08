@@ -569,11 +569,10 @@ span.hashtags{
 }
  
 
-.portaNombreUsuarioYComentario{
+.portaNombreUsuarioYComentario, .portaNombreUsuarioYComentarioEditando{
     padding: 0.5em;
-    width: auto;
+    
     min-width: 237px;
-    max-width: 27em;
     margin: 1.2em 0.5em 0 0.5em;
     display: flex;
     flex-direction: column;
@@ -584,7 +583,9 @@ span.hashtags{
     position:relative;
     border-radius: 18px 18px 18px 4px;
 }
-
+.portaNombreUsuarioYComentarioEditando{
+    width: 90%;
+}
 
 .portaNombreUsuarioYComentario h5{
     color:#11c8e3;
@@ -634,7 +635,7 @@ span.hashtags{
     border-radius: 25px;
 }
 
-.TodosLosComentarios::-webkit-scrollbar-thumb{
+.TodosLosComentarios::-webkit-scrollbar-thumb {
     background-color: #53afe4;
     border-radius: 25px;
     

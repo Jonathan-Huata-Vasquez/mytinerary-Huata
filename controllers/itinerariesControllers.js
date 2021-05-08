@@ -138,8 +138,6 @@ const itinerariesControllers = {
         })
     },
 
-    
-
     agregarNuevoComentario: async (req, res) => {
         const idItinerario = req.params.id;
         const usuarioId = req.user._id;
