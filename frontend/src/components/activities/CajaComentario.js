@@ -12,20 +12,21 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { connect } from 'react-redux'
 import cityItineraryActions from '../../redux/actions/cityItineraryAction'
 import { mostrarTostada, } from '../../helpers/tostadas'
+import { CircularProgress } from '@material-ui/core';
 const useStyle = makeStyles(theme => ({
-    '@global': {
-        '*::-webkit-scrollbar': {
-            width: '10px'
-        },
-        '*::-webkit-scrollbar-track': {
-            backgroundColor: "rgba(54, 99, 110, 0.662)",
-            borderradius: "25px",
-        },
-        '*::-webkit-scrollbar-thumb': {
-            backgroundColor: "#53afe4",
-            borderRadius: "25px",
-        }
+
+    '*::-webkit-scrollbar': {
+        width: '10px'
     },
+    '*::-webkit-scrollbar-track': {
+        backgroundColor: "rgba(54, 99, 110, 0.662)",
+        borderradius: "25px",
+    },
+    '*::-webkit-scrollbar-thumb': {
+        backgroundColor: "#53afe4",
+        borderRadius: "25px",
+    }
+    ,
 
 
     estiloTextField: {
@@ -65,20 +66,23 @@ const useStyle = makeStyles(theme => ({
 
 
 
-const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarComentario, borrarComentario }) => {
-    //console.log(comentarios)
+const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarComentario }) => {
+
     const misEstilos = useStyle();
-    const [comentarioAPostear, setComentarioAPostear] = useState("");
+    const [comentarioAPostear, setComentarioAPostear] = useState({
+        comentario: "",
+    });
+
     const [comentarioAEditar, setComentarioAEditar] = useState({
         idComentario: "",
         nuevoComentario: "",
     })
 
-
-
-
     const leerInputPostear = (e) => {
-        setComentarioAPostear(e.target.value)
+        setComentarioAPostear({
+            ...comentarioAPostear,
+            comentario: e.target.value
+        })
     }
     const leerInputEditar = (e) => {
         setComentarioAEditar({
@@ -86,23 +90,61 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
             nuevoComentario: e.target.value
         })
     }
-    const cancelarEditacion = () => {
-        setComentarioAEditar({
-            idComentario: "",
-            nuevoComentario: ""
-        })
-    }
 
 
-    const postearComentario = () => {
+    const [procesandoPeticionPostear, setProcesandoPeticionPostear] = useState(false)
+    const [procesandoPeticionEditar, setProcesandoPeticionEditar] = useState(false)
+    const [procesandoPeticionBorrar, setProcesandoPeticionBorrar] = useState(false)
+    const [comentarioSiendoBorrado,setComentarioSiendoBorrado] = useState("")
+    const solicitarModificarComentario = async (accion, e = null) => {
         if (!usuarioLogueado)
             return mostrarTostada("info", "You must be logged in to comment it");
-        modificarComentario(idItinerario, usuarioLogueado.token, {comentario :comentarioAPostear,accion:"agregar"})
-        setComentarioAPostear("");
+        let comentario, idComentario;
+        let setCargandoPeticion;
+        switch (accion) {
+            case "agregar":
+                comentario = comentarioAPostear.comentario;
+                setCargandoPeticion = setProcesandoPeticionPostear;
+                break;
+            case "editar":
+                comentario = comentarioAEditar.nuevoComentario;
+                idComentario = comentarioAEditar.idComentario;
+                setCargandoPeticion = setProcesandoPeticionEditar;
+                break;
+            case "borrar":
+                idComentario = e.currentTarget.dataset.idcomentario;
+                setCargandoPeticion = setProcesandoPeticionBorrar;
+                setComentarioSiendoBorrado(idComentario);
+
+                break;
+            default:
+                console.log("accion desconocida: " + accion)
+        }
+        setCargandoPeticion(true);
+        let pedidoExitoso = await modificarComentario(idItinerario, usuarioLogueado.token, { idComentario, comentario, accion })
+
+        if (pedidoExitoso) {
+            limpiarInput(accion);
+        }
+        setComentarioSiendoBorrado("");
+        setCargandoPeticion(false)
+    }
+
+    const limpiarInput = (accion) => {
+        if (accion === "editar") {
+            setComentarioAEditar({
+                idComentario: "",
+                nuevoComentario: "",
+            })
+        }
+        if (accion === "agregar") {
+            setComentarioAPostear({
+                comentario: "",
+            })
+        }
     }
 
     const colocarTexfieldDeEditacion = (e) => {
-
         const idComentario = e.currentTarget.dataset.idcomentario;
         console.log(idComentario)
         setComentarioAEditar({
@@ -111,19 +153,6 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
             nuevoComentario: comentarios.find(comentario => comentario._id === idComentario).comentario
         })
     }
-
-    //pre: usuario esta logueado
-    const solicitarBorrarComentario = (e) => {
-        const idComentario = e.currentTarget.dataset.idcomentario
-        console.log("el comentaio seleccionado es: ", comentarios.find(comentario => comentario._id === idComentario))
-        modificarComentario(idItinerario, usuarioLogueado.token, {
-            idComentario : e.currentTarget.dataset.idcomentario,
-            accion:"borrar"
-        })
-    }
-
-    
-
 
     return (
         <div className="contenedorCajaComentario" style={{ backgroundImage: "url(/assets/fondoComentarios.png)" }}>
@@ -136,62 +165,70 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                             <div className={comentarioAEditar.idComentario === "" ? "portaNombreUsuarioYComentario" : "portaNombreUsuarioYComentarioEditando"} >
                                 <div className="portaNombreUsuarioYOpcionesComentario">
                                     <div className="espacioNombreUsuarioComentario"><h5>{nombreCompleto}</h5></div>
-                                    
-                                    {(usuarioLogueado && unComentario.esModificable) && 
+
+                                    {(usuarioLogueado && unComentario.esModificable) &&
                                         <div className="opcionesComentarios">
                                             {comentarioAEditar.idComentario === unComentario._id
-                                            ?
-                                            <IconButton
-                                                onClick={cancelarEditacion}
-                                                edge="end"
-                                                size="small"
-                                                data-idcomentario={unComentario._id}
-                                                className={misEstilos.estiloSVGCancelar}
-                                            >
-                                                <CancelIcon />
-                                            </IconButton>
-                                            :
-                                            <>
+                                                ?
                                                 <IconButton
-                                                    onClick={(e) => colocarTexfieldDeEditacion(e)}
+                                                    onClick={() => limpiarInput("editar")}
                                                     edge="end"
                                                     size="small"
                                                     data-idcomentario={unComentario._id}
-                                                    className={misEstilos.estiloSVGEditar}
+                                                    className={misEstilos.estiloSVGCancelar}
                                                 >
-                                                    <EditIcon />
+                                                    <CancelIcon />
                                                 </IconButton>
-                                                <IconButton
-                                                    edge="end"
-                                                    size="small"
-                                                    onClick={(e) => solicitarBorrarComentario(e)}
-                                                    data-idcomentario={unComentario._id}
-                                                    className={misEstilos.estiloSVGBorrar}
-                                                >
-                                                    <DeleteIcon />
-                                                </IconButton>
-                                            </>}
+
+                                                : procesandoPeticionBorrar || 
+                                                    <>
+                                                        <IconButton
+                                                            onClick={(e) => colocarTexfieldDeEditacion(e)}
+                                                            edge="end"
+                                                            size="small"
+                                                            data-idcomentario={unComentario._id}
+                                                            className={misEstilos.estiloSVGEditar}
+                                                        >
+                                                            <EditIcon />
+                                                        </IconButton>
+                                                        <IconButton
+                                                            edge="end"
+                                                            size="small"
+                                                            onClick={(e) => solicitarModificarComentario("borrar", e)}
+                                                            data-idcomentario={unComentario._id}
+                                                            className={misEstilos.estiloSVGBorrar}
+                                                        >
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </>
+                                        } 
+                                        {comentarioSiendoBorrado === unComentario._id && <CircularProgress size={25} style={{color:"red"}}/>}     
                                         </div>
                                     }
-                                </div>    
+                                </div>
                                 {comentarioAEditar.idComentario === unComentario._id
                                     ? (
                                         <FormControl variant="outlined" className={misEstilos.estiloTextField} fullWidth={true} size="small">
                                             <OutlinedInput
+                                                disabled={procesandoPeticionPostear}
+                                                autoFocus={true}
                                                 rowsMax={4}
                                                 multiline={true}
                                                 type='text'
                                                 value={comentarioAEditar.nuevoComentario}
                                                 onChange={(e) => leerInputEditar(e)}
                                                 endAdornment={
-                                                    <InputAdornment position="end">
-                                                        <IconButton
-                                                            onClick={postearComentario}
-                                                            edge="end"
-                                                        >
-                                                            <SendIcon className={misEstilos.estiloSendSVG} />
-                                                        </IconButton>
-                                                    </InputAdornment>
+                                                    procesandoPeticionEditar
+                                                        ? <CircularProgress size={25} />
+                                                        :
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                onClick={() => solicitarModificarComentario("editar")}
+                                                                edge="end"
+                                                            >
+                                                                <SendIcon className={misEstilos.estiloSendSVG} />
+                                                            </IconButton>
+                                                        </InputAdornment>
                                                 }
                                             />
                                         </FormControl>)
@@ -209,24 +246,30 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                 <FormControl variant="outlined" className={misEstilos.estiloTextField} fullWidth={true} size="small">
                     <OutlinedInput
                         rowsMax={4}
+                        placeholder={usuarioLogueado? "Leave your comment here" : "You must be logued to comment it"}
                         multiline={true}
                         type='text'
-                        value={comentarioAPostear}
+                        value={comentarioAPostear.comentario}
                         onChange={(e) => leerInputPostear(e)}
                         endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    onClick={postearComentario}
-                                    edge="end"
-                                >
-                                    <SendIcon className={misEstilos.estiloSendSVG} />
-                                </IconButton>
-                            </InputAdornment>
+                            procesandoPeticionPostear
+                                ? <CircularProgress size={25} />
+                                :
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        onClick={() => solicitarModificarComentario("agregar")}
+                                        edge="end"
+                                    >
+                                        <SendIcon className={misEstilos.estiloSendSVG} />
+                                    </IconButton>
+                                </InputAdornment>
                         }
                     />
                 </FormControl>
             </div>
+
         </div>
+
     )
 }
 const mapStateToProps = (state) => {

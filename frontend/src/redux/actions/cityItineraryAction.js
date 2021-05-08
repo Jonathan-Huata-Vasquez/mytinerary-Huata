@@ -1,7 +1,6 @@
 import axios from "axios";
 import {endpointCities,endpointActivitiesItinerary,endpointItinerariesOfCity,
     endpointItinerariesLike,endpointItinerariesOfCityLogueado,
-    endpointItinerariesBorrarComentario,
     endpointItinerariesModificarComentario} from "../../helpers/endpoints"
 import {mostrarTostada,mostrarTostadaError500} from '../../helpers/tostadas'
 
@@ -73,10 +72,11 @@ const cityItineraryActions = {
         }
     },
     modificarComentario : (idItinerario,token,body) => {
+        console.log(body)
         const {idComentario,comentario,accion} = body;
+
         return async (dispatch) =>{
             try{
-                //let {data} = await axios.put(`${endpointItinerariesAgregarComentario}/${idItinerario}`,{comentario},{
                 let {data} = await axios.put(`${endpointItinerariesModificarComentario  }/${idItinerario}`,{idComentario,comentario,accion},{
                     headers:{
                         'Authorization': 'Bearer ' + token,    
@@ -86,29 +86,14 @@ const cityItineraryActions = {
                 data.success
                 ? dispatch({type:"ACTUALIZAR_ITINERARIO",payload:data.respuesta}) 
                 : mostrarTostada("error",data.error);
+                return data.success;
             }catch(e){
                 console.log(e);
                 mostrarTostadaError500();
             }   
         }
     },
-    borrarComentario:(idItinerario,token,idComentario) =>{
-        return async (dispatch) => {
-            try {
-                let {data} = await axios.put(`${endpointItinerariesBorrarComentario}/${idItinerario}`,{idComentario},{
-                    headers: {
-                        'Authorization': 'Bearer ' + token,
-                    }
-                })
-                console.log(data)
-                data.success? dispatch({type:"ACTUALIZAR_ITINERARIO",payload:data.respuesta}) : mostrarTostada("error",data.error)
-                console.log("comentario borrado")
-            } catch (e) {
-                console.log(e);
-                mostrarTostadaError500();
-            }
-        }
-    }
+    
 
 
 

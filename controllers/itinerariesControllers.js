@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Itinerary = require('../models/Itinerary');
 
 
@@ -156,20 +157,20 @@ const itinerariesControllers = {
                     querySelector = {_id : idItinerario };
                     updateOperator = { $push:{ comentarios:{ usuarioId,comentario } } };
                     break;
-                case "actualizar":
-                    querySelector = { _id: idItinerario ,$elemMatch: { _id : idComentario}} ;
+                case "editar": //comentarios: { $elemMatch:  { $eq :{_id: idComentario}} } 
+                    querySelector = { _id : idItinerario ,"comentarios._id":idComentario  } ;//$eq compara si son lo mismo
                     updateOperator = {$set : {"comentarios.$.comentario": comentario }};
                     break;
                 case "borrar" : 
 
-                    querySelector = { _id: idItinerario ,"comentarios._id": idComentario};
+                    querySelector = { _id: idItinerario };
                     updateOperator = {$pull : {comentarios:{_id : idComentario}}}
                     break;
                 default:
                     error = "unknown action on modificarComentario : " + accion;
                     responderFrontEnd(res,respuesta,error);
             }
-            let itinerarioModificado = await Itinerary.findByIdAndUpdate(querySelector, updateOperator,{ new: true })
+            let itinerarioModificado = await Itinerary.findOneAndUpdate(querySelector, updateOperator,{ new: true })
             .populate({
                 path:"comentarios.usuarioId",
                 select:"nombre apellido usuarioAvatar "
