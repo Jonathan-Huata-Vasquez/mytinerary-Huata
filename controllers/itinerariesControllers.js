@@ -10,13 +10,12 @@ function responderFrontEnd(res, respuesta, error) {
         success: !error ? true : false,
         respuesta,
         error
-    })
+    });
 }
 function adaptarItinerariosUsuarioLogueado(itinerario,usuarioId = null){
     
     let estaLikeado = usuarioId ?  itinerario.usuariosLiked.some(unUsuarioId => {
-        console.log(unUsuarioId , usuarioId)
-        return unUsuarioId === usuarioId.toString()
+        return unUsuarioId === usuarioId.toString();
     }) : false;
     let nuevosComentarios = itinerario.comentarios.map(unComentario => {
         let esModificable = usuarioId ? unComentario.usuarioId._id.toString() === usuarioId.toString() : false;
@@ -38,54 +37,60 @@ function adaptarItinerariosUsuarioLogueado(itinerario,usuarioId = null){
 }
 
 const itinerariesControllers = {
-
     agregarItinerario: async (req, res) => {
+        let respuesta,error;
         try {
             const nuevoItinerario = new Itinerary(req.body)
             await nuevoItinerario.save()
-            const todosItinerarios = await Itinerary.find();
-            res.json({ success: true, respuesta: todosItinerarios });
+            nuevoItinerario || responderFrontEnd(res,respuesta, "falta un campo requerido");
+            respuesta = await Itinerary.find();
         }
         catch (error) {
-            res.json({ success: false, respuesta: "error : " + error });
+            error = errorBD;
         }
+        responderFrontEnd(res,respuesta,error)
     },
     obtenerTodosItinerarios: async (req, res) => {
+        let respuesta,error;
         try {
-            const todosItinerarios = await Itinerary.find().populate({
+            respuesta = await Itinerary.find().populate({
                 path: 'comentarios',
             });
-            res.json({ success: true, respuesta: todosItinerarios });
+            
         } catch (error) {
-            res.json({ success: false, respuesta: "error : " + error });
+            error = errorBD;
         }
+        responderFrontEnd(res,respuesta,error)
     },
     obtenerItinerarioPorId: async (req, res) => {
-        const id = req.params.id;
+        let respuesta, error;
         try {
-            const itinerario = await Itinerary.findById(id);
-            res.json({ success: true, respuesta: itinerario });
+            const id = req.params.id;
+            respuesta = await Itinerary.findById(id);
+            respuesta || (error = errorItineraryNotFound);
         } catch (error) {
-            res.json({ success: false, respuesta: "error : " + error });
+            error = errorBD
         }
+        responderFrontEnd(res,respuesta,error);
     },
     obtenerItinerarioPorCiudad: async (req, res) => {
         const idCiudad = req.params.id;
-        let error, respuesta;
         let usuarioId = req.user ? req.user._id : null;
-        try {
+        let error, respuesta;
 
+        try {
+            
             //popular : poblar, como tenemos una relacion de un itinerario con una ciudad,
-            //hago que me traiga todos los datos del usuario
+            //hago que me traiga todos los datos del usuario diciendole la ruta y solo las cosas que quiero que me popule
             let itinerarios = await Itinerary.find({ idCiudad }).populate({
                 path:"comentarios.usuarioId",
-                select:"nombre apellido usuarioAvatar "
+                select:"nombre apellido usuarioAvatar " //me trae el _id 
             })
-
+            itinerarios || responderFrontEnd(res,respuesta,errorItineraryNotFound)
             respuesta = itinerarios.map(itinerario => adaptarItinerariosUsuarioLogueado(itinerario,usuarioId));
         } catch (e) {
             console.log(e)
-            error = "error BD";
+            error = errorBD;
         }
         responderFrontEnd(res,respuesta,error)
     },
@@ -93,23 +98,29 @@ const itinerariesControllers = {
 
     actualizarItinerario: async (req, res) => {
         const id = req.params.id;
+        let respuesta,error ;
         try {
-            await Itinerary.findOneAndUpdate({ _id: id }, req.body, { new: true })
-            const todosItinerarios = await Itinerary.find();
-            res.json({ success: true, respuesta: todosItinerarios });
+            let nuevoItinerario = await Itinerary.findOneAndUpdate({ _id: id }, req.body, { new: true });
+            nuevoItinerario || responderFrontEnd(res,respuesta,"no se pudo actualizar el itinerario")
+            respuesta = await Itinerary.find();
         } catch (error) {
-            res.json({ success: false, respuesta: "error : " + error });
+            error = errorBD;
         }
+        responderFrontEnd(res,respuesta,error)
     },
     borrarItinerario: async (req, res) => {
         const id = req.params.id;
+        let respuesta, error;
         try {
-            await Itinerary.findOneAndDelete({ _id: id })
-            const todosItinerarios = await Itinerary.find();
-            res.json({ success: true, respuesta: todosItinerarios });
-        } catch (error) {
-            res.json({ success: false, respuesta: "error : " + error });
+            let itinerarioBorrado = await Itinerary.findOneAndDelete({ _id: id });
+            itinerarioBorrado || responderFrontEnd(res,respuesta,errorItineraryNotFound);
+            respuesta = await Itinerary.find();
+            
+        } catch (err) {
+            console.log(err)
+            error = errorBD;
         }
+        responderFrontEnd(res,respuesta,error);
     },
 
     //pre: el usuario existe en la BD y el itinerario tambien
@@ -162,12 +173,11 @@ const itinerariesControllers = {
                     querySelector = {_id : idItinerario };
                     updateOperator = { $push:{ comentarios:{ usuarioId,comentario } } };
                     break;
-                case "editar": //comentarios: { $elemMatch:  { $eq :{_id: idComentario}} } 
-                    querySelector = { _id : idItinerario ,"comentarios._id":idComentario  } ;//$eq compara si son lo mismo
-                    updateOperator = {$set : {"comentarios.$.comentario": comentario }};
+                case "editar": 
+                    querySelector = { _id : idItinerario ,"comentarios._id":idComentario  } ; //para usar el $set es necesario especificar el campo donde esta el array en la query
+                    updateOperator = {$set : {"comentarios.$.comentario": comentario }}; //especifico que propiedad de los comentarios modificar, si saca $ escribira un nuevo campo
                     break;
                 case "borrar" : 
-
                     querySelector = { _id: idItinerario };
                     updateOperator = {$pull : {comentarios:{_id : idComentario}}}
                     break;
@@ -192,28 +202,6 @@ const itinerariesControllers = {
         //console.log(respuesta)
         responderFrontEnd(res, respuesta, error)
     },
-    
-    /*borrarComentario: async (req,res) => {
-        const {idComentario} = req.body ;
-        const idItinerario = req.params.id;
-        
-        let respuesta,error;
-        try{
-            respuesta = await Itinerary.findByIdAndUpdate(idItinerario,{
-                $pull:{comentarios:{_id:idComentario}}
-            },{new:true}).populate({
-                path:"comentarios.usuarioId",
-                select:"nombre apellido usuarioAvatar "
-            })
-            console.log(respuesta)
-            error = !respuesta && errorItineraryNotFound
-        }
-        catch(e){
-            console.log(e)
-            error = errorBD;
-        }
-        responderFrontEnd(res,respuesta,error);
-    },*/
 }
 
 

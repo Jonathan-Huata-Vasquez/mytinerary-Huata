@@ -45,7 +45,7 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
     const  cargarActividades = async ()=>{
         setEstaExpandido(!estaExpandido)
         refBtnViewMore.current.focus()
-        if(state.actividades.length === 0){
+        if(state.actividades?.length === 0){
             try{
                 let respuesta = await cargarActividadesDeItinerario(unItinerario._id);
                 setState({
@@ -89,6 +89,7 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
             </div>
 
             <Collapse in={estaExpandido} className="mt-3">
+                {/** */}
                 <ItineraryActivities  actividades={state.actividades} idItinerario={unItinerario._id} comentarios={unItinerario.comentarios}/>
             </Collapse> 
             <Button
