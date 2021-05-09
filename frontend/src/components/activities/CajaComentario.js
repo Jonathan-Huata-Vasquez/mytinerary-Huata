@@ -85,16 +85,26 @@ const useStyle = makeStyles(theme => ({
 const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarComentario }) => {
     const misEstilos = useStyle();
     const [modal, setModal] = useState({
-        estaAbierto : false,
-        comentario : "",
-        idComentario:""
+        estaAbierto: false,
+        body: "",
+        titulo: "",
+        idComentario: "",
+        funcionAEjecutar: null,
+        accion: ""
     });
 
     //Para abrir o cerrar el Modal
-    const toggle = () => setModal({
-        ...modal,
-        estaAbierto: !modal.estaAbierto
-    });
+    const cerrarModal = () => {
+        setModal({
+            estaAbierto: false,
+            body: "",
+            titulo: "",
+            idComentario: "",
+            funcionAEjecutar: null,
+            accion: ""
+        });
+
+    }
 
 
     const [comentarioAPostear, setComentarioAPostear] = useState({
@@ -124,11 +134,11 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
     const [procesandoPeticionPostear, setProcesandoPeticionPostear] = useState(false)
     const [procesandoPeticionEditar, setProcesandoPeticionEditar] = useState(false)
     const [procesandoPeticionBorrar, setProcesandoPeticionBorrar] = useState(false)
-    const [comentarioSiendoBorrado,setComentarioSiendoBorrado] = useState("")
-    const solicitarModificarComentario = async (accion, e = null) => {
+    const [comentarioSiendoBorrado, setComentarioSiendoBorrado] = useState("")
+    const solicitarModificarComentario = async (accion, idComentario = null) => {
         if (!usuarioLogueado)
             return mostrarTostada("info", "You must be logged in to comment it");
-        let comentario, idComentario;
+        let comentario;
         let setCargandoPeticion;
         switch (accion) {
             case "agregar":
@@ -137,15 +147,16 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                 break;
             case "editar":
                 comentario = comentarioAEditar.nuevoComentario;
-                idComentario = comentarioAEditar.idComentario;
+                
                 setCargandoPeticion = setProcesandoPeticionEditar;
+                cerrarModal();
                 break;
             case "borrar":
-                toggle();
-                idComentario = e.currentTarget.dataset.idcomentario;
+
+                
                 setCargandoPeticion = setProcesandoPeticionBorrar;
                 setComentarioSiendoBorrado(idComentario);
-
+                cerrarModal();
                 break;
             default:
                 console.log("accion desconocida: " + accion)
@@ -161,8 +172,8 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
     }
 
     const limpiarInput = (accion) => {
-        if (accion === "editar") {setComentarioAEditar({idComentario: "",nuevoComentario: "",}) }
-        if (accion === "agregar") { setComentarioAPostear({comentario: ""}) }
+        if (accion === "editar") { setComentarioAEditar({ idComentario: "", nuevoComentario: "", }) }
+        if (accion === "agregar") { setComentarioAPostear({ comentario: "" }) }
     }
 
     const colocarTexfieldDeEditacion = (e) => {
@@ -174,26 +185,44 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
         })
     }
 
-    const mostrarModalBorrarMensaje = (e) => {
-        const idComentario = e.currentTarget.dataset.idcomentario; 
-        let comentario = comentarios.find(unComentario => unComentario._id === idComentario).comentario;
+    const mostrarModal = (accion, e) => {
+        const idComentario = e.currentTarget.dataset.idcomentario;
+        const funcionAEjecutar = solicitarModificarComentario
+        let titulo, body;
+        switch (accion) {
+            case "editar":
+                titulo = "¿ Are you sure to save the changes ?"
+                body = comentarioAEditar.nuevoComentario;
+                break;
+            case "borrar":
+                let comentario = comentarios.find(unComentario => unComentario._id === idComentario).comentario;
+                titulo = " Are you sure you want to delete the comment ? ";
+                body = comentario;
+                break;
+            default:
+                return null;
+        }
+
         setModal({
             ...modal,
-            estaAbierto:true,
-            comentario,
-            idComentario
+            estaAbierto: true,
+            body,
+            idComentario,
+            titulo,
+            funcionAEjecutar,
+            accion
         })
     }
-    
+
     return (
         <div className="contenedorCajaComentario" style={{ backgroundImage: "url(/assets/fondoComentarios.png)" }}>
             <div className="TodosLosComentarios">
                 {comentarios.map((unComentario) => {
                     let nombreCompleto = unComentario.usuarioId.nombre + " " + unComentario.usuarioId.apellido;
                     return (
-                        <div className={usuarioLogueado && unComentario.esModificable? "portaAvatarComentarioLogueado":"portaAvatarComentario"} key={unComentario._id}>
-                            <div className={usuarioLogueado && unComentario.esModificable ? "avatarLogueado":"avatar"} style={{ backgroundImage: `url(${unComentario.usuarioId.usuarioAvatar})` }}></div>
-                            <div className={ !usuarioLogueado || !unComentario.esModificable ?  "portaNombreUsuarioYComentario" : comentarioAEditar.idComentario === "" ?"portaNombreUsuarioYComentarioLogueado" : "portaNombreUsuarioYComentarioEditando" } >
+                        <div className={usuarioLogueado && unComentario.esModificable ? "portaAvatarComentarioLogueado" : "portaAvatarComentario"} key={unComentario._id}>
+                            <div className={usuarioLogueado && unComentario.esModificable ? "avatarLogueado" : "avatar"} style={{ backgroundImage: `url(${unComentario.usuarioId.usuarioAvatar})` }}></div>
+                            <div className={!usuarioLogueado || !unComentario.esModificable ? "portaNombreUsuarioYComentario" : comentarioAEditar.idComentario === "" ? "portaNombreUsuarioYComentarioLogueado" : "portaNombreUsuarioYComentarioEditando"} >
                                 <div className="portaNombreUsuarioYOpcionesComentario">
                                     <div className="espacioNombreUsuarioComentario"><h5>{nombreCompleto}</h5></div>
                                     {(usuarioLogueado && unComentario.esModificable) &&
@@ -210,30 +239,30 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                                                     <CancelIcon />
                                                 </IconButton>
 
-                                                : procesandoPeticionBorrar || 
-                                                    <>
-                                                        <IconButton
-                                                            onClick={(e) => colocarTexfieldDeEditacion(e)}
-                                                            edge="end"
-                                                            size="small"
-                                                            data-idcomentario={unComentario._id}
-                                                            className={misEstilos.estiloSVGEditar}
-                                                        >
-                                                            <EditIcon />
-                                                        </IconButton>
-                                                        <IconButton
-                                                            edge="end"
-                                                            size="small"
-                                                            //onClick={(e) => solicitarModificarComentario("borrar", e)}
-                                                            onClick ={(e)=>mostrarModalBorrarMensaje(e)}
-                                                            data-idcomentario={unComentario._id}
-                                                            className={misEstilos.estiloSVGBorrar}
-                                                        >
-                                                            <DeleteIcon />
-                                                        </IconButton>
-                                                    </>
-                                        } 
-                                        {comentarioSiendoBorrado === unComentario._id && <CircularProgress size={25} style={{color:"red"}}/>}     
+                                                : procesandoPeticionBorrar ||
+                                                <>
+                                                    <IconButton
+                                                        onClick={(e) => colocarTexfieldDeEditacion(e)}
+                                                        edge="end"
+                                                        size="small"
+                                                        data-idcomentario={unComentario._id}
+                                                        className={misEstilos.estiloSVGEditar}
+                                                    >
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                    <IconButton
+                                                        edge="end"
+                                                        size="small"
+                                                        
+                                                        onClick={(e) => mostrarModal("borrar", e)}
+                                                        data-idcomentario={unComentario._id}
+                                                        className={misEstilos.estiloSVGBorrar}
+                                                    >
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </>
+                                            }
+                                            {comentarioSiendoBorrado === unComentario._id && <CircularProgress size={25} style={{ color: "red" }} />}
                                         </div>
                                     }
                                 </div>
@@ -251,12 +280,13 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                                                 endAdornment={
                                                     procesandoPeticionEditar
                                                         ? <InputAdornment position="end">
-                                                            <CircularProgress size={25} style={{margin:"12px"} }/>
-                                                        </InputAdornment> 
+                                                            <CircularProgress size={25} style={{ margin: "12px" }} />
+                                                        </InputAdornment>
                                                         :
                                                         <InputAdornment position="end">
                                                             <IconButton
-                                                                onClick={() => solicitarModificarComentario("editar")}
+                                                                data-idcomentario={unComentario._id}
+                                                                onClick={(e) => mostrarModal("editar",e)}
                                                                 disabled={comentarioAEditar.nuevoComentario.split("\n").join("") === ""}
                                                                 edge="end"
                                                             >
@@ -280,17 +310,17 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                 <FormControl variant="outlined" className={misEstilos.estiloTextField} fullWidth={true} size="small" >
                     <OutlinedInput
                         rowsMax={4}
-                        placeholder={usuarioLogueado? "Leave your comment here" : "You must be logued to comment it"}
+                        placeholder={usuarioLogueado ? "Leave your comment here" : "You must be logued to comment it"}
                         multiline={true}
                         type='text'
-                        value={usuarioLogueado? comentarioAPostear.comentario : ""}
+                        value={usuarioLogueado ? comentarioAPostear.comentario : ""}
                         onChange={(e) => leerInputPostear(e)}
                         endAdornment={
                             procesandoPeticionPostear
 
-                                ?<InputAdornment position="end">
-                                    <CircularProgress size={25} style={{margin:"12px"} }/>
-                                </InputAdornment> 
+                                ? <InputAdornment position="end">
+                                    <CircularProgress size={25} style={{ margin: "12px" }} />
+                                </InputAdornment>
                                 :
                                 <InputAdornment position="end">
                                     <IconButton
@@ -307,18 +337,20 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
             </div>
             <div >
 
-            {/*<Button color="danger" onClick={toggle}></Button>*/}
-            <Modal isOpen={modal.estaAbierto} toggle={toggle}  style = {{marginTop:"33vh"}}>
-              <ModalHeader toggle={toggle}>Are you sure you want to delete the message:</ModalHeader>
-              <ModalBody>
-                {modal.comentario}
-              </ModalBody>
-              <ModalFooter>
-                <Button color="primary" data-idcomentario={modal.idComentario} onClick={(e) => solicitarModificarComentario("borrar",e)}> Yes !</Button>{' '}
-                <Button color="danger" onClick={toggle}>Cancel</Button>
-              </ModalFooter>
-            </Modal>
-          </div>
+                {/*<Button color="danger" onClick={toggle}></Button>*/}
+
+
+                <Modal isOpen={modal.estaAbierto} toggle={cerrarModal} style={{ marginTop: "33vh", wordWrap: "break-word"}}>
+                    <ModalHeader toggle={cerrarModal}>{modal.titulo}</ModalHeader>
+                    <ModalBody>
+                        {modal.body}
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" data-idcomentario={modal.idComentario} onClick={() => modal.funcionAEjecutar(modal.accion, modal.idComentario)}> Yes !</Button>{' '}
+                        <Button color="danger" onClick={cerrarModal}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+            </div>
         </div>
 
     )
