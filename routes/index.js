@@ -27,7 +27,7 @@ router.route('/cities/:id')
 //------------------------------------------------
 const {agregarItinerario,obtenerTodosItinerarios,obtenerItinerarioPorId,
     obtenerItinerarioPorCiudad,actualizarItinerario,borrarItinerario,likearItinerario,
-    agregarNuevoComentario, borrarComentario,modificarComentariosItinerario} = itinerariesControllers;
+    modificarComentariosItinerario} = itinerariesControllers;
 
 
 router.route('/itineraries')

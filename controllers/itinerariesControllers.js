@@ -40,12 +40,12 @@ const itinerariesControllers = {
     agregarItinerario: async (req, res) => {
         let respuesta,error;
         try {
-            const nuevoItinerario = new Itinerary(req.body)
-            await nuevoItinerario.save()
-            nuevoItinerario || responderFrontEnd(res,respuesta, "falta un campo requerido");
+            const nuevoItinerario = new Itinerary(req.body);
+            await nuevoItinerario.save();
             respuesta = await Itinerary.find();
         }
-        catch (error) {
+        catch (err) {
+            console.log(err)
             error = errorBD;
         }
         responderFrontEnd(res,respuesta,error)

@@ -501,7 +501,7 @@ span.hashtags{
 }
 .slideEstilo-Activity{
     width: 60vw;
-    min-width: 240px;
+    min-width: 350px;
     display: flex;
     justify-content: center;
     margin: 0.5em 0
@@ -530,6 +530,7 @@ span.hashtags{
     border-radius: 1px 1px 50em 50em;
     border: 3px solid #00cae8;   
     padding: 0 5px;
+    font-size: 1.55em;
 }
 .labelActividades{
     background:#FF813E; 
@@ -686,3 +687,4 @@ span.hashtags{
 .espacioNombreUsuarioComentario{
     margin-right:10px ;
 }
+
