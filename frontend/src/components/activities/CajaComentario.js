@@ -36,6 +36,17 @@ const useStyle = makeStyles(theme => ({
             color: "black",
             backgroundColor: "#53afe4",
         },
+        '*::-webkit-scrollbar': {
+            width: '10px'
+        },
+        '*::-webkit-scrollbar-track': {
+            backgroundColor: "rgba(54, 99, 110, 0.662)",
+            borderradius: "25px",
+        },
+        '*::-webkit-scrollbar-thumb': {
+            backgroundColor: "#53afe4",
+            borderRadius: "25px",
+        }
     },
     estiloInputEditando: {
         color: "white",
@@ -156,16 +167,16 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
             nuevoComentario: comentarios.find(comentario => comentario._id === idComentario).comentario
         })
     }
-
+    
     return (
         <div className="contenedorCajaComentario" style={{ backgroundImage: "url(/assets/fondoComentarios.png)" }}>
             <div className="TodosLosComentarios">
                 {comentarios.map((unComentario) => {
                     let nombreCompleto = unComentario.usuarioId.nombre + " " + unComentario.usuarioId.apellido;
                     return (
-                        <div className={"portaAvatarComentario"} key={unComentario._id}>
-                            <div className="avatar" style={{ backgroundImage: `url(${unComentario.usuarioId.usuarioAvatar})` }}></div>
-                            <div className={comentarioAEditar.idComentario === "" ? "portaNombreUsuarioYComentario" : "portaNombreUsuarioYComentarioEditando"} >
+                        <div className={usuarioLogueado && unComentario.esModificable? "portaAvatarComentarioLogueado":"portaAvatarComentario"} key={unComentario._id}>
+                            <div className={usuarioLogueado && unComentario.esModificable ? "avatarLogueado":"avatar"} style={{ backgroundImage: `url(${unComentario.usuarioId.usuarioAvatar})` }}></div>
+                            <div className={ !usuarioLogueado || !unComentario.esModificable ?  "portaNombreUsuarioYComentario" : comentarioAEditar.idComentario === "" ?"portaNombreUsuarioYComentarioLogueado" : "portaNombreUsuarioYComentarioEditando" } >
                                 <div className="portaNombreUsuarioYOpcionesComentario">
                                     <div className="espacioNombreUsuarioComentario"><h5>{nombreCompleto}</h5></div>
 
@@ -290,5 +301,5 @@ const mapDispatchToProps = {
 export default connect(mapStateToProps, mapDispatchToProps)(CajaComentario);
 
 /*
-
+<div className={ comentarioAEditar.idComentario === "" ? "portaNombreUsuarioYComentario" : "portaNombreUsuarioYComentarioEditando"} >
 */
