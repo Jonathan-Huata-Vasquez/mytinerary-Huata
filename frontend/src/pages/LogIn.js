@@ -37,6 +37,7 @@ const estilos = ({
 
 })
 class LogIn extends React.Component {
+    
     state = {
         visibleContrasena: false,
         valoresInputs: {
@@ -51,7 +52,7 @@ class LogIn extends React.Component {
             error: unError
         })
     }
-
+    
     leerInput(e) {
         this.setState({
             ...this.state,
@@ -63,6 +64,7 @@ class LogIn extends React.Component {
     }
 
     cambiarVisibilidadContrasena() {
+        
         this.setState({
             ...this.state,
             visibleContrasena: !this.state.visibleContrasena

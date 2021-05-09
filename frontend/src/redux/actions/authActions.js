@@ -19,7 +19,7 @@ const authActions = {
 
         }
     },
-    loguearUsuario: (usuario) => {
+    loguearUsuario: (usuario,history) => {
         return async (dispatch, getState) => {
             //obtengo respuesta y la destructuro
             const { data } = await axios.post(endpointUserLogIn, usuario)

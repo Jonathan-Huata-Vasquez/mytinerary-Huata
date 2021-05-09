@@ -179,7 +179,6 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                             <div className={ !usuarioLogueado || !unComentario.esModificable ?  "portaNombreUsuarioYComentario" : comentarioAEditar.idComentario === "" ?"portaNombreUsuarioYComentarioLogueado" : "portaNombreUsuarioYComentarioEditando" } >
                                 <div className="portaNombreUsuarioYOpcionesComentario">
                                     <div className="espacioNombreUsuarioComentario"><h5>{nombreCompleto}</h5></div>
-
                                     {(usuarioLogueado && unComentario.esModificable) &&
                                         <div className="opcionesComentarios">
                                             {comentarioAEditar.idComentario === unComentario._id

@@ -560,7 +560,7 @@ span.hashtags{
     overflow-x: auto;
     width: 100%;
     min-height: 30vh;
-    max-height: 40vh; /*btn para agrandar*/
+    max-height: 70vh; /*btn para agrandar*/
 }
 .portaAvatarComentario, .portaAvatarComentarioLogueado {
     display: flex;
@@ -604,13 +604,15 @@ span.hashtags{
     width: 90%;
 }
 
-.portaNombreUsuarioYComentario h5 , .portaNombreUsuarioYComentarioLogueado h5{
+.portaNombreUsuarioYComentario h5 {
     color:#11c8e3;
     font-size: 1rem;
     text-align: start;
 }
-.portaNombreUsuarioYComentarioLogueado h5{
+.portaNombreUsuarioYComentarioLogueado h5 ,.portaNombreUsuarioYComentarioEditando h5{
     color:#57e46f;
+    font-size: 1rem;
+    text-align: start;
 }
 
 .comentario{
