@@ -50,8 +50,8 @@ const cityItineraryActions = {
                     return data.respuesta;
                 else
                     mostrarTostada("error",data.error,"top-right")    
-            } catch (error) {
-                console.log(error);
+            } catch (err) {
+                console.log(err);
                 mostrarTostadaError500();
             }
         }
@@ -72,7 +72,6 @@ const cityItineraryActions = {
         }
     },
     modificarComentario : (idItinerario,token,body) => {
-        console.log(body)
         const {idComentario,comentario,accion} = body;
 
         return async (dispatch) =>{
@@ -82,7 +81,7 @@ const cityItineraryActions = {
                         'Authorization': 'Bearer ' + token,    
                     }
                 });
-                console.log(data)
+                
                 data.success
                 ? dispatch({type:"ACTUALIZAR_ITINERARIO",payload:data.respuesta}) 
                 : mostrarTostada("error",data.error);

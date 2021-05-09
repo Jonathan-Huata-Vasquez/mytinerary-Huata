@@ -44,7 +44,7 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
 
     const  cargarActividades = async ()=>{
         setEstaExpandido(!estaExpandido)
-        refBtnViewMore.current.focus()
+        refBtnViewMore.current.focus();
         if(state.actividades?.length === 0){
             try{
                 let respuesta = await cargarActividadesDeItinerario(unItinerario._id);
@@ -84,12 +84,11 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
             <div className="portalikesHashtags mt-3" >
                 <BtnLike itinerarioId = {unItinerario._id} estaLikeado={unItinerario.estaLikeado} cantidadLikes={unItinerario.likes} />
                 <div className = "portaHashtags mt-3">
-                    {unItinerario.hashTags.map((hashTag,indice) => <span key={hashTag} className="hashtags ">{hashTag}</span>)}
+                    {unItinerario.hashTags.map(hashTag => <span key={hashTag} className="hashtags ">{hashTag}</span>)}
                 </div>
             </div>
 
             <Collapse in={estaExpandido} className="mt-3">
-                {/** */}
                 <ItineraryActivities  actividades={state.actividades} idItinerario={unItinerario._id} comentarios={unItinerario.comentarios}/>
             </Collapse> 
             <Button
@@ -97,7 +96,6 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
                 variant="contained"
                 endIcon={estaExpandido?  <ExpandLessIcon /> : <ExpandMoreIcon />}
                 onClick = {cargarActividades}
-                
             >
                 {estaExpandido ? <>View Less</> : <>View More</>}
             </Button>

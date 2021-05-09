@@ -13,6 +13,8 @@ import { connect } from 'react-redux'
 import cityItineraryActions from '../../redux/actions/cityItineraryAction'
 import { mostrarTostada, } from '../../helpers/tostadas'
 import { CircularProgress } from '@material-ui/core';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
 const useStyle = makeStyles(theme => ({
 
     '*::-webkit-scrollbar': {
@@ -81,8 +83,20 @@ const useStyle = makeStyles(theme => ({
 
 
 const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarComentario }) => {
-
     const misEstilos = useStyle();
+    const [modal, setModal] = useState({
+        estaAbierto : false,
+        comentario : "",
+        idComentario:""
+    });
+
+    //Para abrir o cerrar el Modal
+    const toggle = () => setModal({
+        ...modal,
+        estaAbierto: !modal.estaAbierto
+    });
+
+
     const [comentarioAPostear, setComentarioAPostear] = useState({
         comentario: "",
     });
@@ -106,6 +120,7 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
     }
 
 
+
     const [procesandoPeticionPostear, setProcesandoPeticionPostear] = useState(false)
     const [procesandoPeticionEditar, setProcesandoPeticionEditar] = useState(false)
     const [procesandoPeticionBorrar, setProcesandoPeticionBorrar] = useState(false)
@@ -126,6 +141,7 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                 setCargandoPeticion = setProcesandoPeticionEditar;
                 break;
             case "borrar":
+                toggle();
                 idComentario = e.currentTarget.dataset.idcomentario;
                 setCargandoPeticion = setProcesandoPeticionBorrar;
                 setComentarioSiendoBorrado(idComentario);
@@ -145,26 +161,27 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
     }
 
     const limpiarInput = (accion) => {
-        if (accion === "editar") {
-            setComentarioAEditar({
-                idComentario: "",
-                nuevoComentario: "",
-            })
-        }
-        if (accion === "agregar") {
-            setComentarioAPostear({
-                comentario: "",
-            })
-        }
+        if (accion === "editar") {setComentarioAEditar({idComentario: "",nuevoComentario: "",}) }
+        if (accion === "agregar") { setComentarioAPostear({comentario: ""}) }
     }
 
     const colocarTexfieldDeEditacion = (e) => {
         const idComentario = e.currentTarget.dataset.idcomentario;
-        console.log(idComentario)
         setComentarioAEditar({
             ...comentarioAEditar,
             idComentario: idComentario,
             nuevoComentario: comentarios.find(comentario => comentario._id === idComentario).comentario
+        })
+    }
+
+    const mostrarModalBorrarMensaje = (e) => {
+        const idComentario = e.currentTarget.dataset.idcomentario; 
+        let comentario = comentarios.find(unComentario => unComentario._id === idComentario).comentario;
+        setModal({
+            ...modal,
+            estaAbierto:true,
+            comentario,
+            idComentario
         })
     }
     
@@ -207,7 +224,8 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                                                         <IconButton
                                                             edge="end"
                                                             size="small"
-                                                            onClick={(e) => solicitarModificarComentario("borrar", e)}
+                                                            //onClick={(e) => solicitarModificarComentario("borrar", e)}
+                                                            onClick ={(e)=>mostrarModalBorrarMensaje(e)}
                                                             data-idcomentario={unComentario._id}
                                                             className={misEstilos.estiloSVGBorrar}
                                                         >
@@ -232,11 +250,14 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                                                 onChange={(e) => leerInputEditar(e)}
                                                 endAdornment={
                                                     procesandoPeticionEditar
-                                                        ? <CircularProgress size={25} />
+                                                        ? <InputAdornment position="end">
+                                                            <CircularProgress size={25} style={{margin:"12px"} }/>
+                                                        </InputAdornment> 
                                                         :
                                                         <InputAdornment position="end">
                                                             <IconButton
                                                                 onClick={() => solicitarModificarComentario("editar")}
+                                                                disabled={comentarioAEditar.nuevoComentario.split("\n").join("") === ""}
                                                                 edge="end"
                                                             >
                                                                 <SendIcon className={misEstilos.estiloSendSVG} />
@@ -256,21 +277,24 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                 })}
             </div>
             <div className="formularioComentario">
-                <FormControl variant="outlined" className={misEstilos.estiloTextField} fullWidth={true} size="small">
+                <FormControl variant="outlined" className={misEstilos.estiloTextField} fullWidth={true} size="small" >
                     <OutlinedInput
                         rowsMax={4}
                         placeholder={usuarioLogueado? "Leave your comment here" : "You must be logued to comment it"}
-                        //disabled={!usuarioLogueado}
                         multiline={true}
                         type='text'
                         value={usuarioLogueado? comentarioAPostear.comentario : ""}
                         onChange={(e) => leerInputPostear(e)}
                         endAdornment={
                             procesandoPeticionPostear
-                                ? <CircularProgress size={25} />
+
+                                ?<InputAdornment position="end">
+                                    <CircularProgress size={25} style={{margin:"12px"} }/>
+                                </InputAdornment> 
                                 :
                                 <InputAdornment position="end">
                                     <IconButton
+                                        disabled={comentarioAPostear.comentario.split("\n").join("") === ""}
                                         onClick={() => solicitarModificarComentario("agregar")}
                                         edge="end"
                                     >
@@ -281,7 +305,20 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                     />
                 </FormControl>
             </div>
+            <div >
 
+            {/*<Button color="danger" onClick={toggle}></Button>*/}
+            <Modal isOpen={modal.estaAbierto} toggle={toggle}  style = {{marginTop:"33vh"}}>
+              <ModalHeader toggle={toggle}>Are you sure you want to delete the message:</ModalHeader>
+              <ModalBody>
+                {modal.comentario}
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" data-idcomentario={modal.idComentario} onClick={(e) => solicitarModificarComentario("borrar",e)}> Yes !</Button>{' '}
+                <Button color="danger" onClick={toggle}>Cancel</Button>
+              </ModalFooter>
+            </Modal>
+          </div>
         </div>
 
     )
