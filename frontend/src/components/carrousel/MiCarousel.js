@@ -6,7 +6,7 @@ import MiSlide from './MiSlide.js'
 
 
 
-const MiCarousel = ({elementos,cantidadElementosSlide,estiloSlide,estiloImagen,propTitulo,propUrlImagen}) => {
+const MiCarousel = ({elementos,cantidadElementosSlide,estiloSlide,estiloImagen,propTitulo,propUrlImagen,interval = 3000}) => {
   let gruposElementos = obtenerGruposElementos(elementos,cantidadElementosSlide);
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false); //esto es para evitar usar los controles manuales mientras esta la animacion de cambio de slide
@@ -63,7 +63,7 @@ const MiCarousel = ({elementos,cantidadElementosSlide,estiloSlide,estiloImagen,p
         activeIndex={activeIndex}
         next={next} // para agregarle funcionalidad a los botones del teclado
         previous={previous} //
-        interval = {3000}
+        interval = {interval}
       >
         {/*CarouselIndicador nos dibujara una cantidad CarouselItem en franjas y brillara la fraja relacionada al actual item 
         Tambien le agregara funcionalidades a las franjas de que al clickear una , le cambie el estado de nuestro activeIndex

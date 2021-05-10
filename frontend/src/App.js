@@ -27,7 +27,13 @@ class App extends React.Component {
         }
 
         if(!this.props.usuarioLogueado && token && token !== "undefined"){
-            return <CircularProgress />;
+            return (
+                <div className ="pantallaDeCarga">
+                    <CircularProgress size={100}/>
+                </div>
+            );
+
+            
         }
 
         return (
