@@ -152,8 +152,6 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                 cerrarModal();
                 break;
             case "borrar":
-
-                
                 setCargandoPeticion = setProcesandoPeticionBorrar;
                 setComentarioSiendoBorrado(idComentario);
                 cerrarModal();
@@ -161,6 +159,7 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
             default:
                 console.log("accion desconocida: " + accion)
         }
+        console.log(comentario)
         setCargandoPeticion(true);
         let pedidoExitoso = await modificarComentario(idItinerario, usuarioLogueado.token, { idComentario, comentario, accion })
 
@@ -212,6 +211,17 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
             funcionAEjecutar,
             accion
         })
+    }
+    const agregarParrafos = (texto) => {
+        return (
+            <span >{
+                texto.split("\n").map((unRenglon,indice) => {
+                    return (
+                        <p key ={unRenglon+indice}>{unRenglon}</p>
+                    )
+                })
+            }</span>
+        )
     }
 
     return (
@@ -298,8 +308,9 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                                         </FormControl>)
                                     : (
                                         <div className="comentario">
-                                            <span> {unComentario.comentario}</span>
-                                        </div>)
+                                            {agregarParrafos(unComentario.comentario)}
+                                        </div>
+                                    )
                                 }
                             </div>
                         </div>
@@ -343,7 +354,7 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                 <Modal isOpen={modal.estaAbierto} toggle={cerrarModal} style={{ marginTop: "33vh", wordWrap: "break-word"}}>
                     <ModalHeader toggle={cerrarModal}>{modal.titulo}</ModalHeader>
                     <ModalBody>
-                        {modal.body}
+                        {agregarParrafos(modal.body)}
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" data-idcomentario={modal.idComentario} onClick={() => modal.funcionAEjecutar(modal.accion, modal.idComentario)}> Yes !</Button>{' '}

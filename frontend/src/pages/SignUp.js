@@ -21,7 +21,7 @@ import authActions from '../redux/actions/authActions'
 import { connect } from 'react-redux'
 import GoogleLogin from 'react-google-login';
 import {mostrarTostada} from '../helpers/tostadas'
-
+import { CircularProgress } from '@material-ui/core';
 const estilos = ({
     inputEstilo: {
         width: "80%",
@@ -158,7 +158,11 @@ class SignUp extends React.Component {
                 <div className="contenedorSignUp">
                     {this.state.errorPaises500 
                     ?<h1>Ups, please reload the page</h1> 
-                    :<h1>Loading...</h1>
+                    :<div className ="pantallaDeCarga">
+                        <h1>Loading...</h1>
+                        <CircularProgress size={100}/>
+                    </div>
+                    
                     }
                 </div>
             )
