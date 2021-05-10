@@ -171,15 +171,19 @@ const itinerariesControllers = {
             switch(accion){
                 case "agregar":
                     querySelector = {_id : idItinerario };
+                    //$push : {laUbicacionDeñArray: elementoAAagrear}
                     updateOperator = { $push:{ comentarios:{ usuarioId,comentario } } };
                     break;
                 case "editar": 
                     querySelector = { _id : idItinerario ,"comentarios._id":idComentario  } ; //para usar el $set es necesario especificar el campo donde esta el array en la query
-                    updateOperator = {$set : {"comentarios.$.comentario": comentario }}; //especifico que propiedad de los comentarios modificar, si saca $ escribira un nuevo campo
+                    //$ se queda con el primer elemeno que coincide con la query , el campo en el que esta el array en el que buscaremos el elemento debe estar especificado en la query
+                    //con el $ especifico que propiedad de los comentarios modificar, si saca $ escribira un nuevo campo
+                    
+                    updateOperator = {$set : {"comentarios.$.comentario": comentario }}; 
                     break;
                 case "borrar" : 
                     querySelector = { _id: idItinerario };
-                    updateOperator = {$pull : {comentarios:{_id : idComentario}}}
+                    updateOperator = {$pull : {comentarios:{_id : idComentario}}}; //$pull : camino donde se encuentra el array : {condicion para el borrar elementos}
                     break;
                 default:
                     error = "unknown action on modificarComentario : " + accion;

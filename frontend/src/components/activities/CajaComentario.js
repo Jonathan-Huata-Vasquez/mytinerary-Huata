@@ -14,7 +14,7 @@ import cityItineraryActions from '../../redux/actions/cityItineraryAction'
 import { mostrarTostada, } from '../../helpers/tostadas'
 import { CircularProgress } from '@material-ui/core';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-
+import Tooltip from '@material-ui/core/Tooltip';
 const useStyle = makeStyles(theme => ({
 
     '*::-webkit-scrollbar': {
@@ -147,7 +147,7 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                 break;
             case "editar":
                 comentario = comentarioAEditar.nuevoComentario;
-                
+
                 setCargandoPeticion = setProcesandoPeticionEditar;
                 cerrarModal();
                 break;
@@ -214,9 +214,9 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
     const agregarParrafos = (texto) => {
         return (
             <span >{
-                texto.split("\n").map((unRenglon,indice) => {
+                texto.split("\n").map((unRenglon, indice) => {
                     return (
-                        <p key ={unRenglon+indice}>{unRenglon}</p>
+                        <p key={unRenglon + indice}>{unRenglon}</p>
                     )
                 })
             }</span>
@@ -238,37 +238,44 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                                         <div className="opcionesComentarios">
                                             {comentarioAEditar.idComentario === unComentario._id
                                                 ?
-                                                <IconButton
-                                                    onClick={() => limpiarInput("editar")}
-                                                    edge="end"
-                                                    size="small"
-                                                    data-idcomentario={unComentario._id}
-                                                    className={misEstilos.estiloSVGCancelar}
-                                                >
-                                                    <CancelIcon />
-                                                </IconButton>
+                                                <Tooltip title="Cancel" placement="top" arrow>
+                                                    <IconButton
+                                                        onClick={() => limpiarInput("editar")}
+                                                        edge="end"
+                                                        size="small"
+                                                        data-idcomentario={unComentario._id}
+                                                        className={misEstilos.estiloSVGCancelar}
+                                                    >
+                                                        <CancelIcon />
+                                                    </IconButton>
+                                                </Tooltip>
+
 
                                                 : procesandoPeticionBorrar ||
                                                 <>
-                                                    <IconButton
-                                                        onClick={(e) => colocarTexfieldDeEditacion(e)}
-                                                        edge="end"
-                                                        size="small"
-                                                        data-idcomentario={unComentario._id}
-                                                        className={misEstilos.estiloSVGEditar}
-                                                    >
-                                                        <EditIcon />
-                                                    </IconButton>
-                                                    <IconButton
-                                                        edge="end"
-                                                        size="small"
-                                                        
-                                                        onClick={(e) => mostrarModal("borrar", e)}
-                                                        data-idcomentario={unComentario._id}
-                                                        className={misEstilos.estiloSVGBorrar}
-                                                    >
-                                                        <DeleteIcon />
-                                                    </IconButton>
+                                                    <Tooltip title="Edit" placement="top" arrow>
+                                                        <IconButton
+                                                            onClick={(e) => colocarTexfieldDeEditacion(e)}
+                                                            edge="end"
+                                                            size="small"
+                                                            data-idcomentario={unComentario._id}
+                                                            className={misEstilos.estiloSVGEditar}
+                                                        >
+                                                            <EditIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                    <Tooltip title="Delete" placement="top" arrow>
+                                                        <IconButton
+                                                            edge="end"
+                                                            size="small"
+
+                                                            onClick={(e) => mostrarModal("borrar", e)}
+                                                            data-idcomentario={unComentario._id}
+                                                            className={misEstilos.estiloSVGBorrar}
+                                                        >
+                                                            <DeleteIcon />
+                                                        </IconButton>
+                                                    </Tooltip>
                                                 </>
                                             }
                                             {comentarioSiendoBorrado === unComentario._id && <CircularProgress size={25} style={{ color: "red" }} />}
@@ -295,7 +302,7 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                                                         <InputAdornment position="end">
                                                             <IconButton
                                                                 data-idcomentario={unComentario._id}
-                                                                onClick={(e) => mostrarModal("editar",e)}
+                                                                onClick={(e) => mostrarModal("editar", e)}
                                                                 disabled={comentarioAEditar.nuevoComentario.split("\n").join("") === ""}
                                                                 edge="end"
                                                             >
@@ -332,15 +339,17 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                                     <CircularProgress size={25} style={{ margin: "12px" }} />
                                 </InputAdornment>
                                 :
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        disabled={comentarioAPostear.comentario.split("\n").join("") === ""}
-                                        onClick={() => solicitarModificarComentario("agregar")}
-                                        edge="end"
-                                    >
-                                        <SendIcon className={misEstilos.estiloSendSVG} />
-                                    </IconButton>
-                                </InputAdornment>
+                                <Tooltip title="Send" placement="top" arrow>
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            disabled={comentarioAPostear.comentario.split("\n").join("") === ""}
+                                            onClick={() => solicitarModificarComentario("agregar")}
+                                            edge="end"
+                                        >
+                                            <SendIcon className={misEstilos.estiloSendSVG} />
+                                        </IconButton>
+                                    </InputAdornment>
+                                </Tooltip>
                         }
                     />
                 </FormControl>
@@ -350,7 +359,7 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
                 {/*<Button color="danger" onClick={toggle}></Button>*/}
 
 
-                <Modal isOpen={modal.estaAbierto} toggle={cerrarModal} style={{ marginTop: "33vh", wordWrap: "break-word"}}>
+                <Modal isOpen={modal.estaAbierto} toggle={cerrarModal} style={{ marginTop: "33vh", wordWrap: "break-word" }}>
                     <ModalHeader toggle={cerrarModal}>{modal.titulo}</ModalHeader>
                     <ModalBody>
                         {agregarParrafos(modal.body)}

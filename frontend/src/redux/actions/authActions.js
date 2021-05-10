@@ -31,7 +31,7 @@ const authActions = {
         }
     },
 
-    logueoForzadoPorLS: (token)=>{
+    logueoForzadoPorLS: (token,history)=>{
         return async (dispatch,getState)=>{
             try {
                 const {data} = await axios.get(endpointUserLogInToken,{
@@ -47,6 +47,9 @@ const authActions = {
                 console.log(err)
                 if(err.response && err.response.status === 401){
                     alert("try harder next time")
+                    localStorage.clear();
+                    window.location.reload(true);
+                    //history.push("/");
                 }
             }
         }
