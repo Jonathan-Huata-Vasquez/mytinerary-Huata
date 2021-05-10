@@ -42,10 +42,10 @@ const authActions = {
                     token
                 }});
             } 
-            catch (error) {
+            catch (err) {
                 alert("Error 500 , please come back later")
-                //console.log(error.response)
-                if(error.response && error.response.status === 401){
+                console.log(err)
+                if(err.response && err.response.status === 401){
                     alert("try harder next time")
                 }
             }

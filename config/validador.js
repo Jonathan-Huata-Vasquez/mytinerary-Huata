@@ -5,7 +5,7 @@ const validador = (req,res,next) => {
     //Creamos un esquema para que se use al validar lo que nos viene en el body
     //un objeto que tiene como propiedad los nombres de los campos y como valor las validaciones que hace y sus mensajes de error
     const esquema = Joi.object({
-        nombre: Joi.string().min(2).max(25).required().pattern(new RegExp(/^[a-z ']{2,}$/i))
+        nombre: Joi.string().min(2).max(25).required().pattern(new RegExp(/^[a-z ' ñ á é í ó ú]{2,}$/i))
         .messages({
             "string.pattern.base": "your First name must not have numbers or special characters",
             "string.min": "requires at least 2 letters",
@@ -13,7 +13,7 @@ const validador = (req,res,next) => {
         }),
 
 
-        apellido: Joi.string().min(2).max(25).required().pattern(new RegExp(/^[a-z ']{2,}$/i))
+        apellido: Joi.string().min(2).max(25).required().pattern(new RegExp(/^[a-z ' ñ á é í ó ú]{2,}$/i))
         .messages({
             "string.pattern.base": "your Last name must not have numbers or special characters",
             "string.min": "requires at least 2 letters",
@@ -39,10 +39,8 @@ const validador = (req,res,next) => {
     //esquema.validate() retorna un objeto que entre las propiedades esta "error" que contendra detalles de los errores y sus menssages
     const validacion = esquema.validate(req.body,{abortEarly : false})
     
-    
     if(validacion.error){
-        const respuestaErrores = validacion.error.details.map(error => 
-            respuestaErrores.push({message:error.message,label: error.context.label}))
+        const respuestaErrores = validacion.error.details.map(error => {return {message:error.message,label: error.context.label}})
         return res.json({success:false,errores:respuestaErrores})
     }
     

@@ -86,6 +86,7 @@ const cityItineraryActions = {
                 ? dispatch({type:"ACTUALIZAR_ITINERARIO",payload:data.respuesta}) 
                 : mostrarTostada("error",data.error);
                 return data.success;
+                
             }catch(e){
                 console.log(e);
                 mostrarTostadaError500();

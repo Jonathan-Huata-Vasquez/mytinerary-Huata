@@ -21,7 +21,7 @@ const ItineraryActivities = ({ actividades = [], idItinerario, comentarios }) =>
                     interval={0}
                 />
             }
-            <div className="labelActividades mb-2">Activities</div>
+            <div className="labelActividades mb-2 mt-2">Activities</div>
 
 
             <h3>Leave a Comment</h3>

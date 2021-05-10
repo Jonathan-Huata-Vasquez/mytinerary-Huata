@@ -207,6 +207,7 @@ class SignUp extends React.Component {
                             onChange={(e) => this.leerInput(e)}
                             value={this.state.valoresInputs.nombre}
                             helperText= {this.state.error.nombre}
+                            size="small"
                         />
                         <TextField
                             error = {this.state.error.apellido === "" ? false:true}
@@ -217,6 +218,7 @@ class SignUp extends React.Component {
                             onChange={(e) => this.leerInput(e)}
                             value={this.state.valoresInputs.apellido}
                             className={misEstilos.inputEstilo}
+                            size="small"
                         />
                         <TextField
                             error = {this.state.error.email === "" ? false:true}
@@ -227,14 +229,17 @@ class SignUp extends React.Component {
                             onChange={(e) => this.leerInput(e)}
                             value={this.state.valoresInputs.email}
                             className={misEstilos.inputEstilo}
+                            size="small"
                         />
                         <FormControl 
                             variant="outlined" 
                             className={misEstilos.inputEstilo} 
                             error = {this.state.error.contrasena === "" ? false:true}
+                            size="small"
                         >
                             <InputLabel>Password</InputLabel>
                             <OutlinedInput
+                                
                                 autoComplete="off"
                                 name="contrasena"
                                 type={this.state.visibleContrasena ? 'text' : 'password'}
@@ -255,6 +260,7 @@ class SignUp extends React.Component {
                             <FormHelperText id="component-error-text">{this.state.error.contrasena}</FormHelperText>
                         </FormControl>
                         <TextField
+                            size="small"
                             error = {this.state.error.usuarioAvatar === "" ? false:true}
                             helperText= {this.state.error.usuarioAvatar}
                             name="usuarioAvatar"
@@ -264,7 +270,7 @@ class SignUp extends React.Component {
                             value={this.state.valoresInputs.usuarioAvatar}
                             className={misEstilos.inputEstilo}
                         />
-                        <FormControl variant="outlined" className={misEstilos.inputEstilo}>
+                        <FormControl variant="outlined" className={misEstilos.inputEstilo} size="small">
                             <InputLabel >Country</InputLabel>
                             <Select
                                 name="pais"
