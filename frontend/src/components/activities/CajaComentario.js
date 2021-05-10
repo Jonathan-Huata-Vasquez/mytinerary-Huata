@@ -159,7 +159,6 @@ const CajaComentario = ({ idItinerario, comentarios, usuarioLogueado, modificarC
             default:
                 console.log("accion desconocida: " + accion)
         }
-        console.log(comentario)
         setCargandoPeticion(true);
         let pedidoExitoso = await modificarComentario(idItinerario, usuarioLogueado.token, { idComentario, comentario, accion })
 

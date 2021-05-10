@@ -12,6 +12,7 @@ import ItineraryActivities from './activities/ItineraryActivities'
 
 import BtnLike from './BtnLike'
 
+
 const useStyle = makeStyles({
     btnViewMoreEstilo :{
         backgroundColor: "#00bcd4",
@@ -25,7 +26,7 @@ const useStyle = makeStyles({
         }
     }
 });
-const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,likearItinerario}) => {
+const Itinerario = ({unItinerario,cargarActividadesDeItinerario}) => {
     const misEstilos = useStyle();
     const [estaExpandido,setEstaExpandido] = useState(false);
     const [state,setState] = useState({
@@ -35,11 +36,8 @@ const Itinerario = ({usuarioLogueado,unItinerario,cargarActividadesDeItinerario,
 
     
     function crearNComponentes(n,componente){
-        let aux = [];
-        for(let i = 0 ; i< n ; i++){
-            aux.push(<div key= {i}>{componente}</div> )
-        }
-        return <>{aux}</>
+        let aux = Array.from(new Array(n), (_,indice)=> <div key= {indice}>{componente}</div> )
+        return  aux;
     }
 
     const  cargarActividades = async ()=>{

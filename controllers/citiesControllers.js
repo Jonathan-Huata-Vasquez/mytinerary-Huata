@@ -6,24 +6,38 @@ const City = require('../models/City');
 //entonces los controladores son asincronos y lo que esperan son las peticiones a la BD
 
 
+
+const errorBD = "an error occurred with the Database";
+const errorCityNotFound = "City not found"
+
+function responderFrontEnd(res, respuesta, error) {
+    res.json({
+        success: !error ? true : false,
+        respuesta,
+        error
+    });
+}
+
 //es un objeto que tendra como propiedades ,los nombres de los controladores 
 //y como  sus valores , los controladores 
 const citiesControllers = {
     obtenerTodasLasCiudades: async (req, res) => {
+        let respuesta,error;
         try {
             //buscame aquellas ciudades que cumplan con este criterio () si no le ponemos nada, nos trae todo
-            const ciudadesObtenidas = await City.find();
-            res.json({ success: true, respuesta: ciudadesObtenidas });
-
+            respuesta = await City.find();
         }
-        catch (e) {
-            res.json({ success: false, respuesta: "an error occurred while getting the cities" })
+        catch (err) {
+            console.log(err);
+            error = errorBD;
         }
+        responderFrontEnd(res,respuesta,error);
 
     },
     agregarCiudad: async (req, res) => {
         //destructuramos lo que viene en el body
         const { nombreCiudad, pais, foto } = req.body;
+        let respuesta,error;
         //creamos una instancia de City 
         /*va al modelo y se fija si lo que esta en el modelo corresponde 
         con lo que tengo como propiedades y valores
@@ -31,46 +45,52 @@ const citiesControllers = {
         Si le mando bien la propiedad pero no el tipo de dato del valor, la base de datos no guarda esa propiedad
         */
 
-        let ciudadNueva = new City({
-            nombreCiudad: nombreCiudad,
-            pais: pais,
-            foto: foto
-        });
         try {
+            let ciudadNueva = new City({
+                nombreCiudad: nombreCiudad,
+                pais: pais,
+                foto: foto
+            });
             //de la instancia le uso el metodo heredado save()
             await ciudadNueva.save();
-            const todasLasCIudades = await City.find(); //find me devuelve un array
-            res.json({success: true, respuesta: todasLasCIudades })
+            respuesta = await City.find(); //find me devuelve un array
+            
         }
-        catch (e) {
-            res.json({ success: false, respuesta: "an error occurred while adding the city: "+e })
+        catch (err) {
+            console.log(err)
+            error = errorBD;
         }
-
+        responderFrontEnd(res,respuesta,error);
     },
 
 
     obtenerCiudad: async (req, res) => {
         const id = req.params.id;
+        let respuesta,error;
         try {
-            const ciudadBuscada = await City.findById(id) //findById me devuelve un objeto
-            res.json({ success: true, respuesta: ciudadBuscada });
+            respuesta = await City.findById(id) //findById me devuelve un objeto
+            respuesta || (error = errorCityNotFound);
         }
-        catch (e) {
-            res.json({ success: false, respuesta: "an error occurred while getting the city" })
+        catch (err) {
+            console.log(err)
+            error = errorBD;
         }
+        responderFrontEnd(res,respuesta,error);
     },
 
 
     borrarCiudad: async (req, res) => {//Borrar una ciudad por Id
         const id = req.params.id;
+        let respuesta,error;
         try {
-            const ciudadBorrada = await City.findByIdAndDelete(id); //devuelve una Query, el objeto que borramos de la BD
-            res.json({ success: true, respuesta: ciudadBorrada });
+            respuesta = await City.findByIdAndDelete(id); //devuelve una Query, el objeto que borramos de la BD
+            respuesta || (error = errorCityNotFound);
         }
-        catch (e) {
-            res.json({ success: false, respuesta: "there was an error deleting the city with the id: "+id })
+        catch (err) {
+            console.log(err)
+            error = errorBD;
         }
-
+        responderFrontEnd(res,respuesta,error);
     },
 
 
@@ -92,10 +112,11 @@ const citiesControllers = {
 
     },
 
+
+    
     /*Para el programador */
     agregarArrayCiudades: async (req, res) => {
         const arrayCiudades = req.body;
-        
         /*
             El método Promise.all(iterable) devuelve una promesa que termina correctamente cuando todas las promesas 
             en el argumento iterable han sido concluídas con éxito, o bien rechaza la petición con el motivo pasado 
