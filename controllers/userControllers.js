@@ -78,7 +78,7 @@ const userControllers = {
         })
     },
     loginForzado : (req,res) => {
-        respuesta = {
+        let respuesta = {
             usuarioAvatar :req.user.usuarioAvatar,
             nombreCompleto : `${req.user.nombre} ${req.user.apellido}`
         }

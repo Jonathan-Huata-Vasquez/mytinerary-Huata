@@ -133,7 +133,7 @@ const itinerariesControllers = {
             const usuarioLikeo = await Itinerary.findOne({
                 _id: idItinerario,
                 usuariosLiked: { $all: [idUsuario] } //le digo que encuentre al que tenga en usuariosLiked el usuario
-                //$all es para que mi busque sin tener en cuenta el orden u otros elementos del array 
+                //$all es para que me busque sin tener en cuenta el orden u otros elementos del array 
                 //(sin el $all buscaria los que solo tengan un array solo con el elemento [idUsuario])
             });
 

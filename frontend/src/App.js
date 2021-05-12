@@ -15,7 +15,7 @@ import {connect} from 'react-redux'
 import authActions from './redux/actions/authActions.js';
 import { ToastContainer } from 'react-toastify';
 import { CircularProgress } from '@material-ui/core';
-
+import 'react-toastify/dist/ReactToastify.css';
 
 class App extends React.Component {
  

@@ -16,7 +16,7 @@ import GoogleLogin from 'react-google-login';
 import Alert from '@material-ui/lab/Alert';
 import Zoom from '@material-ui/core/Zoom';
 import { toast,ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 
 const estilos = ({
     inputEstilo: {

@@ -1,9 +1,7 @@
 import { toast } from 'react-toastify';
 
-
-
-export function mostrarTostada(tipo, message, position = "top-right",) {
-    const configuracionTostada = {
+const configuracionTostadaDefault = (position) =>{
+    return  {
         position: position,
         autoClose: 3500,
         hideProgressBar: false,
@@ -12,15 +10,19 @@ export function mostrarTostada(tipo, message, position = "top-right",) {
         draggable: true,
         progress: undefined,
     }
+}
+
+export function mostrarTostada(tipo, message, position = "top-right",) {
+    
     switch (tipo) {
         case "error":
-            toast.error(message, configuracionTostada);
+            toast.error(message, configuracionTostadaDefault(position));
             break;
         case "success":
-            toast.success(message, configuracionTostada);
+            toast.success(message, configuracionTostadaDefault(position));
             break;
         case "info":
-            toast.info(message, configuracionTostada);
+            toast.info(message, configuracionTostadaDefault(position));
             break;
         default:
             console.log("default")
@@ -28,16 +30,7 @@ export function mostrarTostada(tipo, message, position = "top-right",) {
 }
 
 export function mostrarTostadaError500( position = "top-right",) {
-    const configuracionTostada = {
-        position: position,
-        autoClose: 3500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-    }
-    toast.error("ups , something went wrong, please try again... ", configuracionTostada);
+    toast.error("ups , something went wrong, please try again... ", configuracionTostadaDefault(position));
 }
 
 export function mostrarTostadaNecesarioLoguearse( position = "top-right",) {
