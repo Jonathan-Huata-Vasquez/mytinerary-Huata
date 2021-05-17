@@ -175,7 +175,7 @@ class SignUp extends React.Component {
                     
                     <GoogleLogin
                         className ="btnGoogle"
-                        clientId="915285624748-bcfmc9ot4g7uqtc1q3rf1n7qvf1o7pbi.apps.googleusercontent.com"
+                        clientId="862112560567-1fkle8p1l585tr29kq4fef3ksjmo2fv6.apps.googleusercontent.com"
                         buttonText="Sign up"
                         onSuccess={(response)=>this.respuestaGoogle(response)}
                         onFailure={(response)=>this.respuestaGoogle(response)}

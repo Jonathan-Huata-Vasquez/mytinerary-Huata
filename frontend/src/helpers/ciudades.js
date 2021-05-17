@@ -10,7 +10,7 @@ export  const respuestaFetch = [
     {id : 9,nombreCiudad : "New York",foto : "ciudades/newYork.jpg"},
     {id : 10,nombreCiudad : "Paris",foto : "ciudades/paris.jpg"},
     {id : 11,nombreCiudad : "Rome",foto : "ciudades/rome.jpg"},
-    {id : 12,nombreCiudad : "Tokyo",foto : "ciudades/Tokyo.jpg"},
+    {id : 12,nombreCiudad : "Tokyo",foto : "ciudades/tokyo.jpg"},
 ]
 
 
