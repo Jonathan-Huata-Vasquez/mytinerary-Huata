@@ -5,6 +5,8 @@ const cors = require(`cors`);
 const router = require('./routes/index');
 require('./config/passport')
 
+//para consstruir rutas
+const path = require('path')
 
 const app = express();
 //frente a cualquier tipo de pedidos, aplica Cors, tengo que decirle a mi API, no bloquees pedidos a ninguno por la polisa de CORS
