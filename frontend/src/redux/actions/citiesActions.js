@@ -1,9 +1,10 @@
 import axios from "axios";
+import {endpointCities} from '../../helpers/endpoints'
 
 const citiesAction = {
     obtenerCiudades: () => {
         return (dispatch,getState) =>{
-            axios.get("http://localhost:4000/api/cities")
+            axios.get(endpointCities)
             .then(res => dispatch({type: "CARGAR_CIUDADES",payload: res.data.respuesta}))
             .catch(error => {
                 dispatch({type:"ERROR_FETCHEO",payload:null,})
