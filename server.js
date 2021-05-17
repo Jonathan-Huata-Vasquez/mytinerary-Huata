@@ -17,6 +17,18 @@ app.use(express.json());
 //Cuando te hagan un pedido de cualquier indole a una ruta que empieze con '/api', ejecuta router
 app.use('/api',router);
 
+//en heroku tienen la variable de entorno NODE_ENV
+if(process.env.NODE_ENV === "production"){
+    //le decimos donde va a estar la carpèta publica con los archivos estaticos (los archivos que tiene que devolver al navegador)
+    app.use(express.static('client/build'));
+
+    //para cualquier pedido tipo get a cualquier ruta
+    app.get("*",(req,res) => {
+        //devolvemos  el archivo index.html
+        res.sendFile(path.join(__dirname+"/client/build/index.html"))
+    })
+}
+
 //en keroku tendran una variable de entorno port PERO no una de HOST
 const host = process.env.HOST || "0.0.0.0"  //sino lo que heroku me asigne
 const puerto = process.env.PORT;
