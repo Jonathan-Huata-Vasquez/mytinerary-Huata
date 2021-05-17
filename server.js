@@ -17,9 +17,12 @@ app.use(express.json());
 //Cuando te hagan un pedido de cualquier indole a una ruta que empieze con '/api', ejecuta router
 app.use('/api',router);
 
+//en keroku tendran una variable de entorno port PERO no una de HOST
+const host = process.env.HOST || "0.0.0.0"  //sino lo que heroku me asigne
+const puerto = process.env.PORT;
 
-//le especifico en que puerto 4000 estara escuchando, ejecutara la funcion callback una vez que que la app ya este cuchando en el puerto 4000
-app.listen(4000, ()=> console.log("App escuchando en el puerto 4000"));
+//le especifico en que puerto  estara escuchando, ejecutara la funcion callback una vez que ya este escuchando en el puerto que le dijimos
+app.listen(puerto, ()=> console.log("App escuchando en el puerto "+puerto+ " en "+host));
 //El listen siempre va al final
 
 //Al llegarme un pedido

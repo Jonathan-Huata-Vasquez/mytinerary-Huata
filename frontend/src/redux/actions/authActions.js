@@ -24,6 +24,7 @@ const authActions = {
             //obtengo respuesta y la destructuro
             try {
                 const { data } = await axios.post(endpointUserLogIn, usuario)
+                console.log(data)
                 if (!data.success) {
                     return data.error;
                 }
