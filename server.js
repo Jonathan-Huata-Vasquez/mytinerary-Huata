@@ -22,12 +22,12 @@ app.use('/api',router);
 //en heroku tienen la variable de entorno NODE_ENV
 if(process.env.NODE_ENV === "production"){
     //le decimos donde va a estar la carpèta publica con los archivos estaticos (los archivos que tiene que devolver al navegador)
-    app.use(express.static('client/build'));
+    app.use(express.static('clients/build'));
 
     //para cualquier pedido tipo get a cualquier ruta
     app.get("*",(req,res) => {
         //devolvemos  el archivo index.html
-        res.sendFile(path.join(__dirname+"/client/build/index.html"))
+        res.sendFile(path.join(__dirname + "/clients/build/index.html"))
     })
 }
 
