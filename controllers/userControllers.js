@@ -59,7 +59,7 @@ const userControllers = {
                     respuesta = {
                         nombreCompleto : existeUsuario.nombre +" "+existeUsuario.apellido,
                         usuarioAvatar : existeUsuario.usuarioAvatar,
-                        email: nuevoUsuario.email,
+                        email: existeUsuario.email,
                         token  : jwToken.sign({...existeUsuario},process.env.SECRET_OR_KEY),
                     }
                     
