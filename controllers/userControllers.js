@@ -23,6 +23,7 @@ const userControllers = {
                 respuesta = {
                     nombreCompleto : nuevoUsuario.nombre + " " +nuevoUsuario.apellido,
                     usuarioAvatar : nuevoUsuario.usuarioAvatar,
+                    email: nuevoUsuario.email,
                     token:  jwToken.sign({ ...nuevoUsuario }, process.env.SECRET_OR_KEY)
                 }
             } else {
@@ -58,6 +59,7 @@ const userControllers = {
                     respuesta = {
                         nombreCompleto : existeUsuario.nombre +" "+existeUsuario.apellido,
                         usuarioAvatar : existeUsuario.usuarioAvatar,
+                        email: nuevoUsuario.email,
                         token  : jwToken.sign({...existeUsuario},process.env.SECRET_OR_KEY),
                     }
                     
@@ -80,7 +82,8 @@ const userControllers = {
     loginForzado : (req,res) => {
         let respuesta = {
             usuarioAvatar :req.user.usuarioAvatar,
-            nombreCompleto : `${req.user.nombre} ${req.user.apellido}`
+            nombreCompleto : `${req.user.nombre} ${req.user.apellido}`,
+            email: nuevoUsuario.email,
         }
         res.json({success:true, respuesta })
     }
