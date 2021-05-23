@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Itinerary = require('../models/Itinerary');
-
+const Activity = require('../models/Activity');
 
 const errorBD = "an error occurred with the Database";
 const errorItineraryNotFound = "Itinerary not found"
@@ -12,9 +12,9 @@ function responderFrontEnd(res, respuesta, error) {
         error
     });
 }
-function adaptarItinerariosUsuarioLogueado(itinerario,usuarioId = null){
-    
-    let estaLikeado = usuarioId ?  itinerario.usuariosLiked.some(unUsuarioId => {
+function adaptarItinerariosUsuarioLogueado(itinerario, usuarioId = null) {
+
+    let estaLikeado = usuarioId ? itinerario.usuariosLiked.some(unUsuarioId => {
         return unUsuarioId === usuarioId.toString();
     }) : false;
     let nuevosComentarios = itinerario.comentarios.map(unComentario => {
@@ -23,7 +23,7 @@ function adaptarItinerariosUsuarioLogueado(itinerario,usuarioId = null){
             ...unComentario.toObject(),
             usuarioId: {//le saco el id de los usuarios por seguridad
                 ...unComentario.usuarioId.toObject(),
-                _id:null
+                _id: null
             },
             esModificable
         }
@@ -38,7 +38,7 @@ function adaptarItinerariosUsuarioLogueado(itinerario,usuarioId = null){
 
 const itinerariesControllers = {
     agregarItinerario: async (req, res) => {
-        let respuesta,error;
+        let respuesta, error;
         try {
             const nuevoItinerario = new Itinerary(req.body);
             await nuevoItinerario.save();
@@ -48,19 +48,19 @@ const itinerariesControllers = {
             console.log(err)
             error = errorBD;
         }
-        responderFrontEnd(res,respuesta,error)
+        responderFrontEnd(res, respuesta, error)
     },
     obtenerTodosItinerarios: async (req, res) => {
-        let respuesta,error;
+        let respuesta, error;
         try {
             respuesta = await Itinerary.find().populate({
                 path: 'comentarios',
             });
-            
+
         } catch (error) {
             error = errorBD;
         }
-        responderFrontEnd(res,respuesta,error)
+        responderFrontEnd(res, respuesta, error)
     },
     obtenerItinerarioPorId: async (req, res) => {
         let respuesta, error;
@@ -71,7 +71,7 @@ const itinerariesControllers = {
         } catch (error) {
             error = errorBD
         }
-        responderFrontEnd(res,respuesta,error);
+        responderFrontEnd(res, respuesta, error);
     },
     obtenerItinerarioPorCiudad: async (req, res) => {
         const idCiudad = req.params.id;
@@ -79,48 +79,48 @@ const itinerariesControllers = {
         let error, respuesta;
 
         try {
-            
+
             //popular : poblar, como tenemos una relacion de un itinerario con una ciudad,
             //hago que me traiga todos los datos del usuario diciendole la ruta y solo las cosas que quiero que me popule
             let itinerarios = await Itinerary.find({ idCiudad }).populate({
-                path:"comentarios.usuarioId",
-                select:"nombre apellido usuarioAvatar " //me trae el _id 
+                path: "comentarios.usuarioId",
+                select: "nombre apellido usuarioAvatar " //me trae el _id 
             })
-            itinerarios || responderFrontEnd(res,respuesta,errorItineraryNotFound)
-            respuesta = itinerarios.map(itinerario => adaptarItinerariosUsuarioLogueado(itinerario,usuarioId));
+            itinerarios || responderFrontEnd(res, respuesta, errorItineraryNotFound)
+            respuesta = itinerarios.map(itinerario => adaptarItinerariosUsuarioLogueado(itinerario, usuarioId));
         } catch (e) {
             console.log(e)
             error = errorBD;
         }
-        responderFrontEnd(res,respuesta,error)
+        responderFrontEnd(res, respuesta, error)
     },
 
 
     actualizarItinerario: async (req, res) => {
         const id = req.params.id;
-        let respuesta,error ;
+        let respuesta, error;
         try {
             let nuevoItinerario = await Itinerary.findOneAndUpdate({ _id: id }, req.body, { new: true });
-            nuevoItinerario || responderFrontEnd(res,respuesta,"no se pudo actualizar el itinerario")
+            nuevoItinerario || responderFrontEnd(res, respuesta, "no se pudo actualizar el itinerario")
             respuesta = await Itinerary.find();
         } catch (error) {
             error = errorBD;
         }
-        responderFrontEnd(res,respuesta,error)
+        responderFrontEnd(res, respuesta, error)
     },
     borrarItinerario: async (req, res) => {
         const id = req.params.id;
         let respuesta, error;
         try {
             let itinerarioBorrado = await Itinerary.findOneAndDelete({ _id: id });
-            itinerarioBorrado || responderFrontEnd(res,respuesta,errorItineraryNotFound);
+            itinerarioBorrado || responderFrontEnd(res, respuesta, errorItineraryNotFound);
             respuesta = await Itinerary.find();
-            
+
         } catch (err) {
             console.log(err)
             error = errorBD;
         }
-        responderFrontEnd(res,respuesta,error);
+        responderFrontEnd(res, respuesta, error);
     },
 
     //pre: el usuario existe en la BD y el itinerario tambien
@@ -142,63 +142,63 @@ const itinerariesControllers = {
                 : { $push: { usuariosLiked: idUsuario }, $inc: { likes: 1 } }
 
 
-            let itinerario = await Itinerary.findByIdAndUpdate({ _id: idItinerario },updateOperator,{ new: true })
-            .populate({
-                path:"comentarios.usuarioId",
-                select:"nombre apellido usuarioAvatar "
-            });
+            let itinerario = await Itinerary.findByIdAndUpdate({ _id: idItinerario }, updateOperator, { new: true })
+                .populate({
+                    path: "comentarios.usuarioId",
+                    select: "nombre apellido usuarioAvatar "
+                });
 
-            itinerario? respuesta = adaptarItinerariosUsuarioLogueado(itinerario,idUsuario) : error = errorItineraryNotFound;
+            itinerario ? respuesta = adaptarItinerariosUsuarioLogueado(itinerario, idUsuario) : error = errorItineraryNotFound;
 
         } catch (e) {
             console.log(e);
             error = "error DB";
         }
 
-        responderFrontEnd(res,respuesta,error);
+        responderFrontEnd(res, respuesta, error);
     },
     //idComentario para modificar o borrar
     //comentario para agregar o modificar
-    
+
     modificarComentariosItinerario: async (req, res) => {
         let respuesta, error;
         try {
             const idItinerario = req.params.id;
             const usuarioId = req.user._id;
-            const {idComentario,comentario,accion} = req.body ;
-            let querySelector ;
-            let updateOperator ;
-            switch(accion){
+            const { idComentario, comentario, accion } = req.body;
+            let querySelector;
+            let updateOperator;
+            switch (accion) {
                 case "agregar":
-                    querySelector = {_id : idItinerario };
+                    querySelector = { _id: idItinerario };
                     //$push : {laUbicacionDeñArray: elementoAAagrear}
-                    updateOperator = { $push:{ comentarios:{ usuarioId,comentario } } };
+                    updateOperator = { $push: { comentarios: { usuarioId, comentario } } };
                     break;
-                case "editar": 
-                    querySelector = { _id : idItinerario ,"comentarios._id":idComentario  } ; //para usar el $set es necesario especificar el campo donde esta el array en la query
+                case "editar":
+                    querySelector = { _id: idItinerario, "comentarios._id": idComentario }; //para usar el $set es necesario especificar el campo donde esta el array en la query
                     //$ se queda con el primer elemeno que coincide con la query , el campo en el que esta el array en el que buscaremos el elemento debe estar especificado en la query
                     //con el $ especifico que propiedad de los comentarios modificar, si saca $ escribira un nuevo campo
-                    
-                    updateOperator = {$set : {"comentarios.$.comentario": comentario }}; 
+
+                    updateOperator = { $set: { "comentarios.$.comentario": comentario } };
                     break;
-                case "borrar" : 
+                case "borrar":
                     querySelector = { _id: idItinerario };
-                    updateOperator = {$pull : {comentarios:{_id : idComentario}}}; //$pull : camino donde se encuentra el array : {condicion para el borrar elementos}
+                    updateOperator = { $pull: { comentarios: { _id: idComentario } } }; //$pull : camino donde se encuentra el array : {condicion para el borrar elementos}
                     break;
                 default:
                     error = "unknown action on modificarComentario : " + accion;
-                    responderFrontEnd(res,respuesta,error);
+                    responderFrontEnd(res, respuesta, error);
             }
-            let itinerarioModificado = await Itinerary.findOneAndUpdate(querySelector, updateOperator,{ new: true })
-            .populate({
-                path:"comentarios.usuarioId",
-                select:"nombre apellido usuarioAvatar "
-            })
+            let itinerarioModificado = await Itinerary.findOneAndUpdate(querySelector, updateOperator, { new: true })
+                .populate({
+                    path: "comentarios.usuarioId",
+                    select: "nombre apellido usuarioAvatar "
+                })
 
             itinerarioModificado
-            ? respuesta = adaptarItinerariosUsuarioLogueado(itinerarioModificado,usuarioId)
-            : error = errorItineraryNotFound;
-            
+                ? respuesta = adaptarItinerariosUsuarioLogueado(itinerarioModificado, usuarioId)
+                : error = errorItineraryNotFound;
+
         } catch (e) {
             console.log(e)
             error = errorBD;
@@ -206,7 +206,35 @@ const itinerariesControllers = {
         //console.log(respuesta)
         responderFrontEnd(res, respuesta, error)
     },
+    //para el React Native
+    obtenerItinerariosYSusActividadesPorCiudad: async (req, res) => {
+        let respuesta, error;
+        const { idCiudad } = req.body;
+        respuesta = [];
+        try {
+            respuesta = await obtenerItinerariosConActividades(idCiudad);
+        } catch (err) {
+            console.log(err);
+            error = errorBD;
+        }
+
+        responderFrontEnd(res, respuesta, error);
+    }
 }
 
+const obtenerItinerariosConActividades = async (idCiudad) => {
+    
+    let itinerarios = await Itinerary.find({ idCiudad });
+    (itinerarios.length === 0) && responderFrontEnd(res, undefined, "Itineraries not found for that city")
+    let nuevosItinerarios = await Promise.all (itinerarios.map(async (itinerario) => {
+        let activities = await Activity.find({ idItinerario: itinerario._id })
+        return{
+            ...itinerario.toObject(),
+            activities
+        }
+    }))
+    console.log(nuevosItinerarios)
+    return nuevosItinerarios;
+}
 
 module.exports = itinerariesControllers;
