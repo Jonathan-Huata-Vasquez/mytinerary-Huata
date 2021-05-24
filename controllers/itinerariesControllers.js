@@ -217,7 +217,7 @@ const itinerariesControllers = {
                 path: "comentarios.usuarioId",
                 select: "nombre apellido usuarioAvatar "
             });
-            if(itinerarios.length === 0)  return responderFrontEnd(res, undefined, "Itineraries not found for that city");
+            if(itinerarios.length === 0)  return responderFrontEnd(res, respuesta, error);
             let nuevosItinerarios = await Promise.all (itinerarios.map(async (itinerario) => {
                 let activities = await Activity.find({ idItinerario: itinerario._id })
                 let itinerarioAdaptado = adaptarItinerariosUsuarioLogueado(itinerario,usuarioId);
