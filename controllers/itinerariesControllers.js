@@ -13,7 +13,7 @@ function responderFrontEnd(res, respuesta, error) {
     });
 }
 function adaptarItinerariosUsuarioLogueado(itinerario, usuarioId = null) {
-
+    //console.log(itinerario)
     let estaLikeado = usuarioId ? itinerario.usuariosLiked.some(unUsuarioId => {
         return unUsuarioId === usuarioId.toString();
     }) : false;
@@ -209,10 +209,21 @@ const itinerariesControllers = {
     //para el React Native
     obtenerItinerariosYSusActividadesPorCiudad: async (req, res) => {
         let respuesta, error;
+        let usuarioId = req.user ? req.user._id : null;
         const { idCiudad } = req.body;
         respuesta = [];
         try {
-            respuesta = await obtenerItinerariosConActividades(idCiudad);
+            let itinerarios = await Itinerary.find({ idCiudad }).populate({
+                path: "comentarios.usuarioId",
+                select: "nombre apellido usuarioAvatar "
+            });
+            (itinerarios.length === 0) && responderFrontEnd(res, undefined, "Itineraries not found for that city");
+            let nuevosItinerarios = await Promise.all (itinerarios.map(async (itinerario) => {
+                let activities = await Activity.find({ idItinerario: itinerario._id })
+                let itinerarioAdaptado = adaptarItinerariosUsuarioLogueado(itinerario,usuarioId);
+                return {...itinerarioAdaptado,activities};
+            }))
+            respuesta = nuevosItinerarios;
         } catch (err) {
             console.log(err);
             error = errorBD;
@@ -222,19 +233,5 @@ const itinerariesControllers = {
     }
 }
 
-const obtenerItinerariosConActividades = async (idCiudad) => {
-    
-    let itinerarios = await Itinerary.find({ idCiudad });
-    (itinerarios.length === 0) && responderFrontEnd(res, undefined, "Itineraries not found for that city")
-    let nuevosItinerarios = await Promise.all (itinerarios.map(async (itinerario) => {
-        let activities = await Activity.find({ idItinerario: itinerario._id })
-        return{
-            ...itinerario.toObject(),
-            activities
-        }
-    }))
-    console.log(nuevosItinerarios)
-    return nuevosItinerarios;
-}
 
 module.exports = itinerariesControllers;

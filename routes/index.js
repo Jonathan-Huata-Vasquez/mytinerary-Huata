@@ -56,6 +56,8 @@ router.route('/itineraries/modificarComentario/:id')
 
 router.route('/itinerariesAndActivities')
 .get(obtenerItinerariosYSusActividadesPorCiudad)
+router.route('/itinerariesAndActivitiesLogueado')
+.get(passport.authenticate('jwt',{session:false}),obtenerItinerariosYSusActividadesPorCiudad)
 //---------------Usuario---------
 const {crearUsuario,loguearUsuario,loginForzado} = userControllers;
 
