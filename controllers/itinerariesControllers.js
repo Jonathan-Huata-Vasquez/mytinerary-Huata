@@ -210,14 +210,14 @@ const itinerariesControllers = {
     obtenerItinerariosYSusActividadesPorCiudad: async (req, res) => {
         let respuesta, error;
         let usuarioId = req.user ? req.user._id : null;
-        const { idCiudad } = req.body;
+        const idCiudad  = req.params.idCity;
         respuesta = [];
         try {
             let itinerarios = await Itinerary.find({ idCiudad }).populate({
                 path: "comentarios.usuarioId",
                 select: "nombre apellido usuarioAvatar "
             });
-            (itinerarios.length === 0) && responderFrontEnd(res, undefined, "Itineraries not found for that city");
+            if(itinerarios.length === 0)  return responderFrontEnd(res, undefined, "Itineraries not found for that city");
             let nuevosItinerarios = await Promise.all (itinerarios.map(async (itinerario) => {
                 let activities = await Activity.find({ idItinerario: itinerario._id })
                 let itinerarioAdaptado = adaptarItinerariosUsuarioLogueado(itinerario,usuarioId);

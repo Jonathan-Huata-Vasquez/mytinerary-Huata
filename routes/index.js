@@ -54,9 +54,9 @@ router.route('/itineraries/borrarComentario/:id')
 router.route('/itineraries/modificarComentario/:id')
 .put(passport.authenticate('jwt',{session:false}),modificarComentariosItinerario)
 
-router.route('/itinerariesAndActivities')
+router.route('/itinerariesAndActivities/:idCity')
 .get(obtenerItinerariosYSusActividadesPorCiudad)
-router.route('/itinerariesAndActivitiesLogueado')
+router.route('/itinerariesAndActivitiesLogueado/:idCity')
 .get(passport.authenticate('jwt',{session:false}),obtenerItinerariosYSusActividadesPorCiudad)
 //---------------Usuario---------
 const {crearUsuario,loguearUsuario,loginForzado} = userControllers;
