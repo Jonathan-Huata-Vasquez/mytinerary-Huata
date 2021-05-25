@@ -83,7 +83,7 @@ const userControllers = {
         let respuesta = {
             usuarioAvatar :req.user.usuarioAvatar,
             nombreCompleto : `${req.user.nombre} ${req.user.apellido}`,
-            email: nuevoUsuario.email,
+            email: req.user.email,
         }
         res.json({success:true, respuesta })
     }
