@@ -12,14 +12,17 @@ para desencriptar el token se necesita la frase de seguridad
 const userControllers = {
     crearUsuario: async (req, res) => {
         let { email, contrasena } = req.body;
-        let respuesta, errores;
+        let {usuarioAvatar} = req.files
+        var respuesta, errores;
+        
+        console.log(req)
         try {
             let emailExiste = await User.findOne({ email });
             if (!emailExiste) {
                 contrasena = bcryptsjs.hashSync(contrasena, 10);
                 let nuevoUsuario = new User({ ...req.body, contrasena });
-                await nuevoUsuario.save();
-                
+                //await nuevoUsuario.save();
+                await usuarioAvatar.mv(`${__dirname}/../frontend/public/assets/fotosFile/${usuarioAvatar.name}`)
                 respuesta = {
                     nombreCompleto : nuevoUsuario.nombre + " " +nuevoUsuario.apellido,
                     usuarioAvatar : nuevoUsuario.usuarioAvatar,
@@ -33,7 +36,8 @@ const userControllers = {
                 }];
             }
         } catch (error) {
-            console.log(error)
+        
+            console.log(error.name)
             errores = [{
                 message:"Error BD",
                 label:""

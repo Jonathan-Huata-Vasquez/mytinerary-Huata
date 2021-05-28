@@ -28,7 +28,7 @@ const validador = (req,res,next) => {
             "string.pattern.base": "Your password must contain letters and numbers",
             "string.min": "requires at least 6 characters",
         }),
-        usuarioAvatar: Joi.string().required(),
+        //usuarioAvatar: Joi.string().required(),
 
         pais: Joi.string().allow('').required(),
     });
@@ -38,6 +38,7 @@ const validador = (req,res,next) => {
     //abortEarly es para que se dentenga al primer error que encuentre
     //esquema.validate() retorna un objeto que entre las propiedades esta "error" que contendra detalles de los errores y sus menssages
     const validacion = esquema.validate(req.body,{abortEarly : false})
+
     
     if(validacion.error){
         const respuestaErrores = validacion.error.details.map(error => {return {message:error.message,label: error.context.label}})

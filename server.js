@@ -3,6 +3,7 @@ require('./config/database');
 const express = require(`express`);
 const cors = require(`cors`);
 const router = require('./routes/index');
+const fileUpload = require('express-fileupload')
 require('./config/passport')
 
 //para consstruir rutas
@@ -16,8 +17,15 @@ app.use(cors());
 //frente a cualquier pedido de cualquier indole, usa la libreria express y aplica un metodo que se llama json()
 app.use(express.json());
 
+app.use(fileUpload())
+
+
 //Cuando te hagan un pedido de cualquier indole a una ruta que empieze con '/api', ejecuta router
 app.use('/api',router);
+
+
+
+
 
 //en heroku tienen la variable de entorno NODE_ENV
 if(process.env.NODE_ENV === "production"){

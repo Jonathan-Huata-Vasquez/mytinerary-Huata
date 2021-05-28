@@ -6,11 +6,12 @@ const authActions = {
         return async (dispatch, getState) => {
             try {
                 const { data } = await axios.post(endpointUserSignUp, valoresInputs)
+                console.log(data)
                 if (!data.success) {
                     return data.errores;
                 }
-                mostrarTostada("success", `Welcome ${data.respuesta.nombreCompleto}`, "top-right");
-                dispatch({ type: "LOGUEAR_USER", payload: data.respuesta })
+                //mostrarTostada("success", `Welcome ${data.respuesta.nombreCompleto}`, "top-right");
+                //dispatch({ type: "LOGUEAR_USER", payload: data.respuesta })
             }
             catch (e) {//error en la comunicacion con el backend
                 console.log(e);

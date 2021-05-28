@@ -60,7 +60,8 @@ class SignUp extends React.Component {
             email: "",
             contrasena: "",
             usuarioAvatar: "",
-        }
+        },
+        inputFile:null
     }
 
     iterableSetError(propiedad, valor){
@@ -106,13 +107,20 @@ class SignUp extends React.Component {
         })
     }
 
+    leerInputFile(e){
+        console.log(e.target.files);
+        this.setState({
+            ...this.state,
+            inputFile:e.target.files[0]
+        })
+    }
    async enviar(objUsuario,conGoogle = false) {
         if(!conGoogle){
             let campos = Object.keys(this.state.valoresInputs);
             let hayCamposVacios = false;
             //
             campos.forEach(campo =>{
-                const estaVacio =  campo !=="pais" && objUsuario[campo] === "" ;
+                const estaVacio =  (campo !=="pais" && campo !=="usuarioAvatar") && objUsuario[campo] === "" ;
                 hayCamposVacios =  estaVacio ? true : hayCamposVacios;
                 this.iterableSetError(campo,estaVacio ? "This field is required" : "")
             })
@@ -120,12 +128,17 @@ class SignUp extends React.Component {
         }
 
         //Veo si hay erroes del backend
-        let errores = await this.props.crearUsuario({
-            ...objUsuario,
-            nombre: objUsuario.nombre.trim(),
-            apellido: objUsuario.apellido.trim()
-        },conGoogle);
+        const formData = new FormData();
+        formData.append("nombre" ,objUsuario.nombre.trim());
+        formData.append("apellido" ,objUsuario.nombre.trim());
+        formData.append("email" ,objUsuario.email);
+        formData.append("contrasena" ,objUsuario.contrasena);
+        formData.append("pais",objUsuario.pais);
+        formData.append("usuarioAvatar",this.state.inputFile)
 
+        console.log(formData)
+        let errores = await this.props.crearUsuario(formData);
+        console.log(errores)
         if(errores){
             if(conGoogle){
                 
@@ -134,7 +147,7 @@ class SignUp extends React.Component {
             else{
                 errores.forEach(unError=> this.iterableSetError(unError.label,unError.message))
             }
-        }   
+        } 
     }
     respuestaGoogle(response){
         //en caso de que el usuario cierre el popup
@@ -270,6 +283,8 @@ class SignUp extends React.Component {
                             value={this.state.valoresInputs.usuarioAvatar}
                             className={misEstilos.inputEstilo}
                         />
+                        <input type = "file" onChange = {(e)=>this.leerInputFile(e)}></input>
+
                         <FormControl variant="outlined" className={misEstilos.inputEstilo} size="small">
                             <InputLabel >Country</InputLabel>
                             <Select
