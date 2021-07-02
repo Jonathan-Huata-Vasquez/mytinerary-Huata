@@ -183,6 +183,7 @@ class SignUp extends React.Component {
 
         return (
             <div className="contenedorSignUp">
+                
                 <h2>Create your account</h2>
                 <div className="contenedorFormularioBtnGoogle">
                     

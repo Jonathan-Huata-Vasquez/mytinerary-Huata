@@ -1,3 +1,4 @@
+var cloudinary = require('cloudinary').v2;
 const User = require('../models/User');
 const bcryptsjs = require('bcryptjs')
 const jwToken = require('jsonwebtoken');
@@ -9,13 +10,20 @@ const jwToken = require('jsonwebtoken');
 el token se va a generar agarrando la informacion y grabandolo , teniendo en cuenta esa frase,
 para desencriptar el token se necesita la frase de seguridad
 */
+cloudinary.config({ 
+    cloud_name: 'clickabuy', 
+    api_key: '882663462991377', 
+    api_secret: 'Lg-zZVDkiDf_S2enSOvB0HiBSgY' 
+});
+
+
 const userControllers = {
     crearUsuario: async (req, res) => {
         let { email, contrasena } = req.body;
         let {usuarioAvatar} = req.files
         var respuesta, errores;
         
-        console.log(req)
+        
         try {
             let emailExiste = await User.findOne({ email });
             if (!emailExiste) {
@@ -23,6 +31,13 @@ const userControllers = {
                 let nuevoUsuario = new User({ ...req.body, contrasena });
                 //await nuevoUsuario.save();
                 await usuarioAvatar.mv(`${__dirname}/../frontend/public/assets/fotosFile/${usuarioAvatar.name}`)
+
+                //add
+                let respuesta = await cloudinary.uploader.upload(`${__dirname}/../frontend/public/assets/fotosFile/${usuarioAvatar.name}`)
+                console.log(respuesta)
+                //cloudinary.api.delete_resources(["ilrpizsp80ax676zcqqv"],function(error, result) {console.log(result, error); });
+                
+                    
                 respuesta = {
                     nombreCompleto : nuevoUsuario.nombre + " " +nuevoUsuario.apellido,
                     usuarioAvatar : nuevoUsuario.usuarioAvatar,
